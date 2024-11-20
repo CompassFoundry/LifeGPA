@@ -1,14 +1,15 @@
 const express = require('express')
 const { Pool } = require('pg')
+require('dotenv').config()
 const router = express.Router()
 
 // PostgreSQL connection setup
 const pool = new Pool({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'life_gpa_db',
-  password: 'Postgres12!',
-  port: 5432,
+  host: process.env.PG_HOST,
+  user: process.env.PG_USER,
+  password: process.env.PG_PASSWORD,
+  database: process.env.PG_DATABASE,
+  port: process.env.PG_PORT,
 })
 
 module.exports = router
