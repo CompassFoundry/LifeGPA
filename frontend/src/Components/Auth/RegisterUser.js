@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { supabase } from './supabaseClient'
+import { supabase } from '../../supabaseClient'
+import styles from './Auth.module.css' // Import shared styles
 
 const RegisterUser = () => {
   const [email, setEmail] = useState('')
@@ -18,30 +19,40 @@ const RegisterUser = () => {
   }
 
   return (
-    <div>
-      <h2>Register</h2>
-      <form onSubmit={handleRegister}>
-        <div>
-          <label>Email:</label>
+    <div className={styles.container}>
+      <form className={styles.form} onSubmit={handleRegister}>
+        <h2 className={styles.heading}>Register</h2>
+        <div className={styles.inputGroup}>
+          <label className={styles.label} htmlFor='email'>
+            Email:
+          </label>
           <input
+            className={styles.input}
+            id='email'
             type='email'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
         </div>
-        <div>
-          <label>Password:</label>
+        <div className={styles.inputGroup}>
+          <label className={styles.label} htmlFor='password'>
+            Password:
+          </label>
           <input
+            className={styles.input}
+            id='password'
             type='password'
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
         </div>
-        <button type='submit'>Register</button>
+        <button type='submit' className={styles.button}>
+          Register
+        </button>
+        {message && <p className={styles.message}>{message}</p>}
       </form>
-      {message && <p>{message}</p>}
     </div>
   )
 }

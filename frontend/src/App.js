@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import RegisterUser from './RegisterUser'
-import LoginUser from './LoginUser'
+import RegisterUser from './Components/Auth/RegisterUser'
+import LoginUser from './Components/Auth/LoginUser'
 import { supabase } from './supabaseClient'
+import './styles/global.css' // Optional global styles
 
 const App = () => {
   const [user, setUser] = useState(null)
@@ -28,7 +29,7 @@ const App = () => {
 
   return (
     <div className='App'>
-      <h1>Supabase Authentication</h1>
+      <h1>Life GPA</h1>
       {user ? (
         <div>
           <p>Logged in as: {user.email}</p>
