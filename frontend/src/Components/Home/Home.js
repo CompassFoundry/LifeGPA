@@ -14,6 +14,8 @@ const Home = ({ user, setUser }) => {
   return (
     <div>
       <h1>Let's Get Started</h1>
+      <button onClick={handleLogout}>Logout</button>{' '}
+      {/* Now using handleLogout */}
     </div>
   )
 }
