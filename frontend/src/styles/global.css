@@ -40,12 +40,3 @@ html {
   font-weight: 600;
   color: #4caf50; /* Accent color for the product name */
 }
-
-/* Main Content */
-.content {
-  display: flex; /* Use flexbox for layout */
-  flex-wrap: wrap; /* Allow components to wrap to the next row if needed */
-  justify-content: space-around; /* Space components evenly */
-  gap: 20px; /* Space between components */
-  width: 100%; /* Make content take full width of the app */
-}

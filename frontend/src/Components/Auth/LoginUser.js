@@ -1,37 +1,37 @@
 import React, { useState } from 'react'
-import { supabase } from '../../supabaseClient' // Ensure you import your Supabase client
-import styles from './Auth.module.css' // Import styles
+import { Link } from 'react-router-dom' // Use Link for navigation
+import styles from './Auth.module.css'
+import { supabase } from '../../supabaseClient'
 
 const LoginUser = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
+  const [successMessage, setSuccessMessage] = useState('') // Add this state declaration
 
   const handleLogin = async (e) => {
-    e.preventDefault()
-
-    // Validate email and password before sending
-    if (!email || !password) {
-      setErrorMessage('Email and password are required.')
-      return
-    }
+    e.preventDefault() // Prevent default form submission behavior
 
     try {
+      // Call Supabase's auth.signInWithPassword() method
       const { data, error } = await supabase.auth.signInWithPassword({
-        email: email,
-        password: password,
+        email,
+        password,
       })
 
       if (error) {
-        setErrorMessage(error.message)
-        console.error('Supabase login error:', error)
+        setErrorMessage(error.message) // Display error message
+        setSuccessMessage('') // Clear any previous success message
+        console.error('Supabase login error:', error) // Log for debugging
       } else {
-        console.log('Login successful:', data)
-        // Handle successful login (e.g., redirect or set user state)
+        setErrorMessage('') // Clear any previous error message
+        setSuccessMessage('Login successful!') // Success message
+        console.log('User successfully logged in:', data) // Log for debugging
       }
-    } catch (error) {
-      console.error('Error:', error)
-      setErrorMessage('An unexpected error occurred.')
+    } catch (err) {
+      console.error('Unexpected error:', err) // Catch unexpected errors
+      setErrorMessage('An unexpected error occurred. Please try again.')
+      setSuccessMessage('') // Clear any success message
     }
   }
 
@@ -47,7 +47,6 @@ const LoginUser = () => {
             className={styles.input}
             id='email'
             type='email'
-            placeholder='Enter your email'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -61,7 +60,6 @@ const LoginUser = () => {
             className={styles.input}
             id='password'
             type='password'
-            placeholder='Enter your password'
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -70,8 +68,14 @@ const LoginUser = () => {
         <button type='submit' className={styles.button}>
           Login
         </button>
+        {errorMessage && <p className={styles.message}>{errorMessage}</p>}
       </form>
-      {errorMessage && <p className={styles.message}>{errorMessage}</p>}
+      <p className={styles.toggleText}>
+        Don't have an account?{' '}
+        <Link to='/' className={styles.toggleLink}>
+          Register
+        </Link>
+      </p>
     </div>
   )
 }

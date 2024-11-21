@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom' // Use Link for navigation
+import styles from './Auth.module.css'
 import { supabase } from '../../supabaseClient'
-import styles from './Auth.module.css' // Import shared styles
 
 const RegisterUser = () => {
   const [email, setEmail] = useState('')
@@ -8,13 +9,24 @@ const RegisterUser = () => {
   const [message, setMessage] = useState('')
 
   const handleRegister = async (e) => {
-    e.preventDefault()
-    const { error } = await supabase.auth.signUp({ email, password })
+    e.preventDefault() // Prevent form default submission behavior
 
-    if (error) {
-      setMessage(error.message)
-    } else {
-      setMessage('Check your email for confirmation link!')
+    try {
+      // Call Supabase's auth.signUp() method
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+      })
+
+      if (error) {
+        setMessage(error.message) // Display error message
+      } else {
+        setMessage('Check your email for confirmation link!') // Success message
+        console.log('User successfully registered:', data) // Log for debugging
+      }
+    } catch (err) {
+      console.error('Unexpected error:', err) // Catch unexpected errors
+      setMessage('An unexpected error occurred. Please try again.')
     }
   }
 
@@ -53,6 +65,12 @@ const RegisterUser = () => {
         </button>
         {message && <p className={styles.message}>{message}</p>}
       </form>
+      <p className={styles.toggleText}>
+        Already signed up?{' '}
+        <Link to='/login' className={styles.toggleLink}>
+          Login
+        </Link>
+      </p>
     </div>
   )
 }

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import RegisterUser from './Components/Auth/RegisterUser'
 import LoginUser from './Components/Auth/LoginUser'
 import { supabase } from './supabaseClient'
-import './styles/global.css' // Optional global styles
+import './styles/global.css'
 
 const App = () => {
   const [user, setUser] = useState(null)
@@ -28,28 +29,33 @@ const App = () => {
   }, [])
 
   return (
-    <div className='App'>
-      <h1>Life GPA</h1>
-      {user ? (
-        <div>
-          <p>Logged in as: {user.email}</p>
-          <button
-            onClick={async () => {
-              await supabase.auth.signOut()
-              setUser(null)
-            }}
-          >
-            Logout
-          </button>
-        </div>
-      ) : (
-        <div>
-          <RegisterUser />{' '}
-          {/* Show registration form only if no user is logged in */}
-          <LoginUser /> {/* Show login form only if no user is logged in */}
-        </div>
-      )}
-    </div>
+    <Router>
+      <div className='app'>
+        <header className='header'>
+          <h1>Life GPA</h1>
+        </header>
+        <main className='content'>
+          {user ? (
+            <div>
+              <p>Logged in as: {user.email}</p>
+              <button
+                onClick={async () => {
+                  await supabase.auth.signOut()
+                  setUser(null)
+                }}
+              >
+                Logout
+              </button>
+            </div>
+          ) : (
+            <Routes>
+              <Route path='/' element={<RegisterUser />} />
+              <Route path='/login' element={<LoginUser />} />
+            </Routes>
+          )}
+        </main>
+      </div>
+    </Router>
   )
 }
 
