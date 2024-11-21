@@ -4,8 +4,8 @@ const { createClient } = require('@supabase/supabase-js')
 
 // Initialize Supabase client
 const supabase = createClient(
-  process.env.REACT_APP_SUPABASE_URL,
-  process.env.REACT_APP_SUPABASE_SERVICE_KEY // Use the service role key for backend operations
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_KEY
 )
 
 // Route to fetch data (example: users)
