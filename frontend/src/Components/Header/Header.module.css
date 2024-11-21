@@ -1,0 +1,100 @@
+/* Header Container */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e0e0e0;
+  position: relative; /* Ensure header doesn't overlay content */
+  width: 100%;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+}
+
+/* Logo Styles */
+.logo {
+  height: 40px;
+  cursor: pointer;
+}
+
+/* Title Styles */
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #141430;
+  margin: 0;
+  white-space: nowrap;
+}
+
+/* Menu Container */
+.menu {
+  position: relative;
+}
+
+/* Hamburger Button */
+.hamburger {
+  width: 48px; /* Explicit width for the button */
+  height: 48px; /* Explicit height for the button */
+  display: flex; /* Use flexbox */
+  align-items: center; /* Vertically center the icon */
+  justify-content: center; /* Horizontally center the icon */
+  font-size: 24px; /* Font size for the hamburger icon */
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #141430;
+  border-radius: 50%; /* Circular shape */
+  transition: background-color 0.2s ease;
+}
+
+.hamburger:hover {
+  background-color: #f0f0f0; /* Light background on hover */
+}
+
+/* Dropdown Menu - Hidden by Default */
+.dropdown {
+  position: absolute;
+  right: 0;
+  top: 50px;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 150px;
+  z-index: 1000;
+  padding: 10px 0;
+  display: none; /* Default hidden */
+}
+
+/* When the menuOpen state is true, show the dropdown */
+.menuOpen .dropdown {
+  display: block; /* Show when menuOpen is true */
+}
+
+/* Dropdown Item */
+.dropdownItem {
+  padding: 10px; /* Maintain padding for spacing */
+  text-align: left; /* Align text to the left */
+  border: none; /* Remove border */
+  background: none; /* No default background */
+  cursor: pointer; /* Show pointer cursor */
+  font-size: 16px; /* Font size for readability */
+  color: #141430; /* Text color */
+  transition: background-color 0.2s ease;
+  width: 100%; /* Make the button take the full width of the parent */
+  display: block; /* Ensure the button behaves like a block element */
+  box-sizing: border-box; /* Include padding in width calculation */
+}
+
+.dropdownItem:hover {
+  background-color: #f0f0f0; /* Add hover background */
+}
+
+/* Dropdown Separator (Optional) */
+.dropdownSeparator {
+  height: 1px;
+  background-color: #e0e0e0;
+  margin: 5px 0;
+}

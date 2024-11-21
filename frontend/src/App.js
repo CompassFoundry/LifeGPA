@@ -4,6 +4,7 @@ import RegisterUser from './Components/Auth/RegisterUser'
 import LoginUser from './Components/Auth/LoginUser'
 import LandingPage from './Components/Landing/LandingPage'
 import Home from './Components/Home/Home'
+import Header from './Components/Header/Header'
 import { supabase } from './supabaseClient'
 import './styles/global.css'
 
@@ -33,14 +34,10 @@ const App = () => {
   return (
     <Router>
       <div className='app'>
-        <header className='header'>
-          <Link to={user ? '/home' : '/'}>
-            <img src='/images/logo.png' alt='Logo' className='logo' />
-          </Link>
-        </header>
+        <Header user={user} setUser={setUser} />
         <main className='content'>
           {user ? (
-            <Home user={user} setUser={setUser} /> // Pass user and setUser to Home
+            <Home user={user} setUser={setUser} />
           ) : (
             <Routes>
               <Route path='/' element={<LandingPage />} />

@@ -10,13 +10,6 @@ const Home = ({ user, setUser }) => {
     setUser(null) // Clear the user state
     navigate('/login') // Redirect to the login page
   }
-
-  return (
-    <div>
-      <p>Logged in as: {user.email}</p>
-      <button onClick={handleLogout}>Logout</button>
-    </div>
-  )
 }
 
 export default Home
