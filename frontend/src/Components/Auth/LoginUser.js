@@ -7,7 +7,6 @@ const LoginUser = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
-  const [successMessage, setSuccessMessage] = useState('') // Add this state declaration
 
   const handleLogin = async (e) => {
     e.preventDefault() // Prevent default form submission behavior
@@ -21,17 +20,14 @@ const LoginUser = () => {
 
       if (error) {
         setErrorMessage(error.message) // Display error message
-        setSuccessMessage('') // Clear any previous success message
         console.error('Supabase login error:', error) // Log for debugging
       } else {
         setErrorMessage('') // Clear any previous error message
-        setSuccessMessage('Login successful!') // Success message
         console.log('User successfully logged in:', data) // Log for debugging
       }
     } catch (err) {
       console.error('Unexpected error:', err) // Catch unexpected errors
       setErrorMessage('An unexpected error occurred. Please try again.')
-      setSuccessMessage('') // Clear any success message
     }
   }
 
