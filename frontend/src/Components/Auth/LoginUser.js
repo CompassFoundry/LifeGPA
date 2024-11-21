@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom' // Use Link for navigation
+import { Link, useNavigate } from 'react-router-dom'
 import styles from './Auth.module.css'
 import { supabase } from '../../supabaseClient'
 
@@ -7,6 +7,7 @@ const LoginUser = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
+  const navigate = useNavigate()
 
   const handleLogin = async (e) => {
     e.preventDefault() // Prevent default form submission behavior
@@ -24,6 +25,9 @@ const LoginUser = () => {
       } else {
         setErrorMessage('') // Clear any previous error message
         console.log('User successfully logged in:', data) // Log for debugging
+
+        // Navigate to the /home page
+        navigate('/home')
       }
     } catch (err) {
       console.error('Unexpected error:', err) // Catch unexpected errors
@@ -68,8 +72,8 @@ const LoginUser = () => {
       </form>
       <p className={styles.toggleText}>
         Don't have an account?{' '}
-        <Link to='/' className={styles.toggleLink}>
-          Register
+        <Link to='/register' className={styles.toggleLink}>
+          Sign Up
         </Link>
       </p>
     </div>

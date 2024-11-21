@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import RegisterUser from './Components/Auth/RegisterUser'
 import LoginUser from './Components/Auth/LoginUser'
+import LandingPage from './Components/Landing/LandingPage'
+import Home from './Components/Home/Home'
 import { supabase } from './supabaseClient'
 import './styles/global.css'
 
@@ -32,25 +34,22 @@ const App = () => {
     <Router>
       <div className='app'>
         <header className='header'>
-          <h1>Life GPA</h1>
+          <Link to={user ? '/home' : '/'}>
+            <img src='/images/logo.png' alt='Logo' className='logo' />
+          </Link>
         </header>
         <main className='content'>
           {user ? (
-            <div>
-              <p>Logged in as: {user.email}</p>
-              <button
-                onClick={async () => {
-                  await supabase.auth.signOut()
-                  setUser(null)
-                }}
-              >
-                Logout
-              </button>
-            </div>
+            <Home user={user} setUser={setUser} /> // Pass user and setUser to Home
           ) : (
             <Routes>
-              <Route path='/' element={<RegisterUser />} />
+              <Route path='/' element={<LandingPage />} />
+              <Route path='/register' element={<RegisterUser />} />
               <Route path='/login' element={<LoginUser />} />
+              <Route
+                path='/home'
+                element={<Home user={user} setUser={setUser} />}
+              />
             </Routes>
           )}
         </main>

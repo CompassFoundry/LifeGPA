@@ -19,7 +19,13 @@ const RegisterUser = () => {
       })
 
       if (error) {
-        setMessage(error.message) // Display error message
+        if (error.message.includes('User already registered')) {
+          setMessage(
+            'This email is already registered. Try logging in instead.'
+          )
+        } else {
+          setMessage(error.message) // Display the generic error
+        }
       } else {
         setMessage('Check your email for confirmation link!') // Success message
         console.log('User successfully registered:', data) // Log for debugging
@@ -33,7 +39,7 @@ const RegisterUser = () => {
   return (
     <div className={styles.container}>
       <form className={styles.form} onSubmit={handleRegister}>
-        <h2 className={styles.heading}>Register</h2>
+        <h2 className={styles.heading}>Create an Account</h2>
         <div className={styles.inputGroup}>
           <label className={styles.label} htmlFor='email'>
             Email:
@@ -61,7 +67,7 @@ const RegisterUser = () => {
           />
         </div>
         <button type='submit' className={styles.button}>
-          Register
+          Sign Up
         </button>
         {message && <p className={styles.message}>{message}</p>}
       </form>

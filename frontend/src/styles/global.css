@@ -12,17 +12,14 @@ html {
 /* App Wrapper */
 .app {
   width: 100%;
-  max-width: 1200px; /* Adjust as needed */
   margin: 0 auto; /* Center the app horizontally */
-  padding: 20px;
   box-sizing: border-box;
 }
 
 /* Header */
 .header {
+  width: 100%;
   display: flex;
-  align-items: center;
-  justify-content: center;
   background-color: #ffffff; /* White header background */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
   border-radius: 8px;
@@ -31,8 +28,7 @@ html {
 
 .logo {
   height: 50px; /* Adjust the size of your logo */
-  margin-right: 15px;
-  margin-left: 15px;
+  margin: 15px;
 }
 
 .product-name {
