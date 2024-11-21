@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import RegisterUser from './Components/Auth/RegisterUser'
 import LoginUser from './Components/Auth/LoginUser'
 import LandingPage from './Components/Landing/LandingPage'
