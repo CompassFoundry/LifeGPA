@@ -10,6 +10,12 @@ const Home = ({ user, setUser }) => {
     setUser(null) // Clear the user state
     navigate('/login') // Redirect to the login page
   }
+
+  return (
+    <div>
+      <h1>Let's Get Started</h1>
+    </div>
+  )
 }
 
 export default Home
