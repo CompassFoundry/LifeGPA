@@ -71,16 +71,10 @@ const Header = ({ user, setUser }) => {
                 Home
               </button>
               <button
-                onClick={() => handleNavigation('/profile-settings')}
+                onClick={() => handleNavigation('/settings')}
                 className={styles.dropdownItem}
               >
-                Profile Settings
-              </button>
-              <button
-                onClick={() => handleNavigation('/account-settings')}
-                className={styles.dropdownItem}
-              >
-                Account Settings
+                Settings
               </button>
               <button onClick={handleLogout} className={styles.dropdownItem}>
                 Logout

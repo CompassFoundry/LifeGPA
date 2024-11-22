@@ -5,8 +5,7 @@ import LoginUser from './Components/Auth/LoginUser'
 import LandingPage from './Components/Landing/LandingPage'
 import Home from './Components/Home/Home'
 import Header from './Components/Header/Header'
-import AccountSettings from './Components/Settings/AccountSettings'
-import ProfileSettings from './Components/Settings/ProfileSettings'
+import Settings from './Components/Settings/Settings'
 import { supabase } from './supabaseClient'
 import './styles/global.css'
 
@@ -43,18 +42,10 @@ const App = () => {
             <Route path='/register' element={<RegisterUser />} />
             <Route path='/login' element={<LoginUser />} />
             <Route
-              path='/account-settings'
+              path='/settings'
               element={
                 <>
-                  <AccountSettings user={user} />
-                </>
-              }
-            />
-            <Route
-              path='/profile-settings'
-              element={
-                <>
-                  <ProfileSettings user={user} />
+                  <Settings user={user} />
                 </>
               }
             />

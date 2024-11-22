@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { supabase } from '../../supabaseClient'
-import styles from './ProfileSettings.module.css'
+import styles from './Settings.module.css'
 
-const ProfileSettings = ({ user }) => {
+const Settings = ({ user }) => {
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [message, setMessage] = useState('')
@@ -89,4 +89,4 @@ const ProfileSettings = ({ user }) => {
   )
 }
 
-export default ProfileSettings
+export default Settings
