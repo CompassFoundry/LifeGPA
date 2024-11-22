@@ -8,10 +8,17 @@ const Header = ({ user, setUser }) => {
   const navigate = useNavigate()
   const menuRef = useRef(null) // Ref to the menu container
 
+  // Generic navigation handler
+  const handleNavigation = (path) => {
+    setMenuOpen(false) // Close the menu when navigating
+    navigate(path) // Navigate to the desired path
+  }
+
   const handleLogout = async () => {
     await supabase.auth.signOut()
     setUser(null)
-    navigate('/login')
+    handleNavigation('/login')
+    console.log('User successfully logged out')
   }
 
   // Ensure menu is closed on component mount or when user logs in
@@ -57,6 +64,24 @@ const Header = ({ user, setUser }) => {
           </button>
           {menuOpen && (
             <div className={styles.dropdown}>
+              <button
+                onClick={() => handleNavigation('/home')}
+                className={styles.dropdownItem}
+              >
+                Home
+              </button>
+              <button
+                onClick={() => handleNavigation('/profile-settings')}
+                className={styles.dropdownItem}
+              >
+                Profile Settings
+              </button>
+              <button
+                onClick={() => handleNavigation('/account-settings')}
+                className={styles.dropdownItem}
+              >
+                Account Settings
+              </button>
               <button onClick={handleLogout} className={styles.dropdownItem}>
                 Logout
               </button>

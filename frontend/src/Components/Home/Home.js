@@ -9,6 +9,7 @@ const Home = ({ user, setUser }) => {
     await supabase.auth.signOut() // Log the user out
     setUser(null) // Clear the user state
     navigate('/login') // Redirect to the login page
+    console.log('User successfully logged out')
   }
 
   return (
