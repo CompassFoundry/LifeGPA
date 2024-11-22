@@ -48,7 +48,7 @@ const Header = ({ user, setUser }) => {
       <Link to={user ? '/home' : '/'}>
         <img src='/images/logo.png' alt='Logo' className={styles.logo} />
       </Link>
-      <h1 className={styles.title}>Life GPA</h1>
+      <h1 className={styles.title}>Thrive</h1>
 
       {user && (
         <div
