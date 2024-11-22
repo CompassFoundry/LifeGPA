@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom' // Use Link for navigation
+import { Link, useNavigate } from 'react-router-dom' // Import useNavigate
 import styles from './Auth.module.css'
 import { supabase } from '../../supabaseClient'
 
@@ -7,6 +7,7 @@ const RegisterUser = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [message, setMessage] = useState('')
+  const navigate = useNavigate() // Initialize useNavigate
 
   const handleRegister = async (e) => {
     e.preventDefault() // Prevent form default submission behavior
@@ -27,8 +28,11 @@ const RegisterUser = () => {
           setMessage(error.message) // Display the generic error
         }
       } else {
-        setMessage('Check your email for confirmation link!') // Success message
+        setMessage('Registration successful! Redirecting to Home...')
         console.log('User successfully registered:', data) // Log for debugging
+
+        // Redirect to the home page
+        navigate('/home')
       }
     } catch (err) {
       console.error('Unexpected error:', err) // Catch unexpected errors

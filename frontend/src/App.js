@@ -46,7 +46,7 @@ const App = () => {
               path='/account-settings'
               element={
                 <>
-                  <AccountSettings user={user} setUser={setUser} />
+                  <AccountSettings user={user} />
                 </>
               }
             />
@@ -54,7 +54,7 @@ const App = () => {
               path='/profile-settings'
               element={
                 <>
-                  <ProfileSettings user={user} setUser={setUser} />
+                  <ProfileSettings user={user} />
                 </>
               }
             />
