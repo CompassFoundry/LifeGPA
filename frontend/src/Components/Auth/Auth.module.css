@@ -1,102 +1,102 @@
-/* Auth.module.css */
-
-/* Shared container for both Login and Register */
+/* Container for the Auth Forms */
 .container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  max-width: 500px;
+  margin: 50px auto;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
   padding: 20px;
-}
-
-/* Form container */
-.form {
-  width: 100%;
-  max-width: 400px;
-  background: #ffffff;
-  border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 20px;
 }
 
-/* Headings */
+/* Form Heading */
 .heading {
   font-size: 24px;
-  font-weight: 600;
-  color: #333333;
+  font-weight: bold;
+  color: #141430;
   margin-bottom: 20px;
   text-align: center;
 }
 
-/* Input field styles */
+/* Form */
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Input Group */
 .inputGroup {
-  margin-bottom: 15px;
-  width: 100%;
+  margin-bottom: 20px;
 }
 
+/* Label */
 .label {
-  font-size: 14px;
-  color: #555555;
-  margin-bottom: 5px;
   display: block;
+  font-weight: bold;
+  color: #141430;
+  margin-bottom: 5px;
 }
 
+/* Input Fields */
 .input {
   width: 100%;
   padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 14px;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  font-size: 16px;
   box-sizing: border-box;
 }
 
-/* Button styles */
+/* Input Field Focus State */
+.input:focus {
+  outline: none;
+  border-color: #00bfa6;
+  box-shadow: 0 0 5px rgba(0, 191, 166, 0.5);
+}
+
+/* Buttons */
 .button {
-  width: 100%;
-  padding: 10px;
   background-color: #00bfa6;
-  color: white;
+  color: #ffffff;
   font-size: 16px;
-  font-weight: 800;
+  font-weight: bold;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
+  padding: 10px;
   cursor: pointer;
-  margin-top: 10px;
-  transition: background-color 0.3s;
+  transition: background-color 0.2s ease;
 }
 
+/* Button Hover State */
 .button:hover {
-  background-color: #141430;
+  background-color: #00a890;
 }
 
-/* Message styles */
+/* Error or Success Messages */
 .message {
-  margin-top: 15px;
-  font-size: 14px;
-  color: #666666;
   text-align: center;
+  font-size: 14px;
+  color: #141430;
+  margin-top: 10px;
 }
 
-/* Auth URLs */
-
+/* Toggle Text (e.g., 'Don't have an account?') */
 .toggleText {
   text-align: center;
+  margin-top: 20px;
   font-size: 14px;
-  color: #555555;
-  margin-top: 10px;
+  color: #141430;
 }
 
+/* Link Styles (e.g., 'Sign Up') */
 .toggleLink {
-  background: none;
-  border: none;
   color: #00bfa6;
   font-weight: bold;
-  cursor: pointer;
-  text-decoration: underline;
-  padding: 0;
-  font-size: 14px;
+  text-decoration: none;
+  transition: color 0.2s ease;
 }
 
+/* Link Hover State */
 .toggleLink:hover {
-  color: #141430;
+  color: #008f78;
 }
