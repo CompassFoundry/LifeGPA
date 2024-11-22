@@ -24,7 +24,7 @@ const LoginUser = () => {
         console.error('Supabase login error:', error) // Log for debugging
       } else {
         setErrorMessage('') // Clear any previous error message
-        console.log('User successfully logged in:', data) // Log for debugging
+        console.log('User successfully logged in') // Log for debugging
 
         // Navigate to the /home page
         navigate('/home')

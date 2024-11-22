@@ -16,7 +16,6 @@ const Header = ({ user, setUser }) => {
 
   // Ensure menu is closed on component mount or when user logs in
   useEffect(() => {
-    console.log('User or Component Mounted - Forcing menuOpen to false')
     setMenuOpen(false) // Always ensure menu starts closed
   }, [user])
 
@@ -24,7 +23,6 @@ const Header = ({ user, setUser }) => {
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
-        console.log('Click outside detected - closing menu.')
         setMenuOpen(false) // Close the menu if clicking outside
       }
     }
