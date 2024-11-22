@@ -69,3 +69,20 @@
   color: #141430;
   margin-top: 10px;
 }
+
+.input-readonly {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  font-size: 16px;
+  box-sizing: border-box;
+  background-color: #f5f5f5; /* Light greyscale background */
+  color: #a0a0a0; /* Subtle text color for read-only */
+  cursor: default; /* Arrow cursor instead of pointer */
+}
+
+.input-readonly:focus {
+  outline: none; /* Prevent focus outline */
+  border-color: #e0e0e0; /* Maintain the same border on focus */
+}
