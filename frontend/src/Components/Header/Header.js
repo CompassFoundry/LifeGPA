@@ -60,8 +60,13 @@ const Header = ({ user, setUser }) => {
             className={styles.hamburger}
             aria-label='Menu'
           >
-            ☰
+            <img
+              src='/images/Hamburger.svg'
+              alt='Menu'
+              className={styles.hamburgerIcon}
+            />
           </button>
+
           {menuOpen && (
             <div className={styles.dropdown}>
               <button
