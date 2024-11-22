@@ -1,0 +1,19 @@
+/* Home.module.css */
+
+/* Full-page container */
+.container {
+  display: flex;
+  justify-content: center; /* Horizontally center */
+  align-items: center; /* Vertically center */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* Ensure padding doesn't affect dimensions */
+}
+
+/* Centered text */
+.heading {
+  font-size: 36px; /* Larger font size for the message */
+  font-weight: bold; /* Bold font for emphasis */
+  color: #141430; /* Secondary color */
+  text-align: center; /* Ensure text is centered */
+}

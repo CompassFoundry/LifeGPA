@@ -14,7 +14,7 @@ const LoginUser = () => {
 
     try {
       // Call Supabase's auth.signInWithPassword() method
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       })
@@ -25,6 +25,24 @@ const LoginUser = () => {
       } else {
         setErrorMessage('') // Clear any previous error message
         console.log('User successfully logged in') // Log for debugging
+
+        // Ensure the user's email is in the `users` table
+        const user = data.user
+        if (user) {
+          const { error: upsertError } = await supabase.from('users').upsert(
+            {
+              user_id: user.id, // Ensure the correct user ID
+              email: user.email, // Add the email address
+            },
+            { onConflict: 'user_id' } // Avoid duplicates
+          )
+
+          if (upsertError) {
+            console.error('Error upserting user email:', upsertError.message)
+          } else {
+            console.log('User email successfully upserted to the users table.')
+          }
+        }
 
         // Navigate to the /home page
         navigate('/home')
