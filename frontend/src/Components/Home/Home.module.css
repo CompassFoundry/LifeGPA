@@ -1,61 +1,58 @@
-/* Home.module.css */
-
-/* Full-page container */
+/* Container Styles */
 .container {
-  display: flex;
-  flex-direction: column; /* Stack content vertically */
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #f5f5f5;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-/* Main heading */
-.heading {
-  font-size: 36px;
-  font-weight: bold;
-  color: #141430;
-  margin-bottom: 10px;
   text-align: center;
+  padding: 20px;
 }
 
-/* Subheading */
-.subheading {
-  font-size: 20px;
-  font-weight: 600;
+/* Heading Styles */
+.heading {
+  font-size: 32px;
+  font-weight: bold;
   color: #141430;
   margin-bottom: 20px;
-  text-align: center;
 }
 
-/* Card container */
+.subheading {
+  font-size: 20px;
+  font-weight: bold;
+  color: #141430;
+  margin-bottom: 20px;
+}
+
+/* Cards Wrapper */
+.cardsWrapper {
+  display: flex; /* Enable Flexbox */
+  justify-content: center; /* Center the cards horizontally */
+  gap: 20px; /* Add spacing between the cards */
+  flex-wrap: wrap; /* Allow wrapping on smaller screens */
+  margin-top: 20px;
+}
+
+/* Card Styles */
 .card {
+  width: 200px;
+  height: 120px;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 300px; /* Adjust card width */
-  height: 150px; /* Adjust card height */
-  background-color: #ffffff; /* White card background */
-  border: 1px solid #e0e0e0; /* Light gray border */
-  border-radius: 10px; /* Rounded corners */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
   cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  text-decoration: none;
 }
 
-/* Card hover effect */
 .card:hover {
-  transform: translateY(-5px); /* Slight lift on hover */
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Stronger shadow */
+  transform: translateY(-5px); /* Slight lift effect */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* Card text */
+/* Card Text Styles */
 .cardText {
-  font-size: 24px;
+  font-size: 18px;
   font-weight: bold;
-  color: #00bfa6; /* Primary color */
-  text-align: center;
+  color: #00bfa6;
+  text-decoration: none;
 }
