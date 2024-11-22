@@ -1,41 +1,47 @@
 import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom' // Import useNavigate
+import { Link, useNavigate } from 'react-router-dom'
 import styles from './Auth.module.css'
 import { supabase } from '../../supabaseClient'
 
 const RegisterUser = () => {
-  const [email, setEmail] = useState('')
+  const [email, setEmail] = useState('') // Email for auth and users table
   const [password, setPassword] = useState('')
   const [message, setMessage] = useState('')
-  const navigate = useNavigate() // Initialize useNavigate
+  const navigate = useNavigate()
 
   const handleRegister = async (e) => {
-    e.preventDefault() // Prevent form default submission behavior
+    e.preventDefault()
 
     try {
-      // Call Supabase's auth.signUp() method
+      // Step 1: Register the user with Supabase Auth
       const { data, error } = await supabase.auth.signUp({
-        email,
+        email, // The email used for authentication
         password,
       })
 
       if (error) {
-        if (error.message.includes('User already registered')) {
-          setMessage(
-            'This email is already registered. Try logging in instead.'
-          )
-        } else {
-          setMessage(error.message) // Display the generic error
-        }
+        // Handle errors during authentication
+        setMessage(`Error: ${error.message}`)
       } else {
-        setMessage('Registration successful! Redirecting to Home...')
-        console.log('User successfully registered:', data) // Log for debugging
+        // Step 2: Insert into `users` table if registration succeeds
+        const { user } = data
+        if (user) {
+          const { error: dbError } = await supabase.from('users').insert({
+            user_id: user.id, // The unique ID from Supabase Auth
+            email: user.email, // Save the same email
+          })
 
-        // Redirect to the home page
-        navigate('/home')
+          if (dbError) {
+            setMessage(`Error saving user data: ${dbError.message}`)
+          } else {
+            // Redirect to /home after successful registration
+            setMessage('Registration successful! Redirecting...')
+            navigate('/home')
+          }
+        }
       }
     } catch (err) {
-      console.error('Unexpected error:', err) // Catch unexpected errors
+      console.error('Unexpected error:', err)
       setMessage('An unexpected error occurred. Please try again.')
     }
   }
