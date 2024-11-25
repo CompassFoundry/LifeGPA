@@ -1,73 +1,52 @@
-/* Home.module.css */
-
-/* Full-page container */
 .container {
-  display: flex;
-  flex-direction: column; /* Stack content vertically */
-  justify-content: center;
-  align-items: center;
-  height: 50vh;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+  max-width: 600px;
+  margin: 50px auto;
+  text-align: center;
+  padding: 20px;
 }
 
-/* Main heading */
 .heading {
-  font-size: 36px;
+  font-size: 32px;
   font-weight: bold;
   color: #141430;
-  margin-bottom: 10px;
-  text-align: center;
 }
 
-/* Subheading */
-.subheading {
-  font-size: 20px;
-  font-weight: 600;
-  color: #141430;
-  margin-bottom: 20px;
-  text-align: center;
+.description {
+  font-size: 18px;
+  color: #5a5a5a;
+  margin-bottom: 30px;
 }
 
-/* Card container */
-.card {
+.ctaContainer {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 300px; /* Adjust card width */
-  height: 150px; /* Adjust card height */
-  background-color: #ffffff; /* White card background */
-  border: 1px solid #e0e0e0; /* Light gray border */
-  border-radius: 10px; /* Rounded corners */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  cursor: pointer;
+  justify-content: space-around;
+  gap: 15px;
 }
 
-/* Card hover effect */
-.card:hover {
-  transform: translateY(-5px); /* Slight lift on hover */
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Stronger shadow */
+.ctaButton {
+  padding: 10px 20px;
+  background-color: #00bfa6;
+  color: #ffffff;
   text-decoration: none;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: background-color 0.2s ease;
 }
 
-/* Card text */
-.cardText {
-  font-size: 24px;
-  font-weight: bold;
-  color: #00bfa6; /* Primary color */
-  text-align: center;
+.ctaButton:hover {
+  background-color: #00a890;
 }
 
-.cardLink {
-  color: #00bfa6; /* Use your primary color */
-  text-decoration: none; /* Removes underline */
-  font-weight: bold;
-  transition: color 0.2s ease;
+.cancelButton {
+  padding: 10px 20px;
+  background-color: #f0f0f0;
+  color: #5a5a5a;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: background-color 0.2s ease;
 }
 
-.cardLink:hover {
-  color: #007a6a; /* Darker shade for hover effect */
-  text-decoration: none; /* Ensures no underline on hover */
+.cancelButton:hover {
+  background-color: #e0e0e0;
 }

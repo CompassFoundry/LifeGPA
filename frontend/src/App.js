@@ -6,8 +6,9 @@ import LandingPage from './Components/Landing/LandingPage'
 import Home from './Components/Home/Home'
 import Header from './Components/Header/Header'
 import Settings from './Components/Settings/Settings'
-import LifeGPA from './Components/Paths/LifeGPA'
-import Identity from './Components/Paths/Identity'
+import LifeGPA from './Components/Paths/LifeGPA/Onboarding/Landing'
+import Overview from './Components/Paths/LifeGPA/Onboarding/Overview'
+import Identity from './Components/Paths/Identity/IdentityLanding'
 import { supabase } from './supabaseClient'
 import './styles/global.css'
 
@@ -52,6 +53,10 @@ const App = () => {
               }
             />
             <Route
+              path='/home'
+              element={<Home user={user} setUser={setUser} />}
+            />
+            <Route
               path='/life-gpa'
               element={
                 <>
@@ -59,6 +64,7 @@ const App = () => {
                 </>
               }
             />
+            <Route path='/life-gpa/onboarding' element={<Overview />} />
             <Route
               path='/identity'
               element={
@@ -66,10 +72,6 @@ const App = () => {
                   <Identity user={user} />
                 </>
               }
-            />
-            <Route
-              path='/home'
-              element={<Home user={user} setUser={setUser} />}
             />
           </Routes>
         </main>

@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from './Paths.module.css' // Import the CSS module
+import styles from '../Paths.module.css' // Import the CSS module
 
 const Home = () => {
   return (

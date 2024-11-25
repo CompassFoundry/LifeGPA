@@ -1,0 +1,136 @@
+/* Wizard Container */
+.wizard-container {
+  max-width: 600px;
+  margin: 50px auto;
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Progress Bar */
+.progress-bar {
+  display: flex;
+  align-items: center;
+  height: 15px;
+  border-radius: 10px;
+  background-color: #e0e0e0;
+  position: relative;
+  margin-bottom: 20px;
+  overflow: hidden; /* Ensures rounded corners remain intact */
+}
+
+/* Dynamic Progress Indicator */
+.progress-bar::after {
+  content: '';
+  position: absolute;
+  height: 100%;
+  width: calc(var(--step) / 3 * 100%);
+  background-color: #00bfa6;
+  transition: width 0.3s ease;
+}
+
+/* Page Padding */
+.page-padding {
+  padding: 20px;
+}
+
+/* Button Styling */
+.button-container {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+/* General Button Styles */
+.button {
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  border: none;
+}
+
+/* Primary CTA Button (e.g., Next Step) */
+.button-primary {
+  background-color: #00bfa6; /* Primary CTA color */
+  color: #ffffff;
+}
+
+.button-primary:hover {
+  background-color: #00a890;
+}
+
+/* Secondary Button (e.g., Back) */
+.button-secondary {
+  background-color: #e0e0e0; /* Muted fallback color for secondary actions */
+  color: #141430;
+}
+
+.button-secondary:hover {
+  background-color: #d0d0d0; /* Slightly darker when hovered */
+}
+
+/* Landing Page Styles */
+/* Container for Landing Page */
+.landing-container {
+  max-width: 600px;
+  margin: 50px auto;
+  text-align: center;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Landing Page Heading */
+.landing-heading {
+  font-size: 28px;
+  font-weight: bold;
+  color: #141430;
+  margin-bottom: 20px;
+}
+
+/* Landing Page Description */
+.landing-description {
+  font-size: 18px;
+  color: #141430;
+  margin-bottom: 30px;
+}
+
+/* Call-To-Action Buttons on Landing Page */
+.cta-button {
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  text-decoration: none; /* Remove underline for button links */
+  display: inline-block;
+  margin: 10px;
+}
+
+/* Primary CTA button styling */
+.cta-button {
+  background-color: #00bfa6; /* Primary CTA color */
+  color: #ffffff;
+}
+
+.cta-button:hover {
+  background-color: #00a890;
+}
+
+/* Secondary CTA button (e.g., Cancel) */
+.secondary {
+  background-color: #e0e0e0; /* Muted fallback color for secondary actions */
+  color: #141430;
+}
+
+.secondary:hover {
+  background-color: #d0d0d0; /* Slightly darker when hovered */
+}
