@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../../../../supabaseClient'
 import styles from './Main.module.css'
@@ -21,18 +21,9 @@ const LifeGPAHome = ({ user }) => {
   const navigate = useNavigate()
   const [gpa, setGpa] = useState(null)
   const [gpaChange, setGpaChange] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
 
-  useEffect(() => {
-    if (user) {
-      fetchLatestReport()
-    } else {
-      navigate('/life-gpa/onboarding')
-    }
-  }, [user])
-
-  const fetchLatestReport = async () => {
+  // Define fetchLatestReport as a useCallback to prevent redefinition in every render
+  const fetchLatestReport = useCallback(async () => {
     try {
       console.log('Fetching report cards for user:', user.id)
 
@@ -45,8 +36,6 @@ const LifeGPAHome = ({ user }) => {
 
       if (error) {
         console.error('Error fetching report cards:', error.message)
-        setError('Error fetching your data. Please try again.')
-        setLoading(false)
         return
       }
 
@@ -80,13 +69,16 @@ const LifeGPAHome = ({ user }) => {
         setGpa('No reports found')
         setGpaChange(null)
       }
-      setLoading(false)
     } catch (err) {
       console.error('Unexpected error fetching report cards:', err)
-      setError('An unexpected error occurred. Please try again.')
-      setLoading(false)
     }
-  }
+  }, [user]) // Add `user` as dependency, since it is used in the function
+
+  useEffect(() => {
+    if (user) {
+      fetchLatestReport()
+    }
+  }, [user, fetchLatestReport]) // Add `fetchLatestReport` to the dependency array
 
   const handleLogReport = () => {
     navigate('/life-gpa/log-report')
@@ -96,37 +88,17 @@ const LifeGPAHome = ({ user }) => {
     navigate('/life-gpa/report-cards')
   }
 
-  if (loading) {
-    return (
-      <div className={styles['spinner-container']}>
-        <div className={styles['spinner']}></div>
-      </div>
-    )
-  }
-
   return (
     <div className={styles['home-container']}>
       <h1 className={styles['home-heading']}>Your Life GPA</h1>
-      {error && <div className={styles['error-message']}>{error}</div>}
-      {!error && (
-        <>
-          <div className={styles['gpa-container']}>
-            {typeof gpa === 'string' && gpa === 'No reports found' ? (
-              <div className={styles['no-report-message']}>
-                You have not yet logged any reports. Please start by logging
-                your first report.
-              </div>
-            ) : (
-              gpa
-            )}
-          </div>
-          {gpaChange !== null && (
-            <div className={styles['gpa-change']}>
-              ({gpaChange > 0 ? '+' : ''}
-              {gpaChange} since last report)
-            </div>
-          )}
-        </>
+      <div className={styles['gpa-container']}>
+        {gpa !== null ? gpa : 'Calculating...'}
+      </div>
+      {gpaChange !== null && (
+        <div className={styles['gpa-change']}>
+          ({gpaChange > 0 ? '+' : ''}
+          {gpaChange} since last report)
+        </div>
       )}
 
       <div className={styles['button-container']}>
