@@ -7,6 +7,7 @@ import Home from '@components/Home/Home'
 import Header from '@components/Header/Header'
 import Settings from '@components/Settings/Settings'
 import LifeGPA from '@paths/LifeGPA/Onboarding/Landing'
+import LifeGPAHome from '@paths/LifeGPA/Main/Home'
 import Overview from '@paths/LifeGPA/Onboarding/Overview'
 import Identity from '@paths/Identity/IdentityLanding'
 import { supabase } from './supabaseClient'
@@ -79,6 +80,10 @@ const App = () => {
             <Route
               path='/life-gpa/onboarding'
               element={<Overview user={user} />}
+            />
+            <Route
+              path='/life-gpa/home'
+              element={<LifeGPAHome user={user} />}
             />
             <Route
               path='/identity'

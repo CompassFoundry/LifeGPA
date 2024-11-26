@@ -1,0 +1,111 @@
+/* Container for the Home Page */
+.home-container {
+  max-width: 800px;
+  margin: 50px auto;
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 30px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Heading Styles */
+.home-heading {
+  font-size: 28px;
+  font-weight: bold;
+  color: #141430;
+  margin-bottom: 20px;
+}
+
+/* GPA Display */
+.gpa-container {
+  font-size: 48px;
+  font-weight: bold;
+  color: #00bfa6;
+  margin-bottom: 10px;
+}
+
+.gpa-change {
+  font-size: 16px;
+  color: #777;
+  margin-bottom: 30px;
+}
+
+/* Button Container */
+.button-container {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 30px;
+}
+
+/* Action Button Styling */
+.button {
+  padding: 12px 24px;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Primary Button (e.g., Log Report) */
+.button-primary {
+  background-color: #00bfa6;
+  color: #ffffff;
+}
+
+.button-primary:hover {
+  background-color: #00a890;
+}
+
+/* Secondary Button (e.g., View Report Cards) */
+.button-secondary {
+  background-color: #e0e0e0;
+  color: #141430;
+}
+
+.button-secondary:hover {
+  background-color: #d0d0d0;
+}
+
+/* Subtitle for Sections */
+.section-subtitle {
+  font-size: 18px;
+  font-weight: bold;
+  color: #141430;
+  margin-bottom: 20px;
+}
+
+/* Report Cards CTA Description */
+.report-cards-description {
+  font-size: 16px;
+  color: #444;
+  margin-bottom: 20px;
+}
+
+/* Chart Section */
+.chart-container {
+  margin-top: 30px;
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+}
+
+/* Chart Heading */
+.chart-heading {
+  font-size: 20px;
+  font-weight: bold;
+  color: #141430;
+  margin-bottom: 15px;
+}
+
+/* Note: For future use */
+.chart-placeholder {
+  font-size: 14px;
+  color: #aaa;
+  margin-top: 15px;
+}
