@@ -270,3 +270,89 @@
   margin-top: 10px;
   margin-bottom: 20px;
 }
+
+/* Grades Container */
+.grades-container {
+  margin-bottom: 20px;
+}
+
+/* Each Category Item Container */
+.category-item {
+  margin-bottom: 25px;
+}
+
+/* Category Label Styling */
+.category-label {
+  font-size: 16px;
+  font-weight: bold;
+  color: #141430;
+  margin-bottom: 10px;
+  text-align: left;
+  display: block;
+}
+
+/* Input Row */
+.input-row {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Wrapper to control dropdown better */
+.select-wrapper {
+  display: inline-block;
+  position: relative;
+  margin-bottom: 10px;
+}
+
+/* Grade Select Dropdown */
+.grade-select {
+  width: 100%;
+  max-width: 150px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #00bfa6;
+  font-size: 16px;
+  color: #141430;
+  background-color: #ffffff;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="%2300bfa6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.grade-select:hover {
+  background-color: #f0fcf8; /* Subtle hover effect */
+}
+
+/* Focus state to give a visual indication */
+.grade-select:focus {
+  outline: none;
+  border-color: #00a890;
+  box-shadow: 0 0 5px rgba(0, 191, 166, 0.5);
+}
+
+/* Label Styling */
+.category-label {
+  font-size: 16px;
+  font-weight: bold;
+  color: #141430;
+  margin-bottom: 10px;
+  text-align: left;
+  display: inline-block;
+}
+
+/* Description Textarea */
+.description-input {
+  width: 100%;
+  max-width: 500px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #e0e0e0;
+  font-size: 14px;
+  resize: vertical;
+}
