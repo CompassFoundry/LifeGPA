@@ -22,6 +22,7 @@ const Baseline = ({ user, prevStep }) => {
   const [grades, setGrades] = useState({})
   const [descriptions, setDescriptions] = useState({})
   const [error, setError] = useState('')
+  const [isSubmitEnabled, setIsSubmitEnabled] = useState(false)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -53,6 +54,14 @@ const Baseline = ({ user, prevStep }) => {
     fetchCategories()
   }, [user, navigate])
 
+  // Update submit button status based on if all categories have grades
+  useEffect(() => {
+    const allGradesSelected =
+      categories.length > 0 &&
+      categories.every((category) => grades[category.id])
+    setIsSubmitEnabled(allGradesSelected)
+  }, [grades, categories])
+
   const handleGradeChange = (categoryId, grade) => {
     setGrades((prevGrades) => ({
       ...prevGrades,
@@ -67,27 +76,30 @@ const Baseline = ({ user, prevStep }) => {
     }))
   }
 
-  // This boolean will be true if all categories have a selected grade
-  const isSubmitEnabled =
-    categories.length > 0 && Object.keys(grades).length === categories.length
-
   const handleSubmit = async () => {
-    try {
-      // Save baseline grades and descriptions to the database
-      const payload = Object.keys(grades).map((categoryId) => ({
-        user_id: user.id,
-        category_id: categoryId,
-        grade: grades[categoryId],
-        description: descriptions[categoryId] || '', // Optional description
-      }))
+    // Prepare the data for the report_data field in JSON format
+    const reportData = categories.map((category) => ({
+      category_id: category.id,
+      grade: grades[category.id] || '',
+      description: descriptions[category.id] || '',
+    }))
 
-      const { error } = await supabase.from('gpa_grades').insert(payload)
+    try {
+      // Insert the report into the correct table named 'report_cards'
+      const { data, error } = await supabase.from('report_cards').insert([
+        {
+          user_id: user.id,
+          report_data: reportData, // Save the data in the 'report_data' column
+        },
+      ])
 
       if (error) {
-        console.error('Error saving baseline grades:', error.message)
-        setError('Failed to save baseline grades. Please try again.')
+        console.error('Error saving baseline report:', error.message)
+        console.error('Full error object:', error) // Log the full error for better debugging
+        setError('Failed to save baseline report. Please try again.')
       } else {
-        // Navigate to the next page (for now, just go to '/life-gpa/home' as an example)
+        console.log('Baseline report successfully saved!', data)
+        // Navigate to the /life-gpa/home page or the next onboarding step
         navigate('/life-gpa/home')
       }
     } catch (err) {
