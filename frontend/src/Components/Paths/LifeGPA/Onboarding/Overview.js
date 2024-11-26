@@ -1,11 +1,20 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import ChooseCategories from './ChooseCategories'
 import GradingFrequency from './GradingFrequency'
 import Baseline from './Baseline'
 import styles from './Onboarding.module.css'
 
-const Overview = () => {
+const Overview = ({ user }) => {
   const [currentStep, setCurrentStep] = useState(1) // Step tracking, starting at 1
+  const navigate = useNavigate()
+
+  // Redirect to login if the user is not logged in
+  useEffect(() => {
+    if (!user) {
+      navigate('/login')
+    }
+  }, [user, navigate])
 
   const nextStep = () => {
     setCurrentStep((prev) => prev + 1)
@@ -19,16 +28,35 @@ const Overview = () => {
   const renderStep = () => {
     switch (currentStep) {
       case 1:
-        return <ChooseCategories nextStep={nextStep} prevStep={prevStep} />
+        return (
+          <ChooseCategories
+            user={user}
+            nextStep={nextStep}
+            prevStep={prevStep}
+          />
+        )
       case 2:
-        return <GradingFrequency nextStep={nextStep} prevStep={prevStep} />
+        return (
+          <GradingFrequency
+            user={user}
+            nextStep={nextStep}
+            prevStep={prevStep}
+          />
+        )
       case 3:
-        return <Baseline prevStep={prevStep} />
+        return <Baseline user={user} prevStep={prevStep} />
       default:
-        return <ChooseCategories nextStep={nextStep} prevStep={prevStep} />
+        return (
+          <ChooseCategories
+            user={user}
+            nextStep={nextStep}
+            prevStep={prevStep}
+          />
+        )
     }
   }
 
+  // Render the onboarding flow if the user is logged in
   return (
     <div className={styles['wizard-container']}>
       <div className={styles['progress-bar']} style={{ '--step': currentStep }}>

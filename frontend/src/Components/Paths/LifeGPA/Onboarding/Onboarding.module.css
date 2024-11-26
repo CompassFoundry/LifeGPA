@@ -203,3 +203,28 @@
   color: #141430;
   margin-bottom: 20px;
 }
+
+/* Container for custom category input and button */
+.add-category-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 30px 0;
+  gap: 10px;
+}
+
+/* Custom Category Input Field */
+.custom-category-input {
+  padding: 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  font-size: 16px;
+  width: 60%;
+  box-sizing: border-box;
+}
+
+.custom-category-input:focus {
+  outline: none;
+  border-color: #00bfa6;
+  box-shadow: 0 0 5px rgba(0, 191, 166, 0.5);
+}

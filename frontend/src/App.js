@@ -14,19 +14,26 @@ import './styles/global.css'
 
 const App = () => {
   const [user, setUser] = useState(null)
+  const [loading, setLoading] = useState(true)
 
-  // Track auth state changes
+  // Track auth state changes and re-fetch session on load
   useEffect(() => {
     const getSession = async () => {
-      const { data } = await supabase.auth.getSession()
+      const { data, error } = await supabase.auth.getSession()
+      if (error) {
+        console.error('Error getting session:', error.message)
+      }
       setUser(data?.session?.user ?? null)
+      setLoading(false)
     }
 
     getSession()
 
+    // Track session changes
     const { subscription } = supabase.auth.onAuthStateChange(
       (_event, session) => {
         setUser(session?.user ?? null)
+        setLoading(false)
       }
     )
 
@@ -34,6 +41,11 @@ const App = () => {
       subscription?.unsubscribe()
     }
   }, [])
+
+  // Display a loading spinner while fetching user session
+  if (loading) {
+    return <div>Loading...</div>
+  }
 
   return (
     <Router>
@@ -64,7 +76,10 @@ const App = () => {
                 </>
               }
             />
-            <Route path='/life-gpa/onboarding' element={<Overview />} />
+            <Route
+              path='/life-gpa/onboarding'
+              element={<Overview user={user} />}
+            />
             <Route
               path='/identity'
               element={
