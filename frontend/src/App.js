@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from 'react-router-dom'
 import RegisterUser from '@components/Auth/RegisterUser'
 import LoginUser from '@components/Auth/LoginUser'
 import LandingPage from '@components/Landing/LandingPage'
@@ -16,6 +21,7 @@ import './styles/global.css'
 const App = () => {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [hasReportCard, setHasReportCard] = useState(false)
 
   // Track auth state changes and re-fetch session on load
   useEffect(() => {
@@ -43,6 +49,31 @@ const App = () => {
     }
   }, [])
 
+  // Fetch report card data to check if a report card exists for the user
+  useEffect(() => {
+    const checkReportCard = async () => {
+      if (user) {
+        try {
+          const { data, error } = await supabase
+            .from('report_cards')
+            .select('*')
+            .eq('user_id', user.id)
+            .limit(1)
+
+          if (error) {
+            console.error('Error fetching report cards:', error.message)
+          } else {
+            setHasReportCard(data.length > 0)
+          }
+        } catch (err) {
+          console.error('Unexpected error:', err)
+        }
+      }
+    }
+
+    checkReportCard()
+  }, [user])
+
   // Display a loading spinner while fetching user session
   if (loading) {
     return <div>Loading...</div>
@@ -57,14 +88,7 @@ const App = () => {
             <Route path='/' element={<LandingPage />} />
             <Route path='/register' element={<RegisterUser />} />
             <Route path='/login' element={<LoginUser />} />
-            <Route
-              path='/settings'
-              element={
-                <>
-                  <Settings user={user} />
-                </>
-              }
-            />
+            <Route path='/settings' element={<Settings user={user} />} />
             <Route
               path='/home'
               element={<Home user={user} setUser={setUser} />}
@@ -72,27 +96,28 @@ const App = () => {
             <Route
               path='/life-gpa'
               element={
-                <>
-                  <LifeGPA user={user} />
-                </>
+                hasReportCard ? (
+                  <Navigate to='/life-gpa/home' />
+                ) : (
+                  <Navigate to='/life-gpa/onboarding' />
+                )
               }
             />
             <Route
               path='/life-gpa/onboarding'
-              element={<Overview user={user} />}
+              element={
+                hasReportCard ? (
+                  <Navigate to='/life-gpa/home' />
+                ) : (
+                  <Overview user={user} />
+                )
+              }
             />
             <Route
               path='/life-gpa/home'
               element={<LifeGPAHome user={user} />}
             />
-            <Route
-              path='/identity'
-              element={
-                <>
-                  <Identity user={user} />
-                </>
-              }
-            />
+            <Route path='/identity' element={<Identity user={user} />} />
           </Routes>
         </main>
       </div>

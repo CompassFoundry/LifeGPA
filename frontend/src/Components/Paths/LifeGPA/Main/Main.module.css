@@ -109,3 +109,36 @@
   color: #aaa;
   margin-top: 15px;
 }
+
+/* Spinner Container */
+.spinner-container {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  height: 100vh; /* Full viewport height */
+  width: 100vw; /* Full viewport width */
+  position: fixed; /* Fixed positioning to cover the viewport */
+  top: 0; /* Align to the top */
+  left: 0; /* Align to the left */
+  background-color: #ffffff; /* Optional: set a background color for loading screen */
+  z-index: 9999; /* Make sure it's on top of other elements */
+}
+
+/* Spinner Animation */
+.spinner {
+  border: 8px solid #e0e0e0; /* Light grey background */
+  border-top: 8px solid #00bfa6; /* Primary color */
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
