@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "baseUrl": "src",
+    "paths": {
+      "@components/*": ["Components/*"],
+      "@paths/*": ["Components/Paths/*"],
+      "@styles/*": ["styles/*"],
+      "@utils/*": ["utils/*"],
+      "@supabase": ["supabaseClient"]
+    }
+  },
+  "include": ["src"]
+}

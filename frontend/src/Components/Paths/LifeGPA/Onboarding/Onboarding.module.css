@@ -228,3 +228,45 @@
   border-color: #00bfa6;
   box-shadow: 0 0 5px rgba(0, 191, 166, 0.5);
 }
+
+/* Frequency Container */
+.frequency-container {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+/* Frequency Button Styling */
+.frequency-button {
+  padding: 12px 24px;
+  border: 2px solid #00bfa6;
+  border-radius: 30px;
+  background-color: #ffffff;
+  color: #00bfa6;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.frequency-button:hover {
+  background-color: #e6f9f5;
+}
+
+.frequency-selected {
+  background-color: #00bfa6;
+  color: #ffffff;
+}
+
+.frequency-selected:hover {
+  background-color: #00bfa6;
+}
+
+/* Frequency Description */
+.frequency-description {
+  text-align: center;
+  color: #141430;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
