@@ -7,7 +7,6 @@ module.exports = function override(config) {
     '@paths': path.resolve(__dirname, 'src/Components/Paths'),
     '@styles': path.resolve(__dirname, 'src/styles'),
     '@utils': path.resolve(__dirname, 'src/utils'),
-    '@supabase': path.resolve(__dirname, 'src/supabaseClient'),
   }
   return config
 }
