@@ -201,7 +201,7 @@
 .step-description {
   text-align: center;
   color: #141430;
-  margin-bottom: 20px;
+  margin: 20px;
 }
 
 /* Container for custom category input and button */
@@ -239,6 +239,8 @@
 
 /* Frequency Button Styling */
 .frequency-button {
+  flex: 1; /* Make each button take equal space */
+  max-width: 200px; /* Set a max width to keep buttons from getting too wide */
   padding: 12px 24px;
   border: 2px solid #00bfa6;
   border-radius: 30px;
@@ -250,6 +252,7 @@
   transition: all 0.2s ease;
 }
 
+/* Hover state for button */
 .frequency-button:hover {
   background-color: #e6f9f5;
 }
@@ -269,6 +272,46 @@
   color: #141430;
   margin-top: 10px;
   margin-bottom: 20px;
+}
+
+/* Media Query for Smaller Screens */
+@media (max-width: 600px) {
+  .frequency-container {
+    flex-direction: column; /* Stack buttons vertically */
+    align-items: center; /* Center the buttons */
+  }
+  .frequency-button {
+    width: 100%; /* Full width to take up the available space */
+    max-width: 250px; /* Restrict max width to make sure they don't get too big */
+  }
+}
+
+/* Frequency Description */
+.frequency-description {
+  text-align: center;
+  color: #141430;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+/* Media Query for Smaller Screens */
+@media (max-width: 600px) {
+  .frequency-container {
+    flex-direction: column; /* Stack buttons vertically */
+    align-items: center; /* Center the buttons */
+  }
+  .frequency-button {
+    width: 100%; /* Full width to take up the available space */
+    max-width: 250px; /* Restrict max width to make sure they don't get too big */
+  }
+}
+
+/* Frequency Description */
+.frequency-description {
+  text-align: center;
+  color: #141430;
+  margin-top: 20px;
+  margin-bottom: 30px;
 }
 
 /* Grades Container */
