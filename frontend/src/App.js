@@ -97,9 +97,9 @@ const App = () => {
               path='/life-gpa'
               element={
                 hasReportCard ? (
-                  <Navigate to='/life-gpa/home' />
+                  <Navigate to='/life-gpa/home' replace />
                 ) : (
-                  <Navigate to='/life-gpa/onboarding' />
+                  <LifeGPA user={user} />
                 )
               }
             />
@@ -107,15 +107,21 @@ const App = () => {
               path='/life-gpa/onboarding'
               element={
                 hasReportCard ? (
-                  <Navigate to='/life-gpa/home' />
+                  <Navigate to='/life-gpa/home' replace />
                 ) : (
-                  <Overview user={user} />
+                  <Overview user={user} setHasReportCard={setHasReportCard} />
                 )
               }
             />
             <Route
               path='/life-gpa/home'
-              element={<LifeGPAHome user={user} />}
+              element={
+                !hasReportCard ? (
+                  <Navigate to='/life-gpa/onboarding' replace />
+                ) : (
+                  <LifeGPAHome user={user} />
+                )
+              }
             />
             <Route path='/identity' element={<Identity user={user} />} />
           </Routes>

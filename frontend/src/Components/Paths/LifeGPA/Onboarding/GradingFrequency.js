@@ -1,16 +1,24 @@
+// src/Components/Paths/LifeGPA/Onboarding/GradingFrequency.js
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { supabase } from '../../../../supabaseClient'
 import styles from './Onboarding.module.css'
 
 const GradingFrequency = ({ user, nextStep, prevStep }) => {
   const [selectedFrequency, setSelectedFrequency] = useState('')
   const [error, setError] = useState('')
+  const navigate = useNavigate()
 
-  // Fetch existing frequency preference from the database
   useEffect(() => {
-    const fetchFrequency = async () => {
-      if (!user) return
+    // If the user is not defined, navigate them to the login page
+    if (!user) {
+      console.error('User is not defined, redirecting to login.')
+      navigate('/login')
+      return // Stop execution of further code
+    }
 
+    // Fetch grading frequency from the database
+    const fetchGradingFrequency = async () => {
       try {
         const { data, error } = await supabase
           .from('gpa_grading_frequency')
@@ -18,8 +26,8 @@ const GradingFrequency = ({ user, nextStep, prevStep }) => {
           .eq('user_id', user.id)
           .single()
 
-        if (error && error.details !== 'No rows found') {
-          console.error('Error fetching frequency:', error.message)
+        if (error) {
+          console.error('Error fetching grading frequency:', error.message)
         } else if (data) {
           setSelectedFrequency(data.frequency)
         }
@@ -28,29 +36,31 @@ const GradingFrequency = ({ user, nextStep, prevStep }) => {
       }
     }
 
-    fetchFrequency()
-  }, [user])
+    // Only fetch if user is present
+    if (user) {
+      fetchGradingFrequency()
+    }
+  }, [user, navigate])
 
-  const handleFrequencyChange = (frequency) => {
+  const handleSelectFrequency = (frequency) => {
     setSelectedFrequency(frequency)
   }
 
   const handleNextStep = async () => {
     try {
-      // Insert or update frequency in the database
       const { error } = await supabase.from('gpa_grading_frequency').upsert(
         {
           user_id: user.id,
           frequency: selectedFrequency,
         },
-        { onConflict: 'user_id' } // Ensure no duplicate entries per user
+        { onConflict: 'user_id' }
       )
 
       if (error) {
-        console.error('Error saving frequency:', error.message)
-        setError('Failed to save frequency. Please try again.')
+        console.error('Error saving grading frequency:', error.message)
+        setError('Failed to save grading frequency. Please try again.')
       } else {
-        nextStep()
+        nextStep() // Proceed to the next step
       }
     } catch (err) {
       console.error('Unexpected error:', err)
@@ -62,19 +72,20 @@ const GradingFrequency = ({ user, nextStep, prevStep }) => {
     <div className={styles['wizard-step-container']}>
       <h2 className={styles['step-heading']}>Choose Your Grading Frequency</h2>
       <p className={styles['step-description']}>
-        How often would you like to track your progress?
+        How often would you like to track your progress? You can update this
+        later.
       </p>
 
       <div className={styles['frequency-container']}>
         {['weekly', 'monthly', 'quarterly'].map((frequency) => (
           <button
             key={frequency}
+            onClick={() => handleSelectFrequency(frequency)}
             className={`${styles['frequency-button']} ${
               selectedFrequency === frequency
                 ? styles['frequency-selected']
                 : ''
             }`}
-            onClick={() => handleFrequencyChange(frequency)}
           >
             {frequency.charAt(0).toUpperCase() + frequency.slice(1)}
           </button>

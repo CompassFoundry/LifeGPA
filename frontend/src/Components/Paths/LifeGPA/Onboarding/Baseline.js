@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import styles from './Onboarding.module.css'
 import { supabase } from '../../../../supabaseClient'
+import styles from './Onboarding.module.css'
 
 const gradesOptions = [
   'A',
@@ -17,12 +17,11 @@ const gradesOptions = [
   'F',
 ]
 
-const Baseline = ({ user, prevStep }) => {
+const Baseline = ({ user, prevStep, setHasReportCard }) => {
   const [categories, setCategories] = useState([])
   const [grades, setGrades] = useState({})
   const [descriptions, setDescriptions] = useState({})
   const [error, setError] = useState('')
-  const [isSubmitEnabled, setIsSubmitEnabled] = useState(false)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -54,14 +53,6 @@ const Baseline = ({ user, prevStep }) => {
     fetchCategories()
   }, [user, navigate])
 
-  // Update submit button status based on if all categories have grades
-  useEffect(() => {
-    const allGradesSelected =
-      categories.length > 0 &&
-      categories.every((category) => grades[category.id])
-    setIsSubmitEnabled(allGradesSelected)
-  }, [grades, categories])
-
   const handleGradeChange = (categoryId, grade) => {
     setGrades((prevGrades) => ({
       ...prevGrades,
@@ -76,30 +67,28 @@ const Baseline = ({ user, prevStep }) => {
     }))
   }
 
-  const handleSubmit = async () => {
-    // Prepare the data for the report_data field in JSON format
-    const reportData = categories.map((category) => ({
-      category_id: category.id,
-      grade: grades[category.id] || '',
-      description: descriptions[category.id] || '',
-    }))
+  const isSubmitEnabled =
+    categories.length > 0 && Object.keys(grades).length === categories.length
 
+  const handleSubmit = async () => {
     try {
-      // Insert the report into the correct table named 'report_cards'
-      const { data, error } = await supabase.from('report_cards').insert([
-        {
-          user_id: user.id,
-          report_data: reportData, // Save the data in the 'report_data' column
-        },
-      ])
+      const payload = {
+        user_id: user.id,
+        report_data: categories.map((category) => ({
+          category_id: category.id,
+          category_name: category.name,
+          grade: grades[category.id],
+          description: descriptions[category.id] || '',
+        })),
+      }
+
+      const { error } = await supabase.from('report_cards').insert(payload)
 
       if (error) {
         console.error('Error saving baseline report:', error.message)
-        console.error('Full error object:', error) // Log the full error for better debugging
         setError('Failed to save baseline report. Please try again.')
       } else {
-        console.log('Baseline report successfully saved!', data)
-        // Navigate to the /life-gpa/home page or the next onboarding step
+        setHasReportCard(true) // Indicate the user has submitted a report
         navigate('/life-gpa/home')
       }
     } catch (err) {
