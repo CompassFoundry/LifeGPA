@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom'
 import RegisterUser from '@components/Auth/RegisterUser'
 import LoginUser from '@components/Auth/LoginUser'
+import LoadingSpinner from '@components/Global/LoadingSpinner'
 import LandingPage from '@components/Landing/LandingPage'
 import Home from '@components/Home/Home'
 import Header from '@components/Header/Header'
@@ -24,6 +25,7 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
   const [hasReportCard, setHasReportCard] = useState(false)
+  const [loadingReportCard, setLoadingReportCard] = useState(true)
 
   // Track auth state changes and re-fetch session on load
   useEffect(() => {
@@ -55,6 +57,7 @@ const App = () => {
   useEffect(() => {
     const checkReportCard = async () => {
       if (user) {
+        setLoadingReportCard(true) // Set loading while fetching data
         try {
           const { data, error } = await supabase
             .from('report_cards')
@@ -69,16 +72,24 @@ const App = () => {
           }
         } catch (err) {
           console.error('Unexpected error:', err)
+        } finally {
+          setLoadingReportCard(false) // Loading ends after data is fetched
         }
+      } else {
+        setLoadingReportCard(false) // If user is not logged in, we're not fetching anything
       }
     }
 
-    checkReportCard()
+    if (user) {
+      checkReportCard()
+    } else {
+      setLoadingReportCard(false) // If no user, don't load report cards
+    }
   }, [user])
 
-  // Display a loading spinner while fetching user session
-  if (loading) {
-    return <div>Loading...</div>
+  // Display a loading spinner while fetching user session or report card data
+  if (loading || loadingReportCard) {
+    return <LoadingSpinner /> // Show the loading spinner component
   }
 
   return (

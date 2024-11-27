@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../../../../supabaseClient'
+import LoadingSpinner from '@components/Global/LoadingSpinner'
 import styles from './Main.module.css'
 import ReportDetailsModal from './ReportDetailsModal' // Modal component
 
@@ -81,8 +82,9 @@ const ViewReports = ({ user }) => {
     return totalScore / reportData.length
   }
 
+  // Display a loading spinner while fetching data
   if (loading) {
-    return <div>Loading...</div>
+    return <LoadingSpinner />
   }
 
   return (
