@@ -1,0 +1,66 @@
+/* Container Styles */
+.container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 40px 20px;
+  text-align: center;
+  background-color: #141430; /* Dark background for contemplative feel */
+  color: #ffffff; /* Light text color for contrast */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Heading Styles */
+.heading {
+  font-size: 48px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #e0e0e0; /* Slightly muted white to soften the contrast */
+}
+
+/* Description Styles */
+.description {
+  font-size: 20px;
+  font-weight: 300;
+  margin-bottom: 30px;
+  color: #d3d3d3;
+}
+
+/* Call-To-Action Button */
+.ctaButton {
+  padding: 15px 30px;
+  font-size: 18px;
+  font-weight: bold;
+  background-color: #00bfa6; /* Light teal for positive action */
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ctaButton:hover {
+  background-color: #00a890;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Quote Section */
+.quoteSection {
+  margin-top: 40px;
+  padding: 20px;
+  border-left: 4px solid #00bfa6;
+  background-color: #1e1e2e; /* Slightly lighter dark background */
+}
+
+.quote {
+  font-size: 24px;
+  font-weight: 300;
+  color: #e0e0e0;
+  margin-bottom: 10px;
+}
+
+.author {
+  font-size: 18px;
+  color: #a9a9a9;
+  font-style: italic;
+}

@@ -26,6 +26,9 @@
   gap: 20px; /* Add spacing between the cards */
   flex-wrap: wrap; /* Allow wrapping on smaller screens */
   margin-top: 20px;
+  max-width: 880px; /* Set max width to fit four cards with a gap */
+  margin-left: auto; /* Center the cards wrapper */
+  margin-right: auto; /* Center the cards wrapper */
 }
 
 /* Card Styles */
@@ -49,16 +52,18 @@
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
+/* Disabled Card Styles */
 .cardDisabled {
+  position: relative;
   width: 200px;
   height: 120px;
-  background-color: grey;
+  background-color: lightgray;
   border: 1px solid #e0e0e0;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: center; /* Center the title vertically */
+  align-items: center; /* Center the title horizontally */
   cursor: default;
   text-decoration: none;
 }
@@ -74,6 +79,20 @@
 .cardTextDisabled {
   font-size: 18px;
   font-weight: bold;
-  color: white;
+  color: darkgray;
   text-decoration: none;
+  margin: 0;
+}
+
+/* Coming Soon Text */
+.cardComingSoon {
+  position: absolute; /* Position relative to the card */
+  bottom: 15px; /* Position near the bottom with a small gap */
+  left: 50%;
+  transform: translateX(-50%); /* Center it horizontally */
+  font-size: 14px;
+  font-weight: normal;
+  color: #777; /* A lighter gray for distinction */
+  font-style: italic;
+  margin: 0; /* Remove any default margin */
 }

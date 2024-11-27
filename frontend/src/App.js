@@ -14,10 +14,12 @@ import Header from '@components/Header/Header'
 import Settings from '@components/Settings/Settings'
 import LifeGPA from '@paths/LifeGPA/Onboarding/Landing'
 import LifeGPAHome from '@paths/LifeGPA/Main/Home'
-import Overview from '@paths/LifeGPA/Onboarding/Overview'
+import LifeGPAOverview from '@paths/LifeGPA/Onboarding/Overview'
 import LogReport from '@paths/LifeGPA/Main/LogReport'
 import ViewReports from '@paths/LifeGPA/Main/ViewReports'
 import Identity from '@paths/Identity/IdentityLanding'
+import MementoMori from '@components/Paths/MementoMori/Onboarding/Landing'
+import MementoMoriOverview from '@components/Paths/MementoMori/Onboarding/Overview'
 import { supabase } from './supabaseClient'
 import './styles/global.css'
 
@@ -122,7 +124,10 @@ const App = () => {
                 hasReportCard ? (
                   <Navigate to='/life-gpa/home' replace />
                 ) : (
-                  <Overview user={user} setHasReportCard={setHasReportCard} />
+                  <LifeGPAOverview
+                    user={user}
+                    setHasReportCard={setHasReportCard}
+                  />
                 )
               }
             />
@@ -148,6 +153,14 @@ const App = () => {
               element={
                 <ViewReports user={user} setHasReportCard={setHasReportCard} />
               }
+            />
+            <Route
+              path='/memento-mori/'
+              element={<MementoMori user={user} />}
+            />
+            <Route
+              path='memento-mori/onboarding/'
+              element={<MementoMoriOverview user={user} />}
             />
           </Routes>
         </main>
