@@ -11,8 +11,8 @@ const Home = () => {
         <Link to='/life-gpa' className={styles.card}>
           <p className={styles.cardText}>Life GPA</p>
         </Link>
-        <Link to='/identity' className={styles.card}>
-          <p className={styles.cardText}>Identity</p>
+        <Link to='/identity' className={styles.cardDisabled}>
+          <p className={styles.cardTextDisabled}>Identity Map</p>
         </Link>
       </div>
     </div>

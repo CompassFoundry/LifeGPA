@@ -49,10 +49,31 @@
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
+.cardDisabled {
+  width: 200px;
+  height: 120px;
+  background-color: grey;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: default;
+  text-decoration: none;
+}
+
 /* Card Text Styles */
 .cardText {
   font-size: 18px;
   font-weight: bold;
   color: #00bfa6;
+  text-decoration: none;
+}
+
+.cardTextDisabled {
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
   text-decoration: none;
 }
