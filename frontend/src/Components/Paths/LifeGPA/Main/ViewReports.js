@@ -3,21 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { supabase } from '../../../../supabaseClient'
 import LoadingSpinner from '@components/Global/LoadingSpinner'
 import styles from './Main.module.css'
-import ReportDetailsModal from './ReportDetailsModal' // Modal component
-
-const gradesOptions = [
-  'A',
-  'A-',
-  'AB',
-  'B+',
-  'B',
-  'B-',
-  'BC',
-  'C+',
-  'C',
-  'D',
-  'F',
-]
+import ReportDetailsModal from './ReportDetailsModal'
 
 const ViewReports = ({ user }) => {
   const [reports, setReports] = useState([])
