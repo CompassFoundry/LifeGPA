@@ -85,7 +85,7 @@ const LifeGPAHome = ({ user }) => {
   }
 
   const handleViewReportCards = () => {
-    navigate('/life-gpa/report-cards')
+    navigate('/life-gpa/view-reports')
   }
 
   return (

@@ -15,6 +15,7 @@ import LifeGPA from '@paths/LifeGPA/Onboarding/Landing'
 import LifeGPAHome from '@paths/LifeGPA/Main/Home'
 import Overview from '@paths/LifeGPA/Onboarding/Overview'
 import LogReport from '@paths/LifeGPA/Main/LogReport'
+import ViewReports from '@paths/LifeGPA/Main/ViewReports'
 import Identity from '@paths/Identity/IdentityLanding'
 import { supabase } from './supabaseClient'
 import './styles/global.css'
@@ -131,6 +132,12 @@ const App = () => {
               }
             />
             <Route path='/identity' element={<Identity user={user} />} />
+            <Route
+              path='/life-gpa/view-reports'
+              element={
+                <ViewReports user={user} setHasReportCard={setHasReportCard} />
+              }
+            />
           </Routes>
         </main>
       </div>
