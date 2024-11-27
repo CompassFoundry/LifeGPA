@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../../../../supabaseClient'
+import GPAProgressChart from './GPAProgressChart'
 import styles from './Main.module.css'
 
 const gradeScale = {
@@ -21,18 +22,20 @@ const LifeGPAHome = ({ user }) => {
   const navigate = useNavigate()
   const [gpa, setGpa] = useState(null)
   const [gpaChange, setGpaChange] = useState(null)
+  const [gpaHistory, setGpaHistory] = useState([])
 
-  // Define fetchLatestReport as a useCallback to prevent redefinition in every render
-  const fetchLatestReport = useCallback(async () => {
+  // Define fetchAllReports as a useCallback to prevent redefinition in every render
+  const fetchAllReports = useCallback(async () => {
     try {
-      console.log('Fetching report cards for user:', user.id)
+      if (!user) return
+
+      console.log('Fetching all report cards for user:', user.id)
 
       const { data, error } = await supabase
         .from('report_cards')
         .select('*')
         .eq('user_id', user.id)
-        .order('created_at', { ascending: false })
-        .limit(2)
+        .order('created_at', { ascending: true }) // Fetch all reports sorted by oldest first
 
       if (error) {
         console.error('Error fetching report cards:', error.message)
@@ -40,9 +43,21 @@ const LifeGPAHome = ({ user }) => {
       }
 
       if (data && data.length > 0) {
-        console.log('Fetched report cards:', data)
-        const latestReport = data[0]
-        const previousReport = data[1] || null
+        setGpaHistory(
+          data.map((report) => {
+            const totalScore = report.report_data.reduce((sum, category) => {
+              return sum + (gradeScale[category.grade] || 0)
+            }, 0)
+            const avgGpa = totalScore / report.report_data.length
+            return {
+              date: new Date(report.created_at).toLocaleDateString(),
+              gpa: avgGpa,
+            }
+          })
+        )
+
+        const latestReport = data[data.length - 1]
+        const previousReport = data.length > 1 ? data[data.length - 2] : null
 
         if (latestReport && latestReport.report_data) {
           const grades = latestReport.report_data
@@ -76,9 +91,9 @@ const LifeGPAHome = ({ user }) => {
 
   useEffect(() => {
     if (user) {
-      fetchLatestReport()
+      fetchAllReports()
     }
-  }, [user, fetchLatestReport]) // Add `fetchLatestReport` to the dependency array
+  }, [user, fetchAllReports]) // Add `fetchAllReports` to the dependency array
 
   const handleLogReport = () => {
     navigate('/life-gpa/log-report')
@@ -118,10 +133,14 @@ const LifeGPAHome = ({ user }) => {
 
       <div className={styles['chart-container']}>
         <h2 className={styles['chart-heading']}>Progress Over Time</h2>
-        <div className={styles['chart-placeholder']}>
-          {/* Placeholder for charts (replace with real charts later) */}
-          Charts will be displayed here once available.
-        </div>
+        {gpaHistory.length >= 5 ? (
+          <GPAProgressChart gpaHistory={gpaHistory} />
+        ) : (
+          <div className={styles['chart-placeholder']}>
+            Keep logging reports to see your progress over time! Once you've
+            logged at least five reports, we'll display this chart.
+          </div>
+        )}
       </div>
     </div>
   )
