@@ -1,0 +1,132 @@
+.wageWatchContainer {
+  font-family: Arial, sans-serif;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-top: 20px;
+  margin-bottom: 100px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.earnedIncomeContainer {
+  background-color: #141430; /* Dark background */
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  margin-bottom: 20px;
+  position: relative;
+  color: #ffffff;
+  margin: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: 5px;
+}
+
+.earnedIncomeContainer h2 {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.earnedIncomeDisplay {
+  font-size: 2rem; /* Increased font size */
+  font-weight: bold;
+  color: #00bfa6; /* Green font for earned income */
+}
+
+.elapsedTimeDisplay {
+  font-size: 1rem; /* Increased font size */
+  font-weight: 300;
+  color: #00bfa6; /* Green font for elapsed time */
+  margin-top: -50px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.inputContainer {
+  margin: 20px;
+}
+
+.inputContainer label {
+  display: block;
+  margin-top: 10px;
+}
+
+.inputContainer input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.metricsContainer {
+  background: linear-gradient(135deg, #141430, #00bfa6);
+  padding: 20px;
+  border-radius: 10px;
+  color: #ffffff;
+  margin-top: 20px;
+  margin: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.metricsContainer h2 {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.metricsContainer p {
+  font-size: 1rem;
+  margin: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: 5px;
+}
+
+.metricsResults {
+  font-weight: 1000;
+}
+
+.timerContainer {
+  text-align: center; /* Center align the timer container */
+}
+
+.primaryButton {
+  margin-bottom: 30px;
+  padding: 15px 20px;
+  background-color: #00bfa6; /* Primary button color */
+  color: white;
+  border: 2px solid #00bfa6;
+  border-radius: 8px; /* Updated border radius */
+  font-size: 1.1rem; /* Updated font size */
+  cursor: pointer;
+  min-width: 150px; /* Added min-width */
+}
+
+.primaryButton:hover {
+  background-color: #141430; /* Updated hover color */
+  border: 2px solid white; /* White border on hover */
+}
+
+.secondaryButton {
+  margin-bottom: 10px;
+  padding: 15px 20px;
+  background-color: transparent; /* No background */
+  color: white; /* Dark text color */
+  border: 2px solid white; /* White border on hover */
+  border-radius: 8px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  min-width: 150px;
+}
+
+.secondaryButton:hover {
+  background-color: #141430;
+  border: 2px solid white; /* White border on hover */
+  color: white;
+}

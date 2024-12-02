@@ -20,6 +20,7 @@ import ViewReports from '@paths/LifeGPA/Main/ViewReports'
 import Identity from '@paths/Identity/IdentityLanding'
 import MementoMori from '@components/Paths/MementoMori/Onboarding/Landing'
 import MementoMoriOverview from '@components/Paths/MementoMori/Onboarding/Overview'
+import WageWatch from '@components/Paths/WageWatch/Overview'
 import { supabase } from './supabaseClient'
 import './styles/global.css'
 
@@ -162,6 +163,7 @@ const App = () => {
               path='memento-mori/onboarding/'
               element={<MementoMoriOverview user={user} />}
             />
+            <Route path='wage-watch/' element={<WageWatch user={user} />} />
           </Routes>
         </main>
       </div>

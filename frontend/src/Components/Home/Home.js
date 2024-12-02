@@ -15,6 +15,9 @@ const Home = () => {
         <Link to='/memento-mori' className={styles.card}>
           <p className={styles.cardText}>Memento Mori</p>
         </Link>
+        <Link to='/wage-watch' className={styles.card}>
+          <p className={styles.cardText}>Wage Watch</p>
+        </Link>
 
         {/* Disabled Card with "Coming Soon" subtext */}
         <div className={styles.cardDisabled}>
