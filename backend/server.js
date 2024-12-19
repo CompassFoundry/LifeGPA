@@ -11,11 +11,14 @@ const corsOptions = {
     'http://localhost:3000',
     'http://localhost:3001',
     'https://lovely-gingersnap-9c64d5.netlify.app/',
-  ], //Add frontend's URL here
+  ], // Add frontend's URL here
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify allowed HTTP methods
   credentials: true, // Allow cookies or authentication headers
 }
 app.use(cors(corsOptions))
+
+// Add middleware to parse JSON bodies
+app.use(express.json())
 
 // Use the routes defined in routes.js
 app.use('/', routes)
