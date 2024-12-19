@@ -21,6 +21,7 @@ import Identity from '@paths/Identity/IdentityLanding'
 import MementoMori from '@components/Paths/MementoMori/Onboarding/Landing'
 import MementoMoriOverview from '@components/Paths/MementoMori/Onboarding/Overview'
 import WageWatch from '@components/Paths/WageWatch/Overview'
+import AdminDashboard from '@components/Admin/AdminDashboard'
 import { supabase } from './supabaseClient'
 import './styles/global.css'
 
@@ -164,6 +165,7 @@ const App = () => {
               element={<MementoMoriOverview user={user} />}
             />
             <Route path='wage-watch/' element={<WageWatch user={user} />} />
+            <Route path='/admin' element={<AdminDashboard />} />
           </Routes>
         </main>
       </div>

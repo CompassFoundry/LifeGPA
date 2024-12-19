@@ -1,33 +1,59 @@
-import React, { useState, useEffect } from 'react'
-import { supabase } from './supabaseClient' // Ensure you have your Supabase client initialized
+import React, { createContext, useState, useEffect } from 'react'
+import { supabase } from './supabaseClient' // Ensure Supabase client is initialized
 
-const AuthState = () => {
+export const AuthContext = createContext()
+
+const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null) // State to track the current user
+  const [loading, setLoading] = useState(true) // State to track loading status
 
-  // useEffect to track auth state changes
   useEffect(() => {
-    // Fetch the current session when the component mounts
-    const getSession = async () => {
-      const { data, error } = await supabase.auth.getSession()
-      if (error) {
-        console.error('Error getting session:', error)
-      } else {
-        setUser(data?.session?.user ?? null) // Set the user if a session exists
+    // Fetch the current session and user data when the component mounts
+    const fetchUser = async () => {
+      try {
+        const { data: sessionData, error: sessionError } =
+          await supabase.auth.getSession()
+        if (sessionError) throw sessionError
+
+        const sessionUser = sessionData?.session?.user
+
+        if (sessionUser) {
+          // Fetch the user's role from the database
+          const { data: userData, error: userError } = await supabase
+            .from('users')
+            .select('user_id, email, role')
+            .eq('user_id', sessionUser.id)
+            .single()
+
+          if (userError) throw userError
+
+          setUser(userData) // Set user data with role
+        } else {
+          setUser(null)
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error)
+      } finally {
+        setLoading(false) // Set loading to false
       }
     }
 
-    getSession()
+    fetchUser()
 
     // Listen for auth state changes (login, logout)
     const { subscription } = supabase.auth.onAuthStateChange(
       (_event, session) => {
-        setUser(session?.user ?? null) // Update the user state when auth state changes
+        if (session?.user) {
+          fetchUser() // Refetch user data on state change
+        } else {
+          setUser(null) // Clear user data on logout
+        }
       }
     )
 
     // Clean up the listener when the component unmounts
     return () => {
-      subscription?.unsubscribe() // Correctly clean up the subscription
+      subscription?.unsubscribe()
     }
   }, [])
 
@@ -38,18 +64,10 @@ const AuthState = () => {
   }
 
   return (
-    <div>
-      {user ? (
-        <div>
-          <p>Logged in as: {user.email}</p>
-          <button onClick={handleLogout}>Logout</button>{' '}
-          {/* Button to log out */}
-        </div>
-      ) : (
-        <p>No user logged in.</p> // Message when no user is logged in
-      )}
-    </div>
+    <AuthContext.Provider value={{ user, setUser, loading, handleLogout }}>
+      {children}
+    </AuthContext.Provider>
   )
 }
 
-export default AuthState
+export default AuthProvider
