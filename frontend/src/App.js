@@ -19,7 +19,8 @@ import LogReport from '@paths/LifeGPA/Main/LogReport'
 import ViewReports from '@paths/LifeGPA/Main/ViewReports'
 import Identity from '@paths/Identity/IdentityLanding'
 import MementoMori from '@components/Paths/MementoMori/Onboarding/Landing'
-import MementoMoriOverview from '@components/Paths/MementoMori/Onboarding/Overview'
+import MementoMoriOnboarding from '@components/Paths/MementoMori/Onboarding/LifeExpectancyForm'
+import MementoMoriHome from '@components/Paths/MementoMori/Main/Home'
 import WageWatch from '@components/Paths/WageWatch/Overview'
 import { supabase } from './supabaseClient'
 import './styles/global.css'
@@ -160,9 +161,10 @@ const App = () => {
               element={<MementoMori user={user} />}
             />
             <Route
-              path='memento-mori/onboarding/'
-              element={<MementoMoriOverview user={user} />}
+              path='/memento-mori/onboarding/'
+              element={<MementoMoriOnboarding />}
             />
+            <Route path='/memento-mori/home/' element={<MementoMoriHome />} />
             <Route path='wage-watch/' element={<WageWatch user={user} />} />
           </Routes>
         </main>

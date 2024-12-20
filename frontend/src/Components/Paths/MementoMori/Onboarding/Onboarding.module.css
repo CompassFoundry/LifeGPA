@@ -64,3 +64,89 @@
   color: #a9a9a9;
   font-style: italic;
 }
+
+/* Styles for LifeExpectancyForm */
+
+.life-expectancy-form {
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #1e1e2e; /* Match the onboarding background theme */
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  font-family: Arial, sans-serif;
+  color: #ffffff;
+}
+
+.life-expectancy-form h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #e0e0e0; /* Slightly muted white */
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #d3d3d3;
+}
+
+.form-group input {
+  width: calc(100% - 20px); /* Ensure input fits within container */
+  padding: 10px;
+  border: 1px solid #333;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: #141430;
+  color: #ffffff;
+  appearance: none; /* Remove up/down arrows */
+}
+
+.form-group input:focus {
+  border-color: #00bfa6;
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 191, 166, 0.5);
+}
+
+.error-message {
+  color: #d9534f;
+  font-size: 14px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.calculate-button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #00bfa6;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.calculate-button:hover {
+  background-color: #00a890;
+}
+
+/* CSS update in Onboarding.module.css */
+.fadeIn {
+  opacity: 0;
+  animation: fadeIn 0.5s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
