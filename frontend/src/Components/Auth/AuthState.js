@@ -4,8 +4,8 @@ import { supabase } from '../../supabaseClient'
 export const AuthContext = createContext()
 
 const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null) // State to track the current user
-  const [loading, setLoading] = useState(true) // State to track loading status
+  const [user, setUser] = useState(null) // Track the current user
+  const [loading, setLoading] = useState(true) // Track loading status
 
   const fetchUser = async () => {
     try {
@@ -19,8 +19,8 @@ const AuthProvider = ({ children }) => {
         // Fetch the user's role and details from the database
         const { data: userData, error: userError } = await supabase
           .from('users')
-          .select('user_id, email, role')
-          .eq('user_id', sessionUser.id)
+          .select('user_id, email, role') // Adjust field names as needed
+          .eq('user_id', sessionUser.id) // Use user_id as the primary key
           .single()
 
         if (userError) throw userError
@@ -31,38 +31,34 @@ const AuthProvider = ({ children }) => {
       }
     } catch (error) {
       console.error('Error fetching user data:', error)
-      setUser(null) // Clear user if error occurs
+      setUser(null) // Clear user on error
     } finally {
-      setLoading(false) // Stop loading once complete
+      setLoading(false) // Stop loading
     }
   }
 
   useEffect(() => {
-    fetchUser() // Fetch user data when the component mounts
+    fetchUser() // Fetch user data on mount
 
-    // Listen for auth state changes (login, logout)
     const { subscription } = supabase.auth.onAuthStateChange(
       (_event, session) => {
         if (session?.user) {
-          setUser(session.user) // Optimistically set user for fast state updates
-          fetchUser() // Fetch full user details
+          fetchUser() // Fetch user data fully
         } else {
           setUser(null)
-          setLoading(false) // Ensure loading is cleared
+          setLoading(false)
         }
       }
     )
 
-    // Clean up the listener when the component unmounts
     return () => {
       subscription?.unsubscribe()
     }
   }, [])
 
-  // Function to log out the user
   const handleLogout = async () => {
     await supabase.auth.signOut()
-    setUser(null) // Clear the user after logging out
+    setUser(null) // Clear the user after logout
   }
 
   return (
