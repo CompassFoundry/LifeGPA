@@ -36,7 +36,7 @@ const LifeExpectancyForm = () => {
       }
 
       // Fetch user data
-      const { data: userData, error: userFetchError } = await supabase
+      const { data: userData } = await supabase
         .from('users')
         .select('age')
         .eq('user_id', user.id)
