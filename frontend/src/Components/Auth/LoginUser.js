@@ -2,12 +2,15 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import styles from './Auth.module.css'
 import { supabase } from '../../supabaseClient'
+import { useContext } from 'react'
+import { AuthContext } from './AuthState' // Import the AuthContext
 
 const LoginUser = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
   const navigate = useNavigate()
+  const { setUser } = useContext(AuthContext) // Use AuthContext to update the global user state
 
   const handleLogin = async (e) => {
     e.preventDefault() // Prevent default form submission behavior
@@ -43,6 +46,9 @@ const LoginUser = () => {
             console.log('User email successfully upserted to the users table.')
           }
         }
+
+        // Update global user state
+        setUser(user)
 
         // Navigate to the /home page
         navigate('/home')

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client'
 import './index.css'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
-import AuthProvider from './AuthState' // Import the AuthProvider
+import AuthProvider from './Components/Auth/AuthState' // Import the AuthProvider
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
