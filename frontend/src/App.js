@@ -15,6 +15,7 @@ import Header from '@components/Header/Header'
 import Settings from '@components/Settings/Settings'
 import LifeGPA from '@paths/LifeGPA/Onboarding/Landing'
 import LifeGPAHome from '@paths/LifeGPA/Main/Home'
+import LifeGPASettings from '@paths/LifeGPA/Main/Settings'
 import LifeGPAOverview from '@paths/LifeGPA/Onboarding/Overview'
 import LogReport from '@paths/LifeGPA/Main/LogReport'
 import ViewReports from '@paths/LifeGPA/Main/ViewReports'
@@ -174,6 +175,18 @@ const App = () => {
                     user={user}
                     setHasReportCard={setHasReportCard}
                   />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path='/life-gpa/settings'
+              element={
+                <ProtectedRoute>
+                  {!hasReportCard ? (
+                    <Navigate to='/life-gpa/onboarding' replace />
+                  ) : (
+                    <LifeGPASettings user={user} />
+                  )}
                 </ProtectedRoute>
               }
             />

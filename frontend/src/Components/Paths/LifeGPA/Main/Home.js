@@ -24,7 +24,6 @@ const LifeGPAHome = ({ user }) => {
   const [gpaChange, setGpaChange] = useState(null)
   const [gpaHistory, setGpaHistory] = useState([])
 
-  // Define fetchAllReports as a useCallback to prevent redefinition in every render
   const fetchAllReports = useCallback(async () => {
     try {
       if (!user) return
@@ -35,7 +34,7 @@ const LifeGPAHome = ({ user }) => {
         .from('report_cards')
         .select('*')
         .eq('user_id', user.id)
-        .order('created_at', { ascending: true }) // Fetch all reports sorted by oldest first
+        .order('created_at', { ascending: true })
 
       if (error) {
         console.error('Error fetching report cards:', error.message)
@@ -87,13 +86,13 @@ const LifeGPAHome = ({ user }) => {
     } catch (err) {
       console.error('Unexpected error fetching report cards:', err)
     }
-  }, [user]) // Add `user` as dependency, since it is used in the function
+  }, [user])
 
   useEffect(() => {
     if (user) {
       fetchAllReports()
     }
-  }, [user, fetchAllReports]) // Add `fetchAllReports` to the dependency array
+  }, [user, fetchAllReports])
 
   const handleLogReport = () => {
     navigate('/life-gpa/log-report')
@@ -101,6 +100,10 @@ const LifeGPAHome = ({ user }) => {
 
   const handleViewReportCards = () => {
     navigate('/life-gpa/view-reports')
+  }
+
+  const handleSettings = () => {
+    navigate('/life-gpa/settings')
   }
 
   return (
@@ -129,6 +132,12 @@ const LifeGPAHome = ({ user }) => {
         >
           Log New Report
         </button>
+      </div>
+
+      <div className={styles['settings-link']}>
+        <p onClick={handleSettings} className={styles['settings-text']}>
+          Life GPA Settings
+        </p>
       </div>
 
       <div className={styles['chart-container']}>
