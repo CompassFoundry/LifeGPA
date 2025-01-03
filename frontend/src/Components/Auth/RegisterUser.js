@@ -29,6 +29,7 @@ const RegisterUser = () => {
           const { error: dbError } = await supabase.from('users').insert({
             user_id: user.id, // The unique ID from Supabase Auth
             email: user.email, // Save the same email
+            role: 'user', // Assign default role
           })
 
           if (dbError) {
