@@ -18,11 +18,9 @@ import LifeGPAHome from '@paths/LifeGPA/Main/Home'
 import LifeGPAOverview from '@paths/LifeGPA/Onboarding/Overview'
 import LogReport from '@paths/LifeGPA/Main/LogReport'
 import ViewReports from '@paths/LifeGPA/Main/ViewReports'
-import Identity from '@paths/Identity/IdentityLanding'
 import MementoMori from '@components/Paths/MementoMori/Onboarding/Landing'
 import MementoMoriOnboarding from '@components/Paths/MementoMori/Onboarding/LifeExpectancyForm'
 import MementoMoriHome from '@components/Paths/MementoMori/Main/Home'
-import WageWatch from '@components/Paths/WageWatch/Overview'
 import { supabase } from './supabaseClient'
 import './styles/global.css'
 
@@ -169,14 +167,6 @@ const App = () => {
               }
             />
             <Route
-              path='/identity'
-              element={
-                <ProtectedRoute>
-                  <Identity user={user} />
-                </ProtectedRoute>
-              }
-            />
-            <Route
               path='/life-gpa/view-reports'
               element={
                 <ProtectedRoute>
@@ -199,7 +189,7 @@ const App = () => {
               path='/memento-mori/onboarding/'
               element={
                 <ProtectedRoute>
-                  <MementoMoriOnboarding />
+                  <MementoMoriOnboarding user={user} />
                 </ProtectedRoute>
               }
             />
@@ -207,15 +197,16 @@ const App = () => {
               path='/memento-mori/home/'
               element={
                 <ProtectedRoute>
-                  <MementoMoriHome />
+                  <MementoMoriHome user={user} />
                 </ProtectedRoute>
               }
             />
+            {/* Catch-all route for unmatched URLs */}
             <Route
-              path='wage-watch/'
+              path='*'
               element={
                 <ProtectedRoute>
-                  <WageWatch user={user} />
+                  <Navigate to='/home' replace />
                 </ProtectedRoute>
               }
             />
