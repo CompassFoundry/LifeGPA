@@ -399,3 +399,39 @@
   font-size: 14px;
   resize: vertical;
 }
+
+/* Container for Settings Page */
+.settings-container {
+  max-width: 800px;
+  margin: 50px auto;
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 30px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Heading for Settings Page */
+.settings-heading {
+  font-size: 28px;
+  font-weight: bold;
+  color: #141430;
+  margin-bottom: 20px;
+}
+
+/* Description for Settings Page */
+.settings-description {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 30px;
+}
+
+/* Section Container for Settings Page */
+.section-container {
+  margin: 20px;
+}
+
+/* Section Heading for Settings Page */
+.section-heading {
+  margin-bottom: 30px;
+}
