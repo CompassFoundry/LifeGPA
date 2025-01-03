@@ -36,10 +36,11 @@ const LoginUser = () => {
             .select('role')
             .eq('user_id', session.user.id)
             .single()
-        }
-        if (roleError) {
-          console.error('Error fetching user role:', roleError.message)
-          setErrorMessage('Failed to fetch user role.')
+
+          if (roleError) {
+            console.error('Error fetching user role:', roleError.message)
+            setErrorMessage('Failed to fetch user role.')
+          }
         }
       }
     } catch (err) {
