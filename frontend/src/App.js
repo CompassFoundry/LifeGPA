@@ -218,9 +218,11 @@ const App = () => {
             <Route
               path='*'
               element={
-                <ProtectedRoute>
+                user ? (
                   <Navigate to='/home' replace />
-                </ProtectedRoute>
+                ) : (
+                  <Navigate to='/login' replace />
+                )
               }
             />
           </Routes>
