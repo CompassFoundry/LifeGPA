@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import styles from './Auth.module.css'
 import { supabase } from '../../supabaseClient'
 import { useContext } from 'react'
-import { AuthContext } from './AuthState' // Import the AuthContext
+import { AuthContext } from './AuthState'
 
 const LoginUser = () => {
   const [email, setEmail] = useState('')
@@ -39,12 +39,6 @@ const LoginUser = () => {
             },
             { onConflict: 'user_id' } // Avoid duplicates
           )
-
-          if (upsertError) {
-            console.error('Error upserting user email:', upsertError.message)
-          } else {
-            console.log('User email successfully upserted to the users table.')
-          }
         }
 
         // Update global user state
