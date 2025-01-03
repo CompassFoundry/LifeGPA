@@ -21,12 +21,12 @@ const Home = () => {
           <Link to='/memento-mori' className={styles.card}>
             <p className={styles.cardText}>Memento Mori</p>
           </Link>
-          <Link to='/wage-watch' className={styles.card}>
+          {/* <Link to='/wage-watch' className={styles.card}>
             <p className={styles.cardText}>Wage Watch</p>
-          </Link>
+          </Link> */}
 
           {/* Disabled Card with "Coming Soon" subtext */}
-          <div className={styles.cardDisabled}>
+          {/* <div className={styles.cardDisabled}>
             <p className={styles.cardTextDisabled}>View from Above</p>
             <p className={styles.cardComingSoon}>Coming Soon!</p>
           </div>
@@ -57,8 +57,9 @@ const Home = () => {
           <div className={styles.cardDisabled}>
             <p className={styles.cardTextDisabled}>Education Tracker</p>
             <p className={styles.cardComingSoon}>Coming Soon!</p>
-          </div>
+          </div> */}
         </div>
+        <p>More paths coming soon!</p>
       </div>
     )
 }
