@@ -4,8 +4,8 @@ import { supabase } from '../../supabaseClient'
 export const AuthContext = createContext()
 
 const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null) // Track the current user
-  const [loading, setLoading] = useState(true) // Track loading status
+  const [user, setUser] = useState(null)
+  const [loading, setLoading] = useState(true)
 
   const fetchUser = async () => {
     try {
@@ -16,53 +16,45 @@ const AuthProvider = ({ children }) => {
       const sessionUser = sessionData?.session?.user
 
       if (sessionUser) {
-        // Fetch the user's role and details from the database
         const { data: userData, error: userError } = await supabase
           .from('users')
-          .select('user_id, email, role') // Adjust field names as needed
-          .eq('user_id', sessionUser.id) // Use user_id as the primary key
+          .select('user_id, email, role')
+          .eq('user_id', sessionUser.id)
           .single()
 
         if (userError) throw userError
 
-        setUser(userData) // Set user data
+        setUser(userData)
       } else {
+        console.warn('No session user found')
         setUser(null)
       }
     } catch (error) {
-      console.error('Error fetching user data:', error)
-      setUser(null) // Clear user on error
+      setUser(null)
     } finally {
-      setLoading(false) // Stop loading
+      setLoading(false)
     }
   }
 
   useEffect(() => {
-    fetchUser() // Fetch user data on mount
+    fetchUser()
 
-    const { subscription } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
-        if (session?.user) {
-          fetchUser() // Fetch user data fully
-        } else {
-          setUser(null)
-          setLoading(false)
-        }
-      }
-    )
+    const { subscription } = supabase.auth.onAuthStateChange(() => {
+      fetchUser() // Fetch user data fully on auth state changes
+    })
 
-    return () => {
-      subscription?.unsubscribe()
-    }
+    return () => subscription?.unsubscribe()
   }, [])
 
   const handleLogout = async () => {
     await supabase.auth.signOut()
-    setUser(null) // Clear the user after logout
+    setUser(null)
   }
 
   return (
-    <AuthContext.Provider value={{ user, setUser, loading, handleLogout }}>
+    <AuthContext.Provider
+      value={{ user, setUser, loading, handleLogout, fetchUser }}
+    >
       {children}
     </AuthContext.Provider>
   )

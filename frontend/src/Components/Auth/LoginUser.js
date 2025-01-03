@@ -1,57 +1,60 @@
-import React, { useState } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import styles from './Auth.module.css'
 import { supabase } from '../../supabaseClient'
-import { useContext } from 'react'
-import { AuthContext } from './AuthState'
+import { AuthContext } from './AuthState' // Import AuthContext
 
 const LoginUser = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
+  const { user, setUser, fetchUser } = useContext(AuthContext) // Access global state and fetchUser function
   const navigate = useNavigate()
-  const { setUser } = useContext(AuthContext) // Use AuthContext to update the global user state
 
   const handleLogin = async (e) => {
-    e.preventDefault() // Prevent default form submission behavior
+    e.preventDefault()
 
     try {
-      // Call Supabase's auth.signInWithPassword() method
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       })
 
       if (error) {
-        setErrorMessage(error.message) // Display error message
-        console.error('Supabase login error:', error) // Log for debugging
+        setErrorMessage(error.message)
+        console.error('Supabase login error:', error)
       } else {
-        setErrorMessage('') // Clear any previous error message
-        console.log('User successfully logged in') // Log for debugging
+        setErrorMessage('')
+        console.log('User successfully logged in:', data.user)
 
-        // Ensure the user's email is in the `users` table
-        const user = data.user
-        if (user) {
-          const { error: upsertError } = await supabase.from('users').upsert(
-            {
-              user_id: user.id, // Ensure the correct user ID
-              email: user.email, // Add the email address
-            },
-            { onConflict: 'user_id' } // Avoid duplicates
-          )
+        await fetchUser() // Ensure fetchUser completes
+
+        const { data: session } = await supabase.auth.getSession()
+        if (session?.user) {
+          const { data: userData, error: roleError } = await supabase
+            .from('users')
+            .select('role')
+            .eq('user_id', session.user.id)
+            .single()
         }
-
-        // Update global user state
-        setUser(user)
-
-        // Navigate to the /home page
-        navigate('/home')
       }
     } catch (err) {
-      console.error('Unexpected error:', err) // Catch unexpected errors
+      console.error('Unexpected error:', err)
       setErrorMessage('An unexpected error occurred. Please try again.')
     }
   }
+
+  useEffect(() => {
+    if (user) {
+      if (user.role === 'admin' || user.role === 'super admin') {
+        navigate('/admin')
+      } else if (user.role === 'user') {
+        navigate('/home')
+      } else {
+        console.error('Unrecognized role:', user.role)
+      }
+    }
+  }, [user, navigate])
 
   return (
     <div className={styles.container}>
