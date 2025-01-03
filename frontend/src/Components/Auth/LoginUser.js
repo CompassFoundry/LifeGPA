@@ -8,7 +8,7 @@ const LoginUser = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
-  const { user, setUser, fetchUser } = useContext(AuthContext) // Access global state and fetchUser function
+  const { user, fetchUser } = useContext(AuthContext) // Access global state and fetchUser function
   const navigate = useNavigate()
 
   const handleLogin = async (e) => {
@@ -31,11 +31,15 @@ const LoginUser = () => {
 
         const { data: session } = await supabase.auth.getSession()
         if (session?.user) {
-          const { data: userData, error: roleError } = await supabase
+          const { error: roleError } = await supabase
             .from('users')
             .select('role')
             .eq('user_id', session.user.id)
             .single()
+        }
+        if (roleError) {
+          console.error('Error fetching user role:', roleError.message)
+          setErrorMessage('Failed to fetch user role.')
         }
       }
     } catch (err) {
