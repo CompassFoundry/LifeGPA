@@ -29,20 +29,18 @@ const TermsOfService = () => {
       </p>
 
       <h2 className={styles.subheading}>3. User Responsibilities</h2>
-      <p className={styles.paragraph}>
-        Users agree to:
-        <ul className={styles.list}>
-          <li>
-            Provide accurate and up-to-date information during registration and
-            account use.
-          </li>
-          <li>Maintain the confidentiality of their account credentials.</li>
-          <li>
-            Refrain from using our platform for unlawful activities, harassment,
-            or spreading malicious content.
-          </li>
-        </ul>
-      </p>
+      <p className={styles.paragraph}>Users agree to:</p>
+      <ul className={styles.list}>
+        <li>
+          Provide accurate and up-to-date information during registration and
+          account use.
+        </li>
+        <li>Maintain the confidentiality of their account credentials.</li>
+        <li>
+          Refrain from using our platform for unlawful activities, harassment,
+          or spreading malicious content.
+        </li>
+      </ul>
 
       <h2 className={styles.subheading}>4. Intellectual Property</h2>
       <p className={styles.paragraph}>
@@ -53,22 +51,20 @@ const TermsOfService = () => {
       </p>
 
       <h2 className={styles.subheading}>5. Prohibited Activities</h2>
-      <p className={styles.paragraph}>
-        Users may not:
-        <ul className={styles.list}>
-          <li>
-            Engage in activities that disrupt or damage our services or
-            infrastructure.
-          </li>
-          <li>
-            Attempt to gain unauthorized access to our systems or user accounts.
-          </li>
-          <li>
-            Upload or share content that is obscene, defamatory, or violates the
-            rights of others.
-          </li>
-        </ul>
-      </p>
+      <p className={styles.paragraph}>Users may not:</p>
+      <ul className={styles.list}>
+        <li>
+          Engage in activities that disrupt or damage our services or
+          infrastructure.
+        </li>
+        <li>
+          Attempt to gain unauthorized access to our systems or user accounts.
+        </li>
+        <li>
+          Upload or share content that is obscene, defamatory, or violates the
+          rights of others.
+        </li>
+      </ul>
 
       <h2 className={styles.subheading}>6. Limitation of Liability</h2>
       <p className={styles.paragraph}>
