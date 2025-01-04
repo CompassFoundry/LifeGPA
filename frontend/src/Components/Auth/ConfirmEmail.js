@@ -11,7 +11,7 @@ const ConfirmEmail = () => {
     const confirmEmail = async () => {
       try {
         const response = await axios.get(
-          `https://your-backend-domain.com/auth/confirm-email?token=${token}`
+          `https://life-gpa.onrender.com/auth/confirm-email?token=${token}`
         )
         setMessage(response.data.message) // Success message
       } catch (error) {
