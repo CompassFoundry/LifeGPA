@@ -15,6 +15,7 @@ const ConfirmEmail = () => {
         )
         setMessage(response.data.message) // Success message
       } catch (error) {
+        console.error('Error confirming email:', error.response?.data || error)
         setMessage(error.response?.data?.error || 'Failed to confirm email.')
       }
     }

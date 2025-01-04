@@ -104,7 +104,7 @@ const App = () => {
             <Route path='/login' element={<LoginUser />} />
             <Route path='/terms-of-service' element={<TermsOfService />} />
             <Route path='/privacy-policy' element={<PrivacyPolicy />} />
-            <Route path='/confirm-email' element={<ConfirmEmail />} />
+            <Route path='/auth/confirm-email' element={<ConfirmEmail />} />
 
             {/* Protected Routes */}
             <Route
