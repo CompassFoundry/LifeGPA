@@ -92,7 +92,7 @@ router.post('/auth/send-confirmation-email', async (req, res) => {
     console.log('Token successfully stored in user_profiles.')
 
     // Prepare the confirmation link
-    const confirmationLink = `https://lifegpa.org/confirm-email?token=${token}`
+    const confirmationLink = `https://lifegpa.org/auth/confirm-email?token=${token}`
     console.log('Generated confirmation link:', confirmationLink)
 
     // Send the confirmation email using Brevo API
