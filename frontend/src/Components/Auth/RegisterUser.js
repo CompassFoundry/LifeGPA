@@ -1,39 +1,50 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import styles from './Auth.module.css'
 import { supabase } from '../../supabaseClient'
+import { AuthContext } from './AuthState'
 
 const RegisterUser = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [message, setMessage] = useState('')
+  const [errors, setErrors] = useState('')
   const navigate = useNavigate()
+  const { fetchUser } = useContext(AuthContext) // Access global user state and fetchUser
 
   const handleRegister = async (e) => {
     e.preventDefault()
 
+    // Validate password length
+    if (password.length < 8) {
+      setErrors('Password must be at least 8 characters long.')
+      return
+    }
+
     try {
       const { data, error } = await supabase.auth.signUp({ email, password })
       if (error) {
-        setMessage(`Error: ${error.message}`)
+        setMessage(
+          'Unable to register. Please check your email or password and try again.'
+        )
       } else {
         const { user } = data
         if (user) {
           const { error: dbError } = await supabase.from('users').insert({
             user_id: user.id,
             email: user.email,
-            role: 'user',
+            role: 'user', // Assign default role
           })
           if (dbError) {
-            setMessage(`Error saving user data: ${dbError.message}`)
+            setMessage('Unable to complete registration. Please try again.')
           } else {
             setMessage('Registration successful! Redirecting...')
-            navigate('/home')
+            await fetchUser() // Update global user state
+            navigate('/home') // Redirect to home page
           }
         }
       }
     } catch (err) {
-      console.error('Unexpected error:', err)
       setMessage('An unexpected error occurred. Please try again.')
     }
   }
@@ -67,6 +78,7 @@ const RegisterUser = () => {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
+          {errors && <p className={styles.error}>{errors}</p>}
         </div>
         <button type='submit' className={styles.button}>
           Sign Up
