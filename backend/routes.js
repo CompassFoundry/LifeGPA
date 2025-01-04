@@ -1,6 +1,9 @@
 const express = require('express')
 const router = express.Router()
 const jwt = require('jsonwebtoken')
+const { v4: uuidv4 } = require('uuid')
+const fetch = (...args) =>
+  import('node-fetch').then(({ default: fetch }) => fetch(...args))
 const { createClient } = require('@supabase/supabase-js')
 
 // Initialize Supabase client
@@ -156,14 +159,9 @@ router.post('/auth/refresh', async (req, res) => {
       throw new Error('Failed to refresh session: ' + error.message)
     }
 
-    console.log('Refreshed Session:', session) // Debugging log
-
     // Extract new access token and refresh token
-    const newAccessToken = session.session.access_token // Correct nested access
-    const newRefreshToken = session.session.refresh_token // Correct nested access
-
-    console.log('New Access Token:', newAccessToken) // Debugging log
-    console.log('New Refresh Token:', newRefreshToken) // Debugging log
+    const newAccessToken = session.session.access_token
+    const newRefreshToken = session.session.refresh_token
 
     res.status(200).json({
       message: 'Token refreshed successfully',
@@ -173,6 +171,58 @@ router.post('/auth/refresh', async (req, res) => {
   } catch (error) {
     console.error('Error refreshing token:', error.message)
     res.status(500).json({ error: 'Failed to refresh token' })
+  }
+})
+
+// Route to send email confirmation
+router.post('/auth/send-confirmation-email', async (req, res) => {
+  const { user_id, email } = req.body
+
+  try {
+    // Generate a unique confirmation token
+    const token = uuidv4()
+    const expiration = new Date()
+    expiration.setHours(expiration.getHours() + 24) // Token valid for 24 hours
+
+    // Update the user_profiles table with the token and expiration
+    const { error: updateError } = await supabase
+      .from('user_profiles')
+      .update({
+        email_confirmation_token: token,
+        token_expiration: expiration,
+      })
+      .eq('user_id', user_id)
+
+    if (updateError)
+      throw new Error('Failed to store email confirmation token.')
+
+    // Prepare the confirmation link
+    const confirmationLink = `https://lifegpa.org/confirm-email?token=${token}`
+
+    // Send the confirmation email using your Brevo template
+    const emailResponse = await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'api-key': process.env.BREVO_API_KEY, // Your Brevo API key from .env
+      },
+      body: JSON.stringify({
+        templateId: 1, // Replace with your actual Brevo template ID
+        to: [{ email }],
+        params: {
+          confirmation_link: confirmationLink, // Pass variables for your template placeholders
+        },
+      }),
+    })
+
+    if (!emailResponse.ok) {
+      throw new Error('Failed to send email confirmation.')
+    }
+
+    res.status(200).json({ message: 'Confirmation email sent successfully!' })
+  } catch (error) {
+    console.error('Error sending confirmation email:', error.message)
+    res.status(500).json({ error: error.message })
   }
 })
 

@@ -16,7 +16,9 @@
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "jsonwebtoken": "^9.0.2",
+    "node-fetch": "^3.3.2",
     "pg": "^8.13.1",
+    "uuid": "^11.0.3",
     "whatwg-url": "^14.0.0"
   }
 }
