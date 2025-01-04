@@ -1,7 +1,7 @@
 // src/Components/Paths/LifeGPA/Onboarding/GradingFrequency.js
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { supabase } from '../../../../supabaseClient'
+import { supabase } from '../../../supabaseClient'
 import styles from './Onboarding.module.css'
 
 const GradingFrequency = ({ user, nextStep, prevStep }) => {

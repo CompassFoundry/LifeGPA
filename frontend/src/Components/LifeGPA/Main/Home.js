@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { supabase } from '../../../../supabaseClient'
+import { supabase } from '../../../supabaseClient'
 import GPAProgressChart from './GPAProgressChart'
 import styles from './Main.module.css'
 

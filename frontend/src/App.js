@@ -15,15 +15,12 @@ import LandingPage from '@components/Landing/LandingPage'
 import Home from '@components/Home/Home'
 import Header from '@components/Header/Header'
 import Settings from '@components/Settings/Settings'
-import LifeGPA from '@paths/LifeGPA/Onboarding/Landing'
-import LifeGPAHome from '@paths/LifeGPA/Main/Home'
-import LifeGPASettings from '@paths/LifeGPA/Main/Settings'
-import LifeGPAOverview from '@paths/LifeGPA/Onboarding/Overview'
-import LogReport from '@paths/LifeGPA/Main/LogReport'
-import ViewReports from '@paths/LifeGPA/Main/ViewReports'
-import MementoMori from '@components/Paths/MementoMori/Onboarding/Landing'
-import MementoMoriOnboarding from '@components/Paths/MementoMori/Onboarding/LifeExpectancyForm'
-import MementoMoriHome from '@components/Paths/MementoMori/Main/Home'
+import LifeGPA from '@components/LifeGPA/Onboarding/Landing'
+import LifeGPAHome from '@components/LifeGPA/Main/Home'
+import LifeGPASettings from '@components/LifeGPA/Main/Settings'
+import LifeGPAOverview from '@components/LifeGPA/Onboarding/Overview'
+import LogReport from '@components/LifeGPA/Main/LogReport'
+import ViewReports from '@components/LifeGPA/Main/ViewReports'
 import { supabase } from './supabaseClient'
 import './styles/global.css'
 
@@ -194,30 +191,7 @@ const App = () => {
                 </ProtectedRoute>
               }
             />
-            <Route
-              path='/memento-mori/'
-              element={
-                <ProtectedRoute>
-                  <MementoMori user={user} />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path='/memento-mori/onboarding/'
-              element={
-                <ProtectedRoute>
-                  <MementoMoriOnboarding user={user} />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path='/memento-mori/home/'
-              element={
-                <ProtectedRoute>
-                  <MementoMoriHome user={user} />
-                </ProtectedRoute>
-              }
-            />
+
             {/* Catch-all route for unmatched URLs */}
             <Route
               path='*'
