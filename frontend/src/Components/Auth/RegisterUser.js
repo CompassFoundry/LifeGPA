@@ -4,7 +4,7 @@ import styles from './Auth.module.css'
 import { supabase } from '../../supabaseClient'
 
 const RegisterUser = () => {
-  const [email, setEmail] = useState('') // Email for auth and users table
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [message, setMessage] = useState('')
   const navigate = useNavigate()
@@ -13,29 +13,20 @@ const RegisterUser = () => {
     e.preventDefault()
 
     try {
-      // Step 1: Register the user with Supabase Auth
-      const { data, error } = await supabase.auth.signUp({
-        email, // The email used for authentication
-        password,
-      })
-
+      const { data, error } = await supabase.auth.signUp({ email, password })
       if (error) {
-        // Handle errors during authentication
         setMessage(`Error: ${error.message}`)
       } else {
-        // Step 2: Insert into `users` table if registration succeeds
         const { user } = data
         if (user) {
           const { error: dbError } = await supabase.from('users').insert({
-            user_id: user.id, // The unique ID from Supabase Auth
-            email: user.email, // Save the same email
-            role: 'user', // Assign default role
+            user_id: user.id,
+            email: user.email,
+            role: 'user',
           })
-
           if (dbError) {
             setMessage(`Error saving user data: ${dbError.message}`)
           } else {
-            // Redirect to /home after successful registration
             setMessage('Registration successful! Redirecting...')
             navigate('/home')
           }
@@ -82,6 +73,17 @@ const RegisterUser = () => {
         </button>
         {message && <p className={styles.message}>{message}</p>}
       </form>
+      <p className={styles.agreementText}>
+        By clicking <strong>Sign Up</strong>, you agree to our{' '}
+        <Link to='/terms-of-service' className={styles.toggleLink}>
+          Terms of Service
+        </Link>{' '}
+        and{' '}
+        <Link to='/privacy-policy' className={styles.toggleLink}>
+          Privacy Policy
+        </Link>
+        .
+      </p>
       <p className={styles.toggleText}>
         Already signed up?{' '}
         <Link to='/login' className={styles.toggleLink}>

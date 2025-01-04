@@ -7,6 +7,8 @@ import {
 } from 'react-router-dom'
 import RegisterUser from '@components/Auth/RegisterUser'
 import LoginUser from '@components/Auth/LoginUser'
+import TermsOfService from '@components/Auth/TermsOfService'
+import PrivacyPolicy from '@components/Auth/PrivacyPolicy'
 import ProtectedRoute from '@components/Auth/ProtectedRoute'
 import LoadingSpinner from '@components/Global/LoadingSpinner'
 import LandingPage from '@components/Landing/LandingPage'
@@ -102,6 +104,8 @@ const App = () => {
             <Route path='/' element={<LandingPage />} />
             <Route path='/register' element={<RegisterUser />} />
             <Route path='/login' element={<LoginUser />} />
+            <Route path='/terms-of-service' element={<TermsOfService />} />
+            <Route path='/privacy-policy' element={<PrivacyPolicy />} />
 
             {/* Protected Routes */}
             <Route

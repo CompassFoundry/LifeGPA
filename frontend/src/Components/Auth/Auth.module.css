@@ -100,3 +100,12 @@
 .toggleLink:hover {
   color: #008f78;
 }
+
+.agreementText {
+  font-size: 12px;
+  text-align: center;
+}
+
+.address {
+  margin: 20px;
+}
