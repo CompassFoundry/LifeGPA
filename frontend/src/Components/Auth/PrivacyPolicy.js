@@ -7,9 +7,9 @@ const PrivacyPolicy = () => {
     <div className={styles.container}>
       <h1 className={styles.heading}>Privacy Policy</h1>
       <p className={styles.paragraph}>
-        At Compass Foundry LLC (DBA Strive), your privacy is our priority. This
-        Privacy Policy outlines how we collect, use, disclose, and protect your
-        information in compliance with applicable U.S. laws, including the
+        At Compass Foundry LLC (DBA Life GPA), your privacy is our priority.
+        This Privacy Policy outlines how we collect, use, disclose, and protect
+        your information in compliance with applicable U.S. laws, including the
         California Consumer Privacy Act (CCPA) and the General Data Protection
         Regulation (GDPR).
       </p>

@@ -8,7 +8,7 @@ const TermsOfService = () => {
       <h1 className={styles.heading}>Terms of Service</h1>
 
       <p className={styles.paragraph}>
-        Welcome to Strive. By accessing or using our services, you agree to be
+        Welcome to Life GPA. By accessing or using our services, you agree to be
         bound by the following terms and conditions. If you do not agree, you
         may not use our platform.
       </p>
@@ -16,7 +16,7 @@ const TermsOfService = () => {
       <h2 className={styles.subheading}>1. Acceptance of Terms</h2>
       <p className={styles.paragraph}>
         These Terms of Service ("Terms") constitute a legally binding agreement
-        between you ("User") and Compass Foundry LLC (DBA Strive). ("Company,"
+        between you ("User") and Compass Foundry LLC (DBA Life GPA). ("Company,"
         "we," or "us"). By using our platform, you confirm that you have read,
         understood, and agree to these Terms.
       </p>

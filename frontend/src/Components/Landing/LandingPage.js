@@ -6,7 +6,7 @@ import styles from './Landing.module.css'
 const LandingPage = () => {
   return (
     <div className={styles.header}>
-      <h1>Welcome to Strive</h1>
+      <h1>Welcome to Life GPA</h1>
       <p>Track your progress in the categories of life that matter to you.</p>
       <Link to='/register'>
         <button className={styles.button}>Sign Up</button>
