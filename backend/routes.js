@@ -12,6 +12,10 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_KEY
 )
 
+router.get('/', (req, res) => {
+  res.send('Welcome to the Life GPA API')
+})
+
 // Middleware to check if the user is a "super admin"
 const adminAuthMiddleware = async (req, res, next) => {
   const authHeader = req.headers.authorization
