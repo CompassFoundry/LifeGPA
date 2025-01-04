@@ -46,6 +46,12 @@ const adminAuthMiddleware = async (req, res, next) => {
     req.user = { ...decoded, role: user.role }
     next()
   } catch (error) {
+    if (error.name === 'TokenExpiredError') {
+      return res
+        .status(401)
+        .json({ error: 'Access token expired. Please refresh the token.' })
+    }
+
     console.error('Error in admin middleware:', error.message)
     res.status(401).json({ error: 'Invalid or expired token' })
   }
@@ -129,6 +135,44 @@ router.get('/admin/users', adminAuthMiddleware, async (req, res) => {
   } catch (error) {
     console.error('Error fetching users:', error.message)
     res.status(500).json({ error: error.message })
+  }
+})
+
+// Route to refresh access tokens
+router.post('/auth/refresh', async (req, res) => {
+  const { refresh_token } = req.body
+
+  if (!refresh_token) {
+    return res.status(400).json({ error: 'Refresh token is required' })
+  }
+
+  try {
+    // Use the refresh token to get a new session
+    const { data: session, error } = await supabase.auth.refreshSession({
+      refresh_token,
+    })
+
+    if (error) {
+      throw new Error('Failed to refresh session: ' + error.message)
+    }
+
+    console.log('Refreshed Session:', session) // Debugging log
+
+    // Extract new access token and refresh token
+    const newAccessToken = session.session.access_token // Correct nested access
+    const newRefreshToken = session.session.refresh_token // Correct nested access
+
+    console.log('New Access Token:', newAccessToken) // Debugging log
+    console.log('New Refresh Token:', newRefreshToken) // Debugging log
+
+    res.status(200).json({
+      message: 'Token refreshed successfully',
+      access_token: newAccessToken,
+      refresh_token: newRefreshToken,
+    })
+  } catch (error) {
+    console.error('Error refreshing token:', error.message)
+    res.status(500).json({ error: 'Failed to refresh token' })
   }
 })
 
