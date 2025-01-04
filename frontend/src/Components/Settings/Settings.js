@@ -11,11 +11,11 @@ const Settings = ({ user }) => {
   const [profileMessage, setProfileMessage] = useState('')
   const [accountMessage, setAccountMessage] = useState('')
 
-  // Fetch the user profile from the database
+  // Fetch the user profile from the user_profiles table
   useEffect(() => {
     const fetchProfile = async () => {
       const { data, error } = await supabase
-        .from('users')
+        .from('user_profiles')
         .select('first_name, last_name')
         .eq('user_id', user.id)
         .single()
@@ -31,17 +31,17 @@ const Settings = ({ user }) => {
     if (user) fetchProfile()
   }, [user])
 
-  // Save profile updates to the database
+  // Save profile updates to the user_profiles table
   const handleSaveProfile = async (e) => {
     e.preventDefault()
 
-    const { error } = await supabase.from('users').upsert(
+    const { error } = await supabase.from('user_profiles').upsert(
       {
         user_id: user.id,
         first_name: firstName,
         last_name: lastName,
       },
-      { onConflict: 'user_id' }
+      { onConflict: 'user_id' } // Ensures upsert works without duplication
     )
 
     if (error) {
