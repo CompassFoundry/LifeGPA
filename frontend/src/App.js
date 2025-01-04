@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom'
 import RegisterUser from '@components/Auth/RegisterUser'
 import LoginUser from '@components/Auth/LoginUser'
+import ConfirmEmail from '@components/Auth/ConfirmEmail'
 import TermsOfService from '@components/Auth/TermsOfService'
 import PrivacyPolicy from '@components/Auth/PrivacyPolicy'
 import ProtectedRoute from '@components/Auth/ProtectedRoute'
@@ -103,6 +104,7 @@ const App = () => {
             <Route path='/login' element={<LoginUser />} />
             <Route path='/terms-of-service' element={<TermsOfService />} />
             <Route path='/privacy-policy' element={<PrivacyPolicy />} />
+            <Route path='/confirm-email' element={<ConfirmEmail />} />
 
             {/* Protected Routes */}
             <Route
