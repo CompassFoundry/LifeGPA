@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import axios from 'axios'
+import styles from './Auth.module.css'
 
 const ConfirmEmail = () => {
   const [message, setMessage] = useState('')
@@ -38,11 +39,11 @@ const ConfirmEmail = () => {
   return (
     <>
       {showModal && (
-        <div className='modalOverlay'>
-          <div className='modal'>
-            <h2 className='modalHeading'>Email Confirmation</h2>
-            <p className='modalMessage'>{message}</p>
-            <button className='button' onClick={closeModal}>
+        <div className={styles.modalOverlay}>
+          <div className={styles.modal}>
+            <h2 className={styles.modalHeading}>Email Confirmation</h2>
+            <p className={styles.modalMessage}>{message}</p>
+            <button className={styles.button} onClick={closeModal}>
               Close
             </button>
           </div>
