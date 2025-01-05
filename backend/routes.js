@@ -18,6 +18,7 @@ router.get('/auth/confirm-email', async (req, res) => {
   }
 
   try {
+    // Fetch user with matching token
     const { data: user, error } = await supabase
       .from('user_profiles')
       .select('*')
@@ -31,6 +32,13 @@ router.get('/auth/confirm-email', async (req, res) => {
     if (new Date() > new Date(user.token_expiration)) {
       return res.status(400).json({ error: 'Token has expired.' })
     }
+
+    // Debugging: Log the user and token information
+    console.log('Confirming email for user:', {
+      user_id: user.user_id,
+      email_confirmation_token: user.email_confirmation_token,
+      token_expiration: user.token_expiration,
+    })
 
     // Update email confirmation status
     const { error: updateError } = await supabase
@@ -58,27 +66,28 @@ router.post('/auth/send-confirmation-email', async (req, res) => {
   const { user_id, email } = req.body
 
   try {
-    const token = uuidv4()
-    const expiration = new Date()
-    expiration.setHours(expiration.getHours() + 24)
-
-    // Update the user_profiles table with the token and expiration
-    const { error: updateError } = await supabase
+    // Fetch the token and expiration directly from user_profiles
+    const { data: userProfile, error } = await supabase
       .from('user_profiles')
-      .update({
-        email_confirmation_token: token,
-        token_expiration: expiration,
-      })
+      .select('email_confirmation_token, token_expiration')
       .eq('user_id', user_id)
+      .single()
 
-    if (updateError) {
-      throw new Error('Failed to store email confirmation token.')
+    if (error || !userProfile) {
+      throw new Error('Failed to fetch user profile or token.')
+    }
+
+    const { email_confirmation_token, token_expiration } = userProfile
+
+    // Ensure token is valid
+    if (new Date() > new Date(token_expiration)) {
+      throw new Error('Token has expired.')
     }
 
     // Send the email
-    const confirmationLink = `https://lifegpa.org/auth/confirm-email?token=${token}`
+    const confirmationLink = `https://lifegpa.org/auth/confirm-email?token=${email_confirmation_token}`
     const emailPayload = {
-      templateId: 1, // Your email template ID
+      templateId: 1, // Replace with Brevo template ID
       to: [{ email }],
       params: { confirmation_link: confirmationLink },
     }

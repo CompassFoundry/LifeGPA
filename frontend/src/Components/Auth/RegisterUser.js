@@ -31,9 +31,6 @@ const RegisterUser = () => {
       if (user) {
         console.log('User created successfully:', user)
 
-        //debug
-        console.log(user)
-
         // Send confirmation email (if applicable)
         const response = await fetch(
           `${process.env.REACT_APP_BACKEND_URL}/auth/send-confirmation-email`,
