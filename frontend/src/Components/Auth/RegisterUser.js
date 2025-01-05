@@ -22,9 +22,8 @@ const RegisterUser = () => {
     }
 
     try {
-      // Create the user in auth.users
+      // Register the user with Supabase Auth
       const { data, error } = await supabase.auth.signUp({ email, password })
-
       if (error) {
         setMessage(
           'Unable to register. Please check your email or password and try again.'
@@ -44,15 +43,6 @@ const RegisterUser = () => {
               }),
             }
           )
-
-          console.log(
-            'Sending request to:',
-            `${process.env.REACT_APP_BACKEND_URL}/auth/send-confirmation-email`
-          )
-          console.log('Request payload:', {
-            user_id: user.id,
-            email: user.email,
-          })
 
           if (!response.ok) {
             const errorData = await response.json()
