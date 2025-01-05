@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Link, Navigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import styles from './Home.module.css'
 import { AuthContext } from '@components/Auth/AuthState'
 
@@ -7,7 +7,7 @@ const Home = () => {
   const { user } = useContext(AuthContext)
 
   if (!user) {
-    return <Navigate to='/login' replace />
+    return console.log('User not logged in')
   } else
     return (
       <div className={styles.container}>

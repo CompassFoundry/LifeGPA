@@ -108,18 +108,18 @@ const App = () => {
 
             {/* Protected Routes */}
             <Route
-              path='/settings'
-              element={
-                <ProtectedRoute>
-                  <Settings user={user} />
-                </ProtectedRoute>
-              }
-            />
-            <Route
               path='/home'
               element={
                 <ProtectedRoute>
                   <Home user={user} setUser={setUser} />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path='/settings'
+              element={
+                <ProtectedRoute>
+                  <Settings user={user} />
                 </ProtectedRoute>
               }
             />

@@ -15,10 +15,6 @@ const AuthProvider = ({ children }) => {
 
       const sessionUser = sessionData?.session?.user
 
-      //debug
-      console.log(sessionData)
-      console.log(sessionError)
-
       if (sessionUser) {
         const { data: userData, error: userError } = await supabase
           .from('users')
@@ -28,12 +24,8 @@ const AuthProvider = ({ children }) => {
 
         if (userError) throw userError
 
-        //debug
-        console.log(userData)
-
         setUser(userData)
       } else {
-        console.warn('No session user found')
         setUser(null)
       }
     } catch (error) {

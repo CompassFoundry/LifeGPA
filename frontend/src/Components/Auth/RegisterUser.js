@@ -31,7 +31,7 @@ const RegisterUser = () => {
       if (user) {
         console.log('User created successfully:', user)
 
-        // Send confirmation email (if applicable)
+        // Send confirmation email
         const response = await fetch(
           `${process.env.REACT_APP_BACKEND_URL}/auth/send-confirmation-email`,
           {
@@ -46,6 +46,7 @@ const RegisterUser = () => {
           }
         )
 
+        //debug
         console.log('Email confirmation API response:', response)
 
         if (!response.ok) {
@@ -61,7 +62,12 @@ const RegisterUser = () => {
 
         // Fetch the updated user data after the trigger runs
         await fetchUser()
+        setTimeout(() => {
+          console.log('Navigating to /home after user state update.') // Debug
+          navigate('/home', { replace: true, state: { forceRender: true } })
+        }, 200) // Small delay to allow React state propagation
         navigate('/home')
+        window.location.reload()
       }
     } catch (err) {
       setMessage('An unexpected error occurred. Please try again.')
