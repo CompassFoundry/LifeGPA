@@ -24,3 +24,14 @@ REACT_APP_POSTHOG_KEY=
 
 ### Backend URL (Render)
 REACT_APP_BACKEND_URL=
+
+------------
+
+# Brevo Transactional Email Setup
+### Configure Custom SMTP in Supabase 
+* Update SMTP Provider Setings in Authentication
+* smtp-relay.brevo.com
+* Port 587
+* Username (find in Brevo SMTP settings)
+* Password (find in Brevo SMTP settings)
+
