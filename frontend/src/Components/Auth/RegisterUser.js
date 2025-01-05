@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import styles from './Auth.module.css'
 import { supabase } from '../../supabaseClient'
@@ -10,7 +10,7 @@ const RegisterUser = () => {
   const [message, setMessage] = useState('')
   const [errors, setErrors] = useState('')
   const navigate = useNavigate()
-  const { fetchUser } = useContext(AuthContext) // Access global user state and fetchUser
+  const { fetchUser, user } = useContext(AuthContext) // Access global user state and fetchUser
 
   const handleRegister = async (e) => {
     e.preventDefault()
@@ -60,20 +60,20 @@ const RegisterUser = () => {
           'Registered successfully! Please check your email to confirm your account.'
         )
 
-        // Fetch the updated user data after the trigger runs
-        await fetchUser()
-        setTimeout(() => {
-          console.log('Navigating to /home after user state update.') // Debug
-          navigate('/home', { replace: true, state: { forceRender: true } })
-        }, 200) // Small delay to allow React state propagation
-        navigate('/home')
-        window.location.reload()
+        await fetchUser() // Update AuthContext with new user
       }
     } catch (err) {
       setMessage('An unexpected error occurred. Please try again.')
       console.error(err)
     }
   }
+
+  // Navigate to /home once the user state updates
+  useEffect(() => {
+    if (user) {
+      navigate('/home')
+    }
+  }, [user, navigate])
 
   return (
     <div className={styles.container}>
