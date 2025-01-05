@@ -14,6 +14,8 @@ const AuthProvider = ({ children }) => {
       if (sessionError) throw sessionError
 
       const sessionUser = sessionData?.session?.user
+
+      //debug
       console.log(sessionData)
       console.log(sessionError)
 
@@ -25,6 +27,8 @@ const AuthProvider = ({ children }) => {
           .single()
 
         if (userError) throw userError
+
+        //debug
         console.log(userData)
 
         setUser(userData)
