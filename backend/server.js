@@ -7,7 +7,11 @@ const port = process.env.PORT || 5001
 
 // Enable CORS with specific origin(s)
 const corsOptions = {
-  origin: ['http://localhost:3000', 'http://localhost:3001'], // Add frontend's URL here
+  origin: [
+    'https://lifegpa.org',
+    'http://localhost:3000',
+    'http://localhost:3001',
+  ], // Add frontend's URL here
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify allowed HTTP methods
   credentials: true, // Allow cookies or authentication headers
 }
