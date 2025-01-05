@@ -15,60 +15,50 @@ const RegisterUser = () => {
   const handleRegister = async (e) => {
     e.preventDefault()
 
-    // Validate password length
     if (password.length < 8) {
       setErrors('Password must be at least 8 characters long.')
       return
     }
 
     try {
-      // Register the user with Supabase Auth
       const { data, error } = await supabase.auth.signUp({ email, password })
       if (error) {
-        setMessage(
-          'Unable to register. Please check your email or password and try again.'
-        )
-      } else {
-        const { user } = data
-        if (user) {
-          // Call the backend to send the confirmation email
-          const response = await fetch(
-            `${process.env.REACT_APP_BACKEND_URL}/auth/send-confirmation-email`,
-            {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${process.env.REACT_APP_SERVICE_ROLE_KEY}`, // Add this if missing
-              },
-              body: JSON.stringify({
-                user_id: user.id,
-                email: user.email,
-              }),
-            }
-          )
-          console.log('Backend Response Status:', response.status)
-          console.log('Backend Response Body:', await response.json())
+        setMessage('Unable to register. Please try again.')
+        return
+      }
 
-          if (!response.ok) {
-            const errorData = await response.json()
-            console.error('Error sending confirmation email:', errorData.error)
-            setMessage(
-              'Registration successful, but we were unable to send a confirmation email.'
-            )
-          } else {
-            setMessage(
-              'Registration successful! Please check your email to confirm your account.'
-            )
+      const { user } = data
+      if (user) {
+        const response = await fetch(
+          `${process.env.REACT_APP_BACKEND_URL}/auth/send-confirmation-email`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              user_id: user.id,
+              email: user.email,
+            }),
           }
+        )
 
-          // Update global user state and navigate to home page
-          await fetchUser()
-          navigate('/home') // Redirect to home page
+        if (!response.ok) {
+          setMessage(
+            'Registered successfully, but failed to send confirmation email.'
+          )
+          return
         }
+
+        setMessage(
+          'Registered successfully! Please check your email to confirm your account.'
+        )
+        await fetchUser()
+        navigate('/home')
       }
     } catch (err) {
-      console.error('Unexpected error during registration:', err)
       setMessage('An unexpected error occurred. Please try again.')
+      console.error(err)
     }
   }
 
