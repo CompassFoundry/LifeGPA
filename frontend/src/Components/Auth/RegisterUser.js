@@ -22,7 +22,9 @@ const RegisterUser = () => {
     }
 
     try {
+      // Create the user in auth.users
       const { data, error } = await supabase.auth.signUp({ email, password })
+
       if (error) {
         setMessage(
           'Unable to register. Please check your email or password and try again.'
@@ -30,55 +32,43 @@ const RegisterUser = () => {
       } else {
         const { user } = data
         if (user) {
-          // Insert user into the 'users' table
-          const { error: dbError } = await supabase.from('users').insert({
+          // Call the backend to send the confirmation email
+          const response = await fetch(
+            `${process.env.REACT_APP_BACKEND_URL}/auth/send-confirmation-email`,
+            {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                user_id: user.id,
+                email: user.email,
+              }),
+            }
+          )
+
+          console.log(
+            'Sending request to:',
+            `${process.env.REACT_APP_BACKEND_URL}/auth/send-confirmation-email`
+          )
+          console.log('Request payload:', {
             user_id: user.id,
             email: user.email,
-            role: 'user', // Assign default role
           })
-          if (dbError) {
-            setMessage('Unable to complete registration. Please try again.')
+
+          if (!response.ok) {
+            const errorData = await response.json()
+            console.error('Error sending confirmation email:', errorData.error)
+            setMessage(
+              'Registration successful, but we were unable to send a confirmation email.'
+            )
           } else {
-            // Call the backend to send the confirmation email
-            const response = await fetch(
-              `${process.env.REACT_APP_BACKEND_URL}/auth/send-confirmation-email`,
-              {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                  user_id: user.id,
-                  email: user.email,
-                }),
-              }
+            setMessage(
+              'Registration successful! Please check your email to confirm your account.'
             )
-            console.log(
-              'Sending request to:',
-              `${process.env.REACT_APP_BACKEND_URL}/auth/send-confirmation-email`
-            )
-            console.log('Request payload:', {
-              user_id: user.id,
-              email: user.email,
-            })
-
-            if (!response.ok) {
-              const errorData = await response.json()
-              console.error(
-                'Error sending confirmation email:',
-                errorData.error
-              )
-              setMessage(
-                'Registration successful, but we were unable to send a confirmation email.'
-              )
-            } else {
-              setMessage(
-                'Registration successful! Please check your email to confirm your account.'
-              )
-            }
-
-            // Update global user state and navigate to home page
-            await fetchUser()
-            navigate('/home') // Redirect to home page
           }
+
+          // Update global user state and navigate to home page
+          await fetchUser()
+          navigate('/home') // Redirect to home page
         }
       }
     } catch (err) {
