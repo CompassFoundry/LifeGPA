@@ -134,7 +134,13 @@ const Settings = ({ user }) => {
       </div>
 
       {/* Account Settings Container */}
+
       <div className={styles.container}>
+        <div>
+          <p>
+            <strong>Confirm Email Address</strong>
+          </p>
+        </div>
         <h1 className={styles.heading}>Account Settings</h1>
         <form onSubmit={handlePasswordUpdate} className={styles.form}>
           <div className={styles.inputGroup}>

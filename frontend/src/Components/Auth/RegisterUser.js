@@ -51,6 +51,14 @@ const RegisterUser = () => {
                 }),
               }
             )
+            console.log(
+              'Sending request to:',
+              `${process.env.REACT_APP_BACKEND_URL}/auth/send-confirmation-email`
+            )
+            console.log('Request payload:', {
+              user_id: user.id,
+              email: user.email,
+            })
 
             if (!response.ok) {
               const errorData = await response.json()
