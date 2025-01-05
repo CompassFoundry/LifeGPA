@@ -27,6 +27,24 @@ REACT_APP_BACKEND_URL=
 
 ------------
 
+# Supabase Setup
+### Gather ENV Variables
+* See above (add to Render and Netlify)
+### Update Project Settings
+* General Settings
+  * Update Project Name
+* Authentication
+  * Change min password to 8 characters
+  * Add custom SMTP settings (see Brevo Transactional Email Setup below)
+### Authentication Settings
+* Providers
+  * Only enable Email provider for launch (add Confirm Email requirements once transactional email is fully configured)
+* Rate Limits
+  * Update to whatever makes sense for the project.
+### Database
+* Contact a project admin for tables and columns.
+
+
 # Brevo Transactional Email Setup
 ### Configure Custom SMTP in Supabase 
 * Update SMTP Provider Setings in Authentication
