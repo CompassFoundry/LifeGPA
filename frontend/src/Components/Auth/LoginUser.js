@@ -33,7 +33,7 @@ const LoginUser = () => {
         if (session?.user) {
           const { error: roleError } = await supabase
             .from('users')
-            .select('role')
+            .select('user_role')
             .eq('user_id', session.user.id)
             .single()
 
@@ -51,12 +51,12 @@ const LoginUser = () => {
 
   useEffect(() => {
     if (user) {
-      if (user.role === 'admin' || user.role === 'super admin') {
+      if (user.user_role === 'admin' || user.user_role === 'super admin') {
         navigate('/admin')
-      } else if (user.role === 'user') {
+      } else if (user.user_role === 'user') {
         navigate('/home')
       } else {
-        console.error('Unrecognized role:', user.role)
+        console.error('Unrecognized role:', user.user_role)
       }
     }
   }, [user, navigate])

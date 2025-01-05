@@ -14,15 +14,18 @@ const AuthProvider = ({ children }) => {
       if (sessionError) throw sessionError
 
       const sessionUser = sessionData?.session?.user
+      console.log(sessionData)
+      console.log(sessionError)
 
       if (sessionUser) {
         const { data: userData, error: userError } = await supabase
           .from('users')
-          .select('user_id, email, role')
+          .select('user_id, email, user_role')
           .eq('user_id', sessionUser.id)
           .single()
 
         if (userError) throw userError
+        console.log(userData)
 
         setUser(userData)
       } else {

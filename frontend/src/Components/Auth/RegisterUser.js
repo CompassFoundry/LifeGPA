@@ -29,6 +29,12 @@ const RegisterUser = () => {
 
       const { user } = data
       if (user) {
+        console.log('User created successfully:', user)
+
+        //debug
+        console.log(user)
+
+        // Send confirmation email (if applicable)
         const response = await fetch(
           `${process.env.REACT_APP_BACKEND_URL}/auth/send-confirmation-email`,
           {
@@ -43,6 +49,8 @@ const RegisterUser = () => {
           }
         )
 
+        console.log('Email confirmation API response:', response)
+
         if (!response.ok) {
           setMessage(
             'Registered successfully, but failed to send confirmation email.'
@@ -53,6 +61,8 @@ const RegisterUser = () => {
         setMessage(
           'Registered successfully! Please check your email to confirm your account.'
         )
+
+        // Fetch the updated user data after the trigger runs
         await fetchUser()
         navigate('/home')
       }
@@ -61,12 +71,6 @@ const RegisterUser = () => {
       console.error(err)
     }
   }
-  console.log('User created successfully:', data)
-  console.log('Sending confirmation email payload:', {
-    user_id: user.id,
-    email: user.email,
-  })
-  console.log('Email confirmation API response:', response)
 
   return (
     <div className={styles.container}>
