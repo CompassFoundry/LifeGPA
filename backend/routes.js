@@ -130,4 +130,56 @@ router.post('/auth/send-confirmation-email', async (req, res) => {
   }
 })
 
+// Route to confirm email
+router.get('/auth/confirm-email', async (req, res) => {
+  const { token } = req.query
+
+  console.log('Received token for email confirmation:', token)
+
+  if (!token) {
+    console.error('No token provided.')
+    return res.status(400).json({ error: 'Token is required.' })
+  }
+
+  try {
+    // Check if the token exists and is valid
+    const { data: user, error } = await supabase
+      .from('user_profiles')
+      .select('user_id, token_expiration')
+      .eq('email_confirmation_token', token)
+      .single()
+
+    if (error || !user) {
+      console.error('Invalid token or user not found:', error)
+      return res.status(400).json({ error: 'Invalid or expired token.' })
+    }
+
+    if (new Date() > new Date(user.token_expiration)) {
+      console.error('Token has expired for user:', user.user_id)
+      return res.status(400).json({ error: 'Token has expired.' })
+    }
+
+    // Mark the email as confirmed
+    const { error: updateError } = await supabase
+      .from('user_profiles')
+      .update({
+        is_email_confirmed: true,
+        email_confirmation_token: null,
+        token_expiration: null,
+      })
+      .eq('user_id', user.user_id)
+
+    if (updateError) {
+      console.error('Error updating user profile:', updateError)
+      throw new Error('Failed to confirm email.')
+    }
+
+    console.log('Email confirmed for user:', user.user_id)
+    res.status(200).json({ message: 'Email confirmed successfully!' })
+  } catch (error) {
+    console.error('Error confirming email:', error.message)
+    res.status(500).json({ error: error.message })
+  }
+})
+
 module.exports = router
