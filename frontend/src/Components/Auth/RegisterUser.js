@@ -36,13 +36,18 @@ const RegisterUser = () => {
             `${process.env.REACT_APP_BACKEND_URL}/auth/send-confirmation-email`,
             {
               method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${process.env.REACT_APP_SERVICE_ROLE_KEY}`, // Add this if missing
+              },
               body: JSON.stringify({
                 user_id: user.id,
                 email: user.email,
               }),
             }
           )
+          console.log('Backend Response Status:', response.status)
+          console.log('Backend Response Body:', await response.json())
 
           if (!response.ok) {
             const errorData = await response.json()
