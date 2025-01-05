@@ -61,6 +61,12 @@ const RegisterUser = () => {
       console.error(err)
     }
   }
+  console.log('User created successfully:', data)
+  console.log('Sending confirmation email payload:', {
+    user_id: user.id,
+    email: user.email,
+  })
+  console.log('Email confirmation API response:', response)
 
   return (
     <div className={styles.container}>
