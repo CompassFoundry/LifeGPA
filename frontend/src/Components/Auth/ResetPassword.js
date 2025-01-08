@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../../supabaseClient'
 import styles from './Auth.module.css'
@@ -7,6 +7,7 @@ const ResetPassword = () => {
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [message, setMessage] = useState('')
+  const [isPasswordReset, setIsPasswordReset] = useState(false) // Track password reset success
   const navigate = useNavigate()
 
   const handleResetPassword = async (e) => {
@@ -27,13 +28,25 @@ const ResetPassword = () => {
         console.error('Error resetting password:', error)
       } else {
         setMessage('Password reset successfully!')
-        setTimeout(() => navigate('/login'), 2000)
+        setIsPasswordReset(true) // Trigger navigation when password is reset
       }
     } catch (error) {
       console.error('Unexpected error:', error)
       setMessage('An unexpected error occurred.')
     }
   }
+
+  // Handle navigation when the password reset is successful
+  useEffect(() => {
+    if (isPasswordReset) {
+      const timeout = setTimeout(() => {
+        navigate('/login') // Navigate to login page
+      }, 2000)
+
+      // Clean up timeout
+      return () => clearTimeout(timeout)
+    }
+  }, [isPasswordReset, navigate])
 
   return (
     <div className={styles.container}>
