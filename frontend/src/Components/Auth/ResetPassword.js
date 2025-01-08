@@ -8,6 +8,7 @@ const ResetPassword = () => {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [message, setMessage] = useState('')
   const [isPasswordReset, setIsPasswordReset] = useState(false) // Track password reset success
+  const [showModal, setShowModal] = useState(false) // Track modal visibility
   const navigate = useNavigate()
 
   const handleResetPassword = async (e) => {
@@ -29,6 +30,7 @@ const ResetPassword = () => {
       } else {
         setMessage('Password reset successfully!')
         setIsPasswordReset(true) // Trigger navigation when password is reset
+        setShowModal(true) // Show the confirmation modal
       }
     } catch (error) {
       console.error('Unexpected error:', error)
@@ -36,12 +38,11 @@ const ResetPassword = () => {
     }
   }
 
-  // Handle navigation when the password reset is successful
-  useEffect(() => {
-    if (isPasswordReset) {
-      navigate('/home') // Navigate to home page directly
-    }
-  }, [isPasswordReset, navigate])
+  // Handle navigation when the modal is closed
+  const handleCloseModal = () => {
+    setShowModal(false)
+    navigate('/home') // Navigate to home page
+  }
 
   return (
     <div className={styles.container}>
@@ -78,6 +79,21 @@ const ResetPassword = () => {
         </button>
         {message && <p className={styles.message}>{message}</p>}
       </form>
+
+      {/* Modal */}
+      {showModal && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modal}>
+            <h2 className={styles.modalHeading}>Password Reset</h2>
+            <p className={styles.modalMessage}>
+              Your password has been successfully reset.
+            </p>
+            <button className={styles.button} onClick={handleCloseModal}>
+              Continue to Home
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
