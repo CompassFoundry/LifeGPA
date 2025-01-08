@@ -6,7 +6,7 @@ import { FaCheckCircle } from 'react-icons/fa' // Import a green checkmark icon
 const Settings = ({ user }) => {
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
-  const [email, setEmail] = useState(user.email)
+  const [email] = useState(user.email)
   const [currentPassword, setCurrentPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -14,8 +14,8 @@ const Settings = ({ user }) => {
   const [accountMessage, setAccountMessage] = useState('')
   const [emailConfirmed, setEmailConfirmed] = useState(false)
   const [emailMessage, setEmailMessage] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
-  const [emailUpdateMessage, setEmailUpdateMessage] = useState('')
+  const [setIsLoading] = useState(false)
+  const [emailUpdateMessage] = useState('')
 
   // Fetch the user profile from the user_profiles table
   useEffect(() => {
