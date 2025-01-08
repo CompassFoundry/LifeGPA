@@ -14,7 +14,7 @@ const Settings = ({ user }) => {
   const [accountMessage, setAccountMessage] = useState('')
   const [emailConfirmed, setEmailConfirmed] = useState(false)
   const [emailMessage, setEmailMessage] = useState('')
-  const [setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const [emailUpdateMessage] = useState('')
 
   // Fetch the user profile from the user_profiles table
@@ -99,7 +99,6 @@ const Settings = ({ user }) => {
     }
   }
 
-  // Resend verification email
   const handleResendVerification = async () => {
     setIsLoading(true)
     setEmailMessage('')
