@@ -55,6 +55,7 @@
   border: none;
   border-radius: 5px;
   padding: 10px;
+  width: 100%;
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
@@ -85,4 +86,18 @@
 .input-readonly:focus {
   outline: none; /* Prevent focus outline */
   border-color: #e0e0e0; /* Maintain the same border on focus */
+}
+
+/* Link Styles (e.g., 'Sign Up') */
+.toggleLink {
+  color: #00bfa6;
+  font-weight: bold;
+  text-decoration: underline;
+  transition: color 0.2s ease;
+  cursor: pointer;
+}
+
+/* Link Hover State */
+.toggleLink:hover {
+  color: #008f78;
 }

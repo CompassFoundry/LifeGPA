@@ -66,28 +66,54 @@ router.post('/auth/send-confirmation-email', async (req, res) => {
   const { user_id, email } = req.body
 
   try {
-    // Fetch the token and expiration directly from user_profiles
-    const { data: userProfile, error } = await supabase
+    // Fetch user profile to get current token and expiration
+    const { data: userProfile, error: fetchError } = await supabase
       .from('user_profiles')
       .select('email_confirmation_token, token_expiration')
       .eq('user_id', user_id)
       .single()
 
-    if (error || !userProfile) {
-      throw new Error('Failed to fetch user profile or token.')
+    if (fetchError || !userProfile) {
+      console.error(
+        'Error fetching user profile:',
+        fetchError || 'User not found'
+      )
+      throw new Error('Failed to fetch user profile.')
     }
 
-    const { email_confirmation_token, token_expiration } = userProfile
+    let { email_confirmation_token, token_expiration } = userProfile
 
-    // Ensure token is valid
-    if (new Date() > new Date(token_expiration)) {
-      throw new Error('Token has expired.')
+    // Check if token has expired or is invalid
+    const isTokenExpired =
+      !token_expiration || new Date() > new Date(token_expiration)
+
+    if (isTokenExpired) {
+      console.log('Token expired or invalid. Generating a new one...')
+      email_confirmation_token = uuidv4() // Generate a new token
+      token_expiration = new Date()
+      token_expiration.setHours(token_expiration.getHours() + 24) // Set expiration to 24 hours from now
+
+      // Update the database with the new token and expiration
+      const { error: updateError } = await supabase
+        .from('user_profiles')
+        .update({
+          email_confirmation_token,
+          token_expiration: token_expiration.toISOString(),
+        })
+        .eq('user_id', user_id)
+
+      if (updateError) {
+        console.error('Error updating token in database:', updateError)
+        throw new Error('Failed to update token in database.')
+      }
+
+      console.log('New token and expiration saved to the database.')
     }
 
     // Send the email
     const confirmationLink = `https://lifegpa.org/auth/confirm-email?token=${email_confirmation_token}`
     const emailPayload = {
-      templateId: 1, // Replace with Brevo template ID
+      templateId: 1, // Replace with your Brevo template ID
       to: [{ email }],
       params: { confirmation_link: confirmationLink },
     }
@@ -102,12 +128,14 @@ router.post('/auth/send-confirmation-email', async (req, res) => {
     })
 
     if (!emailResponse.ok) {
+      const errorMessage = await emailResponse.text()
+      console.error('Error sending email:', errorMessage)
       throw new Error('Failed to send confirmation email.')
     }
 
-    res.status(200).json({ message: 'Confirmation email sent successfully!' })
+    res.status(200).json({ message: 'Verification email sent successfully!' })
   } catch (error) {
-    console.error('Error sending confirmation email:', error.message)
+    console.error('Error in /auth/send-confirmation-email:', error.message)
     res.status(500).json({ error: error.message })
   }
 })

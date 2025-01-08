@@ -1,22 +1,28 @@
 import React, { useState, useEffect } from 'react'
 import { supabase } from '../../supabaseClient'
 import styles from './Settings.module.css'
+import { FaCheckCircle } from 'react-icons/fa' // Import a green checkmark icon
 
 const Settings = ({ user }) => {
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
+  const [email, setEmail] = useState(user.email)
   const [currentPassword, setCurrentPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [profileMessage, setProfileMessage] = useState('')
   const [accountMessage, setAccountMessage] = useState('')
+  const [emailConfirmed, setEmailConfirmed] = useState(false)
+  const [emailMessage, setEmailMessage] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const [emailUpdateMessage, setEmailUpdateMessage] = useState('')
 
   // Fetch the user profile from the user_profiles table
   useEffect(() => {
     const fetchProfile = async () => {
       const { data, error } = await supabase
         .from('user_profiles')
-        .select('first_name, last_name')
+        .select('first_name, last_name, is_email_confirmed')
         .eq('user_id', user.id)
         .single()
 
@@ -25,6 +31,7 @@ const Settings = ({ user }) => {
       } else {
         setFirstName(data.first_name || '')
         setLastName(data.last_name || '')
+        setEmailConfirmed(data.is_email_confirmed) // Fetch email confirmation status
       }
     }
 
@@ -92,6 +99,77 @@ const Settings = ({ user }) => {
     }
   }
 
+  // Resend verification email
+  const handleResendVerification = async () => {
+    setIsLoading(true)
+    setEmailMessage('')
+    try {
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}/auth/send-confirmation-email`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ user_id: user.id, email: user.email }),
+        }
+      )
+
+      if (response.ok) {
+        setEmailMessage(
+          'Verification email sent! Please check your email (and spam folder).'
+        )
+      } else {
+        setEmailMessage(
+          'Failed to resend verification email. Please try again.'
+        )
+      }
+    } catch (error) {
+      console.error('Error resending verification email:', error)
+      setEmailMessage('An unexpected error occurred. Please try again.')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  // Change the user's email address
+  // const handleChangeEmail = async () => {
+  //   setIsLoading(true)
+  //   setEmailUpdateMessage('')
+  //   try {
+  //     const { error } = await supabase.auth.updateUser({ email })
+
+  //     if (error) {
+  //       console.error('Error updating email:', error.message)
+  //       setEmailUpdateMessage('Failed to update email. Please try again.')
+  //       return
+  //     }
+
+  //     // Send email verification after email update
+  //     const response = await fetch(
+  //       `${process.env.REACT_APP_BACKEND_URL}/auth/send-confirmation-email`,
+  //       {
+  //         method: 'POST',
+  //         headers: { 'Content-Type': 'application/json' },
+  //         body: JSON.stringify({ user_id: user.id, email }),
+  //       }
+  //     )
+
+  //     if (response.ok) {
+  //       setEmailUpdateMessage(
+  //         'Email updated successfully! Please verify your new email address.'
+  //       )
+  //     } else {
+  //       setEmailUpdateMessage(
+  //         'Failed to send verification email. Please try again.'
+  //       )
+  //     }
+  //   } catch (error) {
+  //     console.error('Error updating email:', error)
+  //     setEmailUpdateMessage('An unexpected error occurred. Please try again.')
+  //   } finally {
+  //     setIsLoading(false)
+  //   }
+  // }
+
   return (
     <div>
       {/* Profile Settings Container */}
@@ -133,14 +211,53 @@ const Settings = ({ user }) => {
         </form>
       </div>
 
-      {/* Account Settings Container */}
-
+      {/* Email Confirmation Section */}
       <div className={styles.container}>
-        <div>
-          <p>
-            <strong>Confirm Email Address</strong>
-          </p>
+        <h1 className={styles.heading}>Email Settings</h1>
+        <div className={styles.inputGroup}>
+          <label className={styles.label} htmlFor='email'>
+            Email:
+          </label>
+          <input
+            id='email'
+            className={styles['input-readonly']}
+            type='email'
+            value={email}
+            readOnly
+            // onChange={(e) => setEmail(e.target.value)}
+          />
         </div>
+        <p className={styles.text}>
+          {emailConfirmed ? (
+            <span className={styles.success}>
+              <FaCheckCircle style={{ color: '#00bfa6', marginRight: '8px' }} />
+              Email Verified
+            </span>
+          ) : (
+            <span
+              className={styles.toggleLink}
+              onClick={handleResendVerification}
+            >
+              Confirm Your Email Address
+            </span>
+          )}
+        </p>
+        {/* <button
+          className={styles.button}
+          onClick={handleChangeEmail}
+          disabled={isLoading}
+        >
+          {isLoading ? 'Updating...' : 'Change Email Address'}
+        </button> */}
+        {emailUpdateMessage && (
+          <p className={styles.message}>{emailUpdateMessage}</p>
+        )}
+
+        {emailMessage && <p className={styles.message}>{emailMessage}</p>}
+      </div>
+
+      {/* Account Settings Container */}
+      <div className={styles.container}>
         <h1 className={styles.heading}>Account Settings</h1>
         <form onSubmit={handlePasswordUpdate} className={styles.form}>
           <div className={styles.inputGroup}>
@@ -183,18 +300,6 @@ const Settings = ({ user }) => {
               onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder='Confirm your new password'
               required
-            />
-          </div>
-          <div className={styles.inputGroup}>
-            <label className={styles.label} htmlFor='email'>
-              Email:
-            </label>
-            <input
-              id='email'
-              className={styles['input-readonly']}
-              type='email'
-              value={user.email}
-              readOnly
             />
           </div>
           <button type='submit' className={styles.button}>
