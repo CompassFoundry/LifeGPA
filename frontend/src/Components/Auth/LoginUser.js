@@ -2,13 +2,16 @@ import React, { useState, useContext, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import styles from './Auth.module.css'
 import { supabase } from '../../supabaseClient'
-import { AuthContext } from './AuthState' // Import AuthContext
+import { AuthContext } from './AuthState'
 
 const LoginUser = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
-  const { user, fetchUser } = useContext(AuthContext) // Access global state and fetchUser function
+  const [showForgotPasswordModal, setShowForgotPasswordModal] = useState(false)
+  const [forgotEmail, setForgotEmail] = useState('')
+  const [forgotMessage, setForgotMessage] = useState('')
+  const { user, fetchUser } = useContext(AuthContext)
   const navigate = useNavigate()
 
   const handleLogin = async (e) => {
@@ -26,22 +29,7 @@ const LoginUser = () => {
       } else {
         setErrorMessage('')
         console.log('User successfully logged in:', data.user)
-
-        await fetchUser() // Ensure fetchUser completes
-
-        const { data: session } = await supabase.auth.getSession()
-        if (session?.user) {
-          const { error: roleError } = await supabase
-            .from('users')
-            .select('user_role')
-            .eq('user_id', session.user.id)
-            .single()
-
-          if (roleError) {
-            console.error('Error fetching user role:', roleError.message)
-            setErrorMessage('Failed to fetch user role.')
-          }
-        }
+        await fetchUser()
       }
     } catch (err) {
       console.error('Unexpected error:', err)
@@ -49,15 +37,27 @@ const LoginUser = () => {
     }
   }
 
+  const handleForgotPassword = async () => {
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(forgotEmail, {
+        redirectTo: `${window.location.origin}/reset-password`,
+      })
+
+      if (error) {
+        setForgotMessage('Failed to send password reset email. Try again.')
+        console.error('Error sending reset email:', error)
+      } else {
+        setForgotMessage('Password reset email sent! Check your inbox.')
+      }
+    } catch (error) {
+      setForgotMessage('An unexpected error occurred. Try again.')
+      console.error('Unexpected error:', error)
+    }
+  }
+
   useEffect(() => {
     if (user) {
-      if (user.user_role === 'admin' || user.user_role === 'super admin') {
-        navigate('/admin')
-      } else if (user.user_role === 'user') {
-        navigate('/home')
-      } else {
-        console.error('Unrecognized role:', user.user_role)
-      }
+      navigate('/home')
     }
   }, [user, navigate])
 
@@ -79,9 +79,17 @@ const LoginUser = () => {
           />
         </div>
         <div className={styles.inputGroup}>
-          <label className={styles.label} htmlFor='password'>
-            Password:
-          </label>
+          <div className={styles.labelRow}>
+            <label className={styles.label} htmlFor='password'>
+              Password:
+            </label>
+            <span
+              className={styles.forgotPassword}
+              onClick={() => setShowForgotPasswordModal(true)}
+            >
+              Forgot your password?
+            </span>
+          </div>
           <input
             className={styles.input}
             id='password'
@@ -96,12 +104,46 @@ const LoginUser = () => {
         </button>
         {errorMessage && <p className={styles.message}>{errorMessage}</p>}
       </form>
+
       <p className={styles.toggleText}>
         Don't have an account?{' '}
         <Link to='/register' className={styles.toggleLink}>
           Sign Up
         </Link>
       </p>
+
+      {showForgotPasswordModal && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modal}>
+            <h3 className={styles.modalHeading}>Forgot Password</h3>
+            <p className={styles.modalMessage}>
+              Enter your email to receive a password reset link.
+            </p>
+            <input
+              className={styles.input}
+              type='email'
+              value={forgotEmail}
+              onChange={(e) => setForgotEmail(e.target.value)}
+              placeholder='Enter your email'
+              required
+            />
+            <button
+              className={styles.button}
+              onClick={handleForgotPassword}
+              style={{ marginTop: '20px' }}
+            >
+              Send Reset Link
+            </button>
+            {forgotMessage && <p className={styles.message}>{forgotMessage}</p>}
+            <p
+              className={styles.toggleLink}
+              onClick={() => setShowForgotPasswordModal(false)}
+            >
+              Close
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

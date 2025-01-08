@@ -24,6 +24,7 @@ import LogReport from '@components/LifeGPA/Main/LogReport'
 import ViewReports from '@components/LifeGPA/Main/ViewReports'
 import { supabase } from './supabaseClient'
 import './styles/global.css'
+import ResetPassword from '@components/Auth/ResetPassword'
 
 const App = () => {
   const [user, setUser] = useState(null)
@@ -120,6 +121,14 @@ const App = () => {
               element={
                 <ProtectedRoute>
                   <Settings user={user} />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path='/reset-password'
+              element={
+                <ProtectedRoute>
+                  <ResetPassword user={user} setUser={setUser} />
                 </ProtectedRoute>
               }
             />
