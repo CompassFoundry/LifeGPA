@@ -47,7 +47,9 @@ const LoginUser = () => {
         setForgotMessage('Failed to send password reset email. Try again.')
         console.error('Error sending reset email:', error)
       } else {
-        setForgotMessage('Password reset email sent! Check your inbox.')
+        setForgotMessage(
+          'If that email matches what we have on file, we will send you email with instructions for resetting your password.'
+        )
       }
     } catch (error) {
       setForgotMessage('An unexpected error occurred. Try again.')

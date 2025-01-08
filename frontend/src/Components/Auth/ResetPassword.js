@@ -39,12 +39,7 @@ const ResetPassword = () => {
   // Handle navigation when the password reset is successful
   useEffect(() => {
     if (isPasswordReset) {
-      const timeout = setTimeout(() => {
-        navigate('/login') // Navigate to login page
-      }, 2000)
-
-      // Clean up timeout
-      return () => clearTimeout(timeout)
+      navigate('/home') // Navigate to home page directly
     }
   }, [isPasswordReset, navigate])
 
