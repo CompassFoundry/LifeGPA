@@ -5,16 +5,18 @@ import {
   Route,
   Navigate,
 } from 'react-router-dom'
+import LandingPage from '@components/Landing/LandingPage'
 import RegisterUser from '@components/Auth/RegisterUser'
 import LoginUser from '@components/Auth/LoginUser'
 import ConfirmEmail from '@components/Auth/ConfirmEmail'
 import TermsOfService from '@components/Auth/TermsOfService'
 import PrivacyPolicy from '@components/Auth/PrivacyPolicy'
+import Contact from '@components/Contact/Contact'
 import ProtectedRoute from '@components/Auth/ProtectedRoute'
 import LoadingSpinner from '@components/Global/LoadingSpinner'
-import LandingPage from '@components/Landing/LandingPage'
 import Home from '@components/Home/Home'
 import Header from '@components/Header/Header'
+import Footer from '@components/Footer/Footer'
 import Settings from '@components/Settings/Settings'
 import LifeGPA from '@components/LifeGPA/Onboarding/Landing'
 import LifeGPAHome from '@components/LifeGPA/Main/Home'
@@ -106,6 +108,7 @@ const App = () => {
             <Route path='/terms-of-service' element={<TermsOfService />} />
             <Route path='/privacy-policy' element={<PrivacyPolicy />} />
             <Route path='/auth/confirm-email' element={<ConfirmEmail />} />
+            <Route path='/contact' element={<Contact />} />
 
             {/* Protected Routes */}
             <Route
@@ -217,6 +220,7 @@ const App = () => {
           </Routes>
         </main>
       </div>
+      <Footer />
     </Router>
   )
 }

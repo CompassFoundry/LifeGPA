@@ -140,4 +140,65 @@ router.post('/auth/send-confirmation-email', async (req, res) => {
   }
 })
 
+// Route to handle contact form submissions
+router.post('/contact/submit', async (req, res) => {
+  const { name, email, message } = req.body
+
+  // Validate input fields
+  if (!name || !email || !message) {
+    return res.status(400).json({ error: 'All fields are required.' })
+  }
+
+  try {
+    // Save the contact submission to a Supabase table
+    const { data, error } = await supabase
+      .from('contact_submissions')
+      .insert([{ name, email, message }])
+
+    if (error) {
+      console.error('Error saving contact submission:', error.message)
+      throw error
+    }
+
+    console.log('Contact submission saved:', data)
+
+    // Send notification email using Brevo
+    const emailPayload = {
+      sender: { name: 'Life GPA', email: process.env.BREVO_SENDER_EMAIL }, // Sender's email
+      to: [{ email: process.env.ADMIN_EMAIL }], // Admin email
+      subject: 'New Contact Form Submission',
+      htmlContent: `
+        <h1>New Contact Form Submission</h1>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Message:</strong> ${message}</p>
+      `,
+    }
+
+    const emailResponse = await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'api-key': process.env.BREVO_API_KEY, // Brevo API key from environment variables
+      },
+      body: JSON.stringify(emailPayload),
+    })
+
+    if (!emailResponse.ok) {
+      const errorMessage = await emailResponse.text()
+      console.error('Error sending email:', errorMessage)
+      throw new Error('Failed to send notification email.')
+    }
+
+    res
+      .status(200)
+      .json({ message: 'Your message has been submitted successfully!' })
+  } catch (error) {
+    console.error('Error in /contact/submit route:', error.message)
+    res
+      .status(500)
+      .json({ error: 'Failed to save your message. Please try again.' })
+  }
+})
+
 module.exports = router

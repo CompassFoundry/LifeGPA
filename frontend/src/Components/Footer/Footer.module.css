@@ -1,0 +1,46 @@
+/* Footer Container */
+.footer {
+  background-color: #141430; /* Dark background color */
+  color: #ffffff; /* White text */
+  text-align: center;
+  padding: 20px 0;
+  width: 100%;
+  box-sizing: border-box;
+  position: relative; /* Ensures proper positioning */
+  bottom: 0;
+}
+
+/* Logo Container */
+.logoContainer {
+  margin-bottom: 10px; /* Space between the logo and the links */
+}
+
+/* Logo Styles */
+.logo {
+  width: 100px; /* Adjust size as needed */
+  height: auto;
+  display: inline-block;
+}
+
+/* Footer Links */
+.links {
+  margin-bottom: 10px; /* Space between links and copyright text */
+}
+
+.link {
+  color: #00bfa6; /* Green link color */
+  margin: 0 10px; /* Space between links */
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.link:hover {
+  text-decoration: underline; /* Add underline on hover */
+}
+
+/* Copyright Text */
+.copyright {
+  font-size: 12px;
+  margin-top: 10px;
+  color: #ffffff;
+}
