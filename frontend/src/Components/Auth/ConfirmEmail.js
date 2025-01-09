@@ -39,10 +39,10 @@ const ConfirmEmail = () => {
   return (
     <>
       {showModal && (
-        <div className={styles.modalOverlay}>
-          <div className={styles.modal}>
-            <h2 className={styles.modalHeading}>Email Confirmation</h2>
-            <p className={styles.modalMessage}>{message}</p>
+        <div className='modalOverlay'>
+          <div className='modal'>
+            <h2 className='modalHeading'>Email Confirmation</h2>
+            <p className='modalMessage'>{message}</p>
             <button className={styles.button} onClick={closeModal}>
               Close
             </button>

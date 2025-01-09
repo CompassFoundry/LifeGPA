@@ -26,7 +26,7 @@ html {
 .product-name {
   font-size: 24px;
   font-weight: 600;
-  color: #4caf50; /* Accent color for the product name */
+  color: #00bfa6; /* Accent color for the product name */
 }
 
 /* Loading Spinner */
@@ -62,3 +62,74 @@ html {
     transform: rotate(360deg);
   }
 }
+
+/* ---------------- MODALS ---------------- */
+
+/* Modal */
+.modal {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 20px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  position: relative;
+}
+
+/* Modal Overlay */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Modal Heading */
+.modalHeading {
+  font-size: 20px;
+  font-weight: bold;
+  color: #141430;
+  margin-bottom: 15px;
+}
+
+/* Modal Body */
+.modalBody {
+  font-size: 16px;
+  color: #141430;
+  text-align: left;
+  max-height: 60vh; /* Limit modal height to 60% of the viewport height */
+  overflow-y: auto; /* Scroll if content exceeds available height */
+}
+
+/* Modal Message */
+.modalMessage {
+  font-size: 16px;
+  color: #141430;
+  margin-bottom: 20px;
+}
+
+/* Modal Close Button */
+.modalClose {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #aaa;
+  transition: color 0.2s ease;
+}
+
+.modalClose:hover {
+  color: #00bfa6; /* Highlight color when hovering over the close button */
+}
+
+/* ---------------- BUTTONS ---------------- */

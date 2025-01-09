@@ -115,10 +115,10 @@ const LoginUser = () => {
       </p>
 
       {showForgotPasswordModal && (
-        <div className={styles.modalOverlay}>
-          <div className={styles.modal}>
-            <h3 className={styles.modalHeading}>Forgot Password</h3>
-            <p className={styles.modalMessage}>
+        <div className='modalOverlay'>
+          <div className='modal'>
+            <h3 className='modalHeading'>Forgot Password</h3>
+            <p className='modalMessage'>
               Enter your email to receive a password reset link.
             </p>
             <input

@@ -82,10 +82,10 @@ const ResetPassword = () => {
 
       {/* Modal */}
       {showModal && (
-        <div className={styles.modalOverlay}>
-          <div className={styles.modal}>
-            <h2 className={styles.modalHeading}>Password Reset</h2>
-            <p className={styles.modalMessage}>
+        <div className='modalOverlay'>
+          <div className='modal'>
+            <h2 className='modalHeading'>Password Reset</h2>
+            <p className='modalMessage'>
               Your password has been successfully reset.
             </p>
             <button className={styles.button} onClick={handleCloseModal}>

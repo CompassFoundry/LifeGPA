@@ -1,23 +1,23 @@
 import React from 'react'
-import styles from './Modal.module.css'
+import styles from './Main.module.css'
 
 const ReportDetailsModal = ({ report, onClose }) => {
   // Function to handle clicks outside of the modal content
   const handleBackdropClick = (event) => {
     // Check if the clicked target is the backdrop itself (not the modal content)
-    if (event.target.classList.contains(styles['modal-backdrop'])) {
+    if (event.target.classList.contains('modalOverlay')) {
       onClose() // Close the modal
     }
   }
 
   return (
-    <div className={styles['modal-backdrop']} onClick={handleBackdropClick}>
-      <div className={styles['modal-content']}>
-        <button className={styles['close-button']} onClick={onClose}>
+    <div className='modalOverlay' onClick={handleBackdropClick}>
+      <div className='modal'>
+        <button className='modalClose' onClick={onClose}>
           &times;
         </button>
-        <h2 className={styles['modal-heading']}>Report Details</h2>
-        <div className={styles['modal-body']}>
+        <h2 className='modalHeading'>Report Details</h2>
+        <div className='modalBody'>
           {report &&
             report.report_data.map((item, index) => (
               <div key={index} className={styles['report-item']}>
