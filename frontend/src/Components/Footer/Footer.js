@@ -13,10 +13,10 @@ const Footer = () => {
         />
       </div>
       <div className={styles.links}>
-        <Link to='/terms' className={styles.link}>
+        <Link to='/terms-of-service' className={styles.link}>
           Terms of Service
         </Link>
-        <Link to='/privacy' className={styles.link}>
+        <Link to='/privacy-policy' className={styles.link}>
           Privacy Policy
         </Link>
         <Link to='/contact' className={styles.link}>
