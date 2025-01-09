@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { supabase } from '../../supabaseClient'
 import styles from './Settings.module.css'
-import { FaCheckCircle } from 'react-icons/fa' // Import a green checkmark icon
+import { FaCheckCircle } from 'react-icons/fa'
 
 const Settings = ({ user }) => {
   const [firstName, setFirstName] = useState('')
@@ -13,16 +13,18 @@ const Settings = ({ user }) => {
   const [profileMessage, setProfileMessage] = useState('')
   const [accountMessage, setAccountMessage] = useState('')
   const [emailConfirmed, setEmailConfirmed] = useState(false)
+  const [emailNotifications, setEmailNotifications] = useState(false)
   const [emailMessage, setEmailMessage] = useState('')
-  const [setIsLoading] = useState(false)
-  const [emailUpdateMessage] = useState('')
+  const [toggleMessage, setToggleMessage] = useState('')
 
   // Fetch the user profile from the user_profiles table
   useEffect(() => {
     const fetchProfile = async () => {
       const { data, error } = await supabase
         .from('user_profiles')
-        .select('first_name, last_name, is_email_confirmed')
+        .select(
+          'first_name, last_name, is_email_confirmed, email_notifications'
+        )
         .eq('user_id', user.id)
         .single()
 
@@ -31,7 +33,8 @@ const Settings = ({ user }) => {
       } else {
         setFirstName(data.first_name || '')
         setLastName(data.last_name || '')
-        setEmailConfirmed(data.is_email_confirmed) // Fetch email confirmation status
+        setEmailConfirmed(data.is_email_confirmed)
+        setEmailNotifications(data.email_notifications === 'ON')
       }
     }
 
@@ -48,7 +51,7 @@ const Settings = ({ user }) => {
         first_name: firstName,
         last_name: lastName,
       },
-      { onConflict: 'user_id' } // Ensures upsert works without duplication
+      { onConflict: 'user_id' }
     )
 
     if (error) {
@@ -69,7 +72,6 @@ const Settings = ({ user }) => {
     }
 
     try {
-      // Authenticate the user with the current password
       const { error: authError } = await supabase.auth.signInWithPassword({
         email: user.email,
         password: currentPassword,
@@ -80,7 +82,6 @@ const Settings = ({ user }) => {
         return
       }
 
-      // Update the user's password
       const { error: updateError } = await supabase.auth.updateUser({
         password: newPassword,
       })
@@ -100,8 +101,6 @@ const Settings = ({ user }) => {
   }
 
   const handleResendVerification = async () => {
-    setIsLoading(true)
-    setEmailMessage('')
     try {
       const response = await fetch(
         `${process.env.REACT_APP_BACKEND_URL}/auth/send-confirmation-email`,
@@ -124,54 +123,38 @@ const Settings = ({ user }) => {
     } catch (error) {
       console.error('Error resending verification email:', error)
       setEmailMessage('An unexpected error occurred. Please try again.')
-    } finally {
-      setIsLoading(false)
     }
   }
 
-  // Change the user's email address
-  // const handleChangeEmail = async () => {
-  //   setIsLoading(true)
-  //   setEmailUpdateMessage('')
-  //   try {
-  //     const { error } = await supabase.auth.updateUser({ email })
+  // Handle toggling of email notifications
+  const handleToggleNotifications = async () => {
+    if (!emailConfirmed) return // Prevent updates if email is unverified
 
-  //     if (error) {
-  //       console.error('Error updating email:', error.message)
-  //       setEmailUpdateMessage('Failed to update email. Please try again.')
-  //       return
-  //     }
+    try {
+      const newStatus = emailNotifications ? 'OFF' : 'ON' // Determine new status
+      console.log('Updating email_notifications to:', newStatus) // Debugging log
 
-  //     // Send email verification after email update
-  //     const response = await fetch(
-  //       `${process.env.REACT_APP_BACKEND_URL}/auth/send-confirmation-email`,
-  //       {
-  //         method: 'POST',
-  //         headers: { 'Content-Type': 'application/json' },
-  //         body: JSON.stringify({ user_id: user.id, email }),
-  //       }
-  //     )
+      const { error } = await supabase
+        .from('user_profiles')
+        .update({ email_notifications: newStatus })
+        .eq('user_id', user.id)
 
-  //     if (response.ok) {
-  //       setEmailUpdateMessage(
-  //         'Email updated successfully! Please verify your new email address.'
-  //       )
-  //     } else {
-  //       setEmailUpdateMessage(
-  //         'Failed to send verification email. Please try again.'
-  //       )
-  //     }
-  //   } catch (error) {
-  //     console.error('Error updating email:', error)
-  //     setEmailUpdateMessage('An unexpected error occurred. Please try again.')
-  //   } finally {
-  //     setIsLoading(false)
-  //   }
-  // }
+      if (error) {
+        console.error('Error updating email notifications:', error.message)
+        setToggleMessage('Failed to update notifications. Please try again.')
+      } else {
+        setEmailNotifications(!emailNotifications) // Toggle the state
+        setToggleMessage('Email notifications updated successfully!')
+      }
+    } catch (err) {
+      console.error('Unexpected error:', err)
+      setToggleMessage('An unexpected error occurred.')
+    }
+  }
 
   return (
     <div>
-      {/* Profile Settings Container */}
+      {/* Profile Settings */}
       <div className={styles.container}>
         <h1 className={styles.heading}>Profile Settings</h1>
         <form onSubmit={handleSaveProfile} className={styles.form}>
@@ -210,9 +193,9 @@ const Settings = ({ user }) => {
         </form>
       </div>
 
-      {/* Email Confirmation Section */}
+      {/* Email Settings */}
       <div className={styles.container}>
-        <h1 className={styles.heading}>Email Settings</h1>
+        <h1 className={styles.heading}>Notification Settings</h1>
         <div className={styles.inputGroup}>
           <label className={styles.label} htmlFor='email'>
             Email:
@@ -220,17 +203,22 @@ const Settings = ({ user }) => {
           <input
             id='email'
             className={styles['input-readonly']}
+            style={{ marginBottom: '0px' }}
             type='email'
             value={email}
             readOnly
-            // onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <p className={styles.text}>
           {emailConfirmed ? (
             <span className={styles.success}>
-              <FaCheckCircle style={{ color: '#00bfa6', marginRight: '8px' }} />
-              Email Verified
+              <FaCheckCircle
+                style={{
+                  color: '#00bfa6',
+                  marginRight: '8px',
+                }}
+              />
+              Email Confirmed
             </span>
           ) : (
             <span
@@ -241,21 +229,24 @@ const Settings = ({ user }) => {
             </span>
           )}
         </p>
-        {/* <button
-          className={styles.button}
-          onClick={handleChangeEmail}
-          disabled={isLoading}
-        >
-          {isLoading ? 'Updating...' : 'Change Email Address'}
-        </button> */}
-        {emailUpdateMessage && (
-          <p className={styles.message}>{emailUpdateMessage}</p>
-        )}
-
+        <h3 className={styles.headingSub}>Notification Preferences</h3>
+        <div className={styles.inlineGroup}>
+          <span className={styles.label}>Email Notifications</span>
+          <label className={styles.switch}>
+            <input
+              type='checkbox'
+              checked={emailNotifications}
+              disabled={!emailConfirmed}
+              onChange={handleToggleNotifications}
+            />
+            <span className={styles.slider}></span>
+          </label>
+        </div>
+        {toggleMessage && <p className={styles.message}>{toggleMessage}</p>}
         {emailMessage && <p className={styles.message}>{emailMessage}</p>}
       </div>
 
-      {/* Account Settings Container */}
+      {/* Account Settings */}
       <div className={styles.container}>
         <h1 className={styles.heading}>Account Settings</h1>
         <form onSubmit={handlePasswordUpdate} className={styles.form}>
