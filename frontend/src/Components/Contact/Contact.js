@@ -96,6 +96,7 @@ const Contact = () => {
         </button>
       </form>
       {successMessage && <p className={styles.success}>{successMessage}</p>}
+      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
     </div>
   )
 }
