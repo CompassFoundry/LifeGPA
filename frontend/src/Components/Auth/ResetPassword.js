@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../../supabaseClient'
 import styles from './Auth.module.css'
@@ -7,7 +7,7 @@ const ResetPassword = () => {
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [message, setMessage] = useState('')
-  const [isPasswordReset, setIsPasswordReset] = useState(false) // Track password reset success
+  const [setIsPasswordReset] = useState(false) // Track password reset success
   const [showModal, setShowModal] = useState(false) // Track modal visibility
   const navigate = useNavigate()
 
