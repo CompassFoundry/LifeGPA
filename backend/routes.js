@@ -165,7 +165,7 @@ router.post('/contact/submit', async (req, res) => {
     // Send notification email using Brevo
     const emailPayload = {
       sender: { name: 'Life GPA', email: process.env.BREVO_SENDER_EMAIL }, // Sender's email
-      to: [{ email: process.env.ADMIN_EMAIL }], // Admin email
+      to: [{ email: process.env.CONTACT_EMAIL }], // Contact email
       subject: 'New Contact Form Submission',
       htmlContent: `
         <h1>New Contact Form Submission</h1>
