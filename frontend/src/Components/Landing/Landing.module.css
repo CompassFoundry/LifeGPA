@@ -1,27 +1,81 @@
-/* Header Styles */
-.header {
+/* General Styles */
+.container {
   text-align: center;
-  padding: 20px;
-  margin-top: 50px;
+  padding: 50px 20px;
+  /* background: linear-gradient(120deg, #ffffff, #f0f8ff); */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-/* Button Styles */
+.header {
+  margin-bottom: 40px;
+}
+
+.header h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #141430;
+  margin-bottom: 20px;
+}
+
+.header p {
+  font-size: 1.2rem;
+  color: #555;
+}
+
+.highlight {
+  color: #00bfa6;
+}
+
+/* Buttons Section */
+.buttons {
+  display: flex;
+  gap: 20px;
+}
+
 .button {
-  background-color: #00bfa6; /* Green */
+  background-color: #00bfa6; /* Primary Green */
   color: white;
   border: none;
-  padding: 10px 20px;
-  width: 150px;
-  font-size: 16px;
-  font-weight: 800;
-  margin: 10px; /* Space between buttons */
-  margin-top: 20px;
-  border-radius: 5px;
+  padding: 12px 25px;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Hover Effect */
+.button.secondary {
+  background-color: #141430; /* Secondary Button */
+}
+
 .button:hover {
-  background-color: #141430; /* Darker hover color */
+  background-color: #008f78; /* Darker green hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Image Section */
+.illustration {
+  margin-top: 40px;
+}
+
+.image {
+  max-width: 100%;
+  height: auto;
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Floating Animation */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
 }
