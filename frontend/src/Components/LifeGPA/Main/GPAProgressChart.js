@@ -75,7 +75,7 @@ const GPAProgressChart = ({ gpaHistory }) => {
 
   const chartContainerStyle = {
     backgroundColor: '#141430', // Dark background color for the chart container
-    padding: '20px',
+    padding: '100px',
     borderRadius: '10px',
   }
 
