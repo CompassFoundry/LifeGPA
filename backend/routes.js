@@ -47,8 +47,9 @@ async function sendReminderEmails(frequency) {
   try {
     const { data: users, error } = await supabase
       .from('gpa_grading_frequency')
-      .select('user_id, frequency, users (email)')
-      .eq('frequency', frequency)
+      .select('user_id, frequency, email')
+      .eq('frequency', 'monthly')
+      .eq('email', 'testuser8@nickgmail.com')
 
     if (error) {
       throw new Error(
