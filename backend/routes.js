@@ -48,8 +48,7 @@ async function sendReminderEmails(frequency) {
     const { data: users, error } = await supabase
       .from('gpa_grading_frequency')
       .select('user_id, frequency, email')
-      .eq('frequency', 'monthly')
-      .eq('email', 'testuser8@nickgmail.com')
+      .eq('frequency', frequency) // Filter by frequency only
 
     if (error) {
       throw new Error(
@@ -60,13 +59,14 @@ async function sendReminderEmails(frequency) {
     console.log(`Found ${users.length} users for ${frequency} reminders.`)
 
     for (const user of users) {
-      const { user_id, users: userInfo } = user
-      const email = userInfo?.email
+      const { user_id, email } = user
 
       if (!email) {
         console.warn(`No email found for user_id: ${user_id}`)
         continue
       }
+
+      console.log(`Sending reminder to: ${email}`)
 
       // Log the email as "pending"
       await logEmail(
@@ -97,6 +97,7 @@ async function sendReminderEmails(frequency) {
       })
 
       if (emailResponse.ok) {
+        console.log(`Email delivered to ${email}`)
         await logEmail(
           user_id,
           email,
@@ -107,6 +108,7 @@ async function sendReminderEmails(frequency) {
         )
       } else {
         const errorMessage = await emailResponse.text()
+        console.error(`Email failed for ${email}: ${errorMessage}`)
         await logEmail(
           user_id,
           email,
@@ -317,4 +319,5 @@ router.get('/test-email-schedule', async (req, res) => {
 module.exports = {
   router,
   sendReminderEmails,
+  logEmail,
 }

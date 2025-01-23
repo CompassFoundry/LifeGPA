@@ -3,7 +3,7 @@ const express = require('express')
 const cors = require('cors')
 const path = require('path') // Import path module for serving static files
 const cron = require('node-cron')
-const { router, sendReminderEmails } = require('./routes') // Import router and sendReminderEmails
+const { router, sendReminderEmails, logEmail } = require('./routes') // Import router and sendReminderEmails
 const { createClient } = require('@supabase/supabase-js')
 
 // Initialize Supabase client
@@ -57,7 +57,7 @@ app.listen(port, '0.0.0.0', () => {
 cron.schedule('0 9 * * 0', async () => {
   try {
     console.log('Sending weekly reminders...')
-    await sendReminderEmails('Weekly')
+    await sendReminderEmails('weekly')
   } catch (error) {
     console.error('Error sending weekly reminders:', error.message)
   }
@@ -74,7 +74,7 @@ cron.schedule('0 9 28-31 * *', async () => {
   if (today.getDate() === lastDayOfMonth) {
     try {
       console.log('Sending monthly reminders...')
-      await sendReminderEmails('Monthly')
+      await sendReminderEmails('monthly')
     } catch (error) {
       console.error('Error sending monthly reminders:', error.message)
     }
@@ -94,7 +94,7 @@ cron.schedule('0 9 28-31 3,6,9,12 *', async () => {
   if (today.getDate() === lastDayOfMonth) {
     try {
       console.log('Sending quarterly reminders...')
-      await sendReminderEmails('Quarterly')
+      await sendReminderEmails('quarterly')
     } catch (error) {
       console.error('Error sending quarterly reminders:', error.message)
     }
@@ -106,27 +106,89 @@ cron.schedule('0 9 28-31 3,6,9,12 *', async () => {
 })
 
 // Test Logic for Weekly Reminders (Manual Test)
-;(async () => {
-  try {
-    console.log('Manually running test logic for Weekly reminders...')
-    const { data: users, error } = await supabase
-      .from('gpa_grading_frequency')
-      .select('user_id, frequency, users (email)')
-      .eq('frequency', 'Weekly')
-      .eq('users.email', 'testuser8@nickgmail.com')
+// ;(async () => {
+//   try {
+//     console.log('Manually running test logic for Weekly reminders...')
+//     const { data: users, error } = await supabase
+//       .from('gpa_grading_frequency')
+//       .select('user_id, frequency, email') // Pull email directly
+//       .eq('frequency', 'weekly')
+//       .eq('email', 'testuser8@nickgmail.com') // Filter by email
 
-    if (error) {
-      throw new Error(`Failed to fetch users for test email: ${error.message}`)
-    }
+//     if (error) {
+//       throw new Error(`Failed to fetch users for test email: ${error.message}`)
+//     }
 
-    if (users.length === 0) {
-      console.log('No users found for the test email.')
-      return
-    }
+//     if (!users || users.length === 0) {
+//       console.log('No users found for the test email.')
+//       return
+//     }
 
-    console.log(`Sending test Weekly reminder to: ${users[0].users.email}`)
-    await sendReminderEmails('Weekly')
-  } catch (error) {
-    console.error('Error running test logic:', error.message)
-  }
-})()
+//     console.log(`Found ${users.length} users for weekly reminders.`)
+
+//     for (const user of users) {
+//       const { user_id, email } = user // Access email directly from the user object
+
+//       if (!email) {
+//         console.warn(`No email found for user_id: ${user_id}`)
+//         continue
+//       }
+
+//       console.log(`Sending test Weekly reminder to: ${email}`)
+
+//       // Log the email as "pending"
+//       await logEmail(
+//         user_id,
+//         email,
+//         2,
+//         { login_link: 'https://lifegpa.org/login' },
+//         'Weekly',
+//         'pending'
+//       )
+
+//       // Send the email
+//       const emailPayload = {
+//         templateId: 2, // Brevo template ID
+//         to: [{ email }],
+//         params: {
+//           login_link: 'https://lifegpa.org/login',
+//         },
+//       }
+
+//       const emailResponse = await fetch('https://api.brevo.com/v3/smtp/email', {
+//         method: 'POST',
+//         headers: {
+//           'Content-Type': 'application/json',
+//           'api-key': process.env.BREVO_API_KEY,
+//         },
+//         body: JSON.stringify(emailPayload),
+//       })
+
+//       if (emailResponse.ok) {
+//         console.log(`Email delivered to ${email}`)
+//         await logEmail(
+//           user_id,
+//           email,
+//           2,
+//           { login_link: 'https://lifegpa.org/login' },
+//           'Weekly',
+//           'delivered'
+//         )
+//       } else {
+//         const errorMessage = await emailResponse.text()
+//         console.error(`Email failed for ${email}: ${errorMessage}`)
+//         await logEmail(
+//           user_id,
+//           email,
+//           2,
+//           { login_link: 'https://lifegpa.org/login' },
+//           'weekly',
+//           'failed',
+//           errorMessage
+//         )
+//       }
+//     }
+//   } catch (error) {
+//     console.error('Error running test logic:', error.message)
+//   }
+// })()
