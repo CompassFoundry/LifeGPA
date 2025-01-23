@@ -4,6 +4,13 @@ const cors = require('cors')
 const path = require('path') // Import path module for serving static files
 const cron = require('node-cron')
 const { router, sendReminderEmails } = require('./routes') // Import router and sendReminderEmails
+const { createClient } = require('@supabase/supabase-js')
+
+// Initialize Supabase client
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_KEY
+)
 
 const app = express()
 const port = process.env.PORT || 5001
@@ -98,7 +105,7 @@ cron.schedule('0 9 28-31 3,6,9,12 *', async () => {
   }
 })
 
-// Test Cron Job (Manual Test)
+// Test Logic for Weekly Reminders (Manual Test)
 ;(async () => {
   try {
     console.log('Manually running test logic for Weekly reminders...')
