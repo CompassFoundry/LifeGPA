@@ -142,7 +142,7 @@ cron.schedule('0 9 28-31 3,6,9,12 *', async () => {
 //         email,
 //         2,
 //         { login_link: 'https://lifegpa.org/login' },
-//         'Weekly',
+//         'weekly',
 //         'pending'
 //       )
 
@@ -171,7 +171,7 @@ cron.schedule('0 9 28-31 3,6,9,12 *', async () => {
 //           email,
 //           2,
 //           { login_link: 'https://lifegpa.org/login' },
-//           'Weekly',
+//           'weekly',
 //           'delivered'
 //         )
 //       } else {

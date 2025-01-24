@@ -43,12 +43,24 @@ async function logEmail(
 }
 
 // Function to send reminder emails
+// Function to send reminder emails
 async function sendReminderEmails(frequency) {
   try {
+    // Fetch users with the specified frequency and email_notifications set to "ON"
     const { data: users, error } = await supabase
       .from('gpa_grading_frequency')
-      .select('user_id, frequency, email')
-      .eq('frequency', frequency) // Filter by frequency only
+      .select(
+        `
+        user_id,
+        frequency,
+        email,
+        user_profiles (
+          email_notifications
+        )
+      `
+      )
+      .eq('frequency', frequency) // Match the given frequency
+      .eq('user_profiles.email_notifications', 'ON') // Only users with email notifications "ON"
 
     if (error) {
       throw new Error(
@@ -59,10 +71,13 @@ async function sendReminderEmails(frequency) {
     console.log(`Found ${users.length} users for ${frequency} reminders.`)
 
     for (const user of users) {
-      const { user_id, email } = user
+      const { user_id, email, user_profiles } = user
 
-      if (!email) {
-        console.warn(`No email found for user_id: ${user_id}`)
+      // Ensure email and email_notifications are valid
+      if (!email || user_profiles?.email_notifications !== 'ON') {
+        console.warn(
+          `Skipping user ${user_id} as email notifications are OFF or email is missing.`
+        )
         continue
       }
 
