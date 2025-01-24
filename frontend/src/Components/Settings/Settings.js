@@ -35,6 +35,27 @@ const Settings = ({ user }) => {
         setLastName(data.last_name || '')
         setEmailConfirmed(data.is_email_confirmed)
         setEmailNotifications(data.email_notifications === 'ON')
+
+        // Automatically enable email notifications if email is confirmed
+        if (data.is_email_confirmed && data.email_notifications !== 'ON') {
+          try {
+            const { error: updateError } = await supabase
+              .from('user_profiles')
+              .update({ email_notifications: 'ON' })
+              .eq('user_id', user.id)
+
+            if (updateError) {
+              console.error(
+                'Error enabling email notifications by default:',
+                updateError.message
+              )
+            } else {
+              setEmailNotifications(true)
+            }
+          } catch (err) {
+            console.error('Unexpected error while enabling notifications:', err)
+          }
+        }
       }
     }
 
@@ -115,6 +136,34 @@ const Settings = ({ user }) => {
         setEmailMessage(
           'Verification email sent! Please check your email (and spam folder).'
         )
+
+        // Check if the email is now verified, and turn notifications on if needed
+        const { data, error } = await supabase
+          .from('user_profiles')
+          .select('is_email_confirmed, email_notifications')
+          .eq('user_id', user.id)
+          .single()
+
+        if (error) {
+          console.error('Error verifying email confirmation status:', error)
+        } else if (
+          data.is_email_confirmed &&
+          data.email_notifications !== 'ON'
+        ) {
+          const { error: updateError } = await supabase
+            .from('user_profiles')
+            .update({ email_notifications: 'ON' })
+            .eq('user_id', user.id)
+
+          if (updateError) {
+            console.error(
+              'Error enabling notifications after verification:',
+              updateError.message
+            )
+          } else {
+            setEmailNotifications(true)
+          }
+        }
       } else {
         setEmailMessage(
           'Failed to resend verification email. Please try again.'
@@ -132,7 +181,7 @@ const Settings = ({ user }) => {
 
     try {
       const newStatus = emailNotifications ? 'OFF' : 'ON' // Determine new status
-      console.log('Updating email_notifications to:', newStatus) // Debugging log
+      console.log('Updating email_notifications to:', newStatus)
 
       const { error } = await supabase
         .from('user_profiles')
