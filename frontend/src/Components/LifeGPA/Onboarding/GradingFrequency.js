@@ -46,12 +46,20 @@ const GradingFrequency = ({ user, nextStep, prevStep }) => {
     setSelectedFrequency(frequency)
   }
 
+  const email = user?.email
+
   const handleNextStep = async () => {
+    if (!email) {
+      setError('Email is required but not available.')
+      return
+    }
+
     try {
       const { error } = await supabase.from('gpa_grading_frequency').upsert(
         {
           user_id: user.id,
           frequency: selectedFrequency,
+          email: email,
         },
         { onConflict: 'user_id' }
       )
